@@ -1,0 +1,17 @@
+extends v1/layout
+
+block section
+  style(type="text/css").
+    .error{
+      text-align:center;
+      margin: 5% 0 0 0;
+      padding: 3% 0;
+      background-color: #eee;
+      border:solid 1px #ccc;
+      box-shadow: 0 0 15px #000;
+    }
+
+  div(class="error message-error alm arm")
+    h1= message
+    h2= error.status
+    pre #{error.stack}

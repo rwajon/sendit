@@ -1,0 +1,158 @@
+{
+	"order1": {
+		"orderId": "001",
+		"sender" : {
+			"id": "001",
+			"name": "Rwabahizi Jonathan",
+			"phone": "+250781146646",
+			"email": "jonathanrwabaizi@gmail.com",
+			"country": "Rwanda",
+			"city": "Gisenyi",
+			"address": "Mbugangari"
+		},
+		"receiver": {
+			"name": "John Smith",
+			"phone": "+123456789",
+			"email": "johnsmith@gmail.com",
+			"country": "USA",
+			"city": "Ney-York",
+			"address": "Near Central Park"
+		},
+		"product": "Samsung s8",
+		"weight" : "5Kg",
+		"quantity": "1",
+		"price": "USD 100",
+		"status" : "In transit",
+		"presentLocation": "England, London"
+	},
+	"order2": {
+		"orderId": "002",
+		"sender" : {
+			"id": "001",
+			"name": "Rwabahizi Jonathan",
+			"phone": "+250781146646",
+			"email": "jonathanrwabaizi@gmail.com",
+			"country": "Rwanda",
+			"city": "Gisenyi",
+			"address": "Mbugangari"
+		},
+		"receiver": {
+			"name": "Ntwari Olivier",
+			"phone": "+250781122334",
+			"email": "ntwariolivier@gmail.com",
+			"country": "Rwanda",
+			"city": "Kigali",
+			"address": "Downtown"
+		},
+		"product": "MacBook Pro",
+		"weight" : "10Kg",
+		"quantity": "1",
+		"price": "USD 10",
+		"status" : "Delivered",
+		"presentLocation": "Rwanda, Kigali - Downtown"
+	},
+	"order3": {
+		"orderId": "003",
+		"sender" : {
+			"id": "001",
+			"name": "Rwabahizi Jonathan",
+			"phone": "+250781146646",
+			"email": "jonathanrwabaizi@gmail.com",
+			"country": "Rwanda",
+			"city": "Gisenyi",
+			"address": "Mbugangari"
+		},
+		"receiver": {
+			"name": "John Smith",
+			"phone": "+123456789",
+			"email": "johnsmith@gmail.com",
+			"country": "USA",
+			"city": "Ney-York",
+			"address": "Near Central Park"
+		},
+		"product": "Radio",
+		"weight" : "5Kg",
+		"quantity": "1",
+		"price": "USD 5",
+		"status" : "Unprocessed",
+		"presentLocation": "Rwanda, Gisenyi - Mbugangari"
+	},
+	"order4": {
+		"orderId": "004",
+		"sender" : {
+			"id": "001",
+			"name": "Rwabahizi Jonathan",
+			"phone": "+250781146646",
+			"email": "jonathanrwabaizi@gmail.com",
+			"country": "Rwanda",
+			"city": "Gisenyi",
+			"address": "Mbugangari"
+		},
+		"receiver": {
+			"name": "Ntwari Olivier",
+			"phone": "+250781122334",
+			"email": "ntwariolivier@gmail.com",
+			"country": "Rwanda",
+			"city": "Kigali",
+			"address": "Downtown"
+		},
+		"product": "Television",
+		"weight" : "15Kg",
+		"quantity": "1",
+		"price": "USD 25",
+		"status" : "Unprocessed",
+		"presentLocation": "Rwanda, Gisenyi - Mbugangari"
+	},
+	"order5": {
+		"orderId": "005",
+		"sender" : {
+			"id": "002",
+			"name": "John Smith",
+			"phone": "+123456789",
+			"email": "johnsmith@gmail.com",
+			"country": "USA",
+			"city": "Ney-York",
+			"address": "Near Central Park"
+		},
+		"receiver": {
+			"name": "Rwabahizi Jonathan",
+			"phone": "+250781146646",
+			"email": "jonathanrwabaizi@gmail.com",
+			"country": "Rwanda",
+			"city": "Gisenyi",
+			"address": "Mbugangari"
+		},
+		"product": "MacBook Pro",
+		"weight" : "10Kg",
+		"quantity": "1",
+		"price": "USD 10",
+		"status" : "Delivered",
+		"presentLocation": "Rwanda, Gisenyi - Mbugangari"
+	},
+	"order6": {
+		"orderId": "006",
+		"sender" : {
+			"id": "002",
+			"name": "John Smith",
+			"phone": "+123456789",
+			"email": "johnsmith@gmail.com",
+			"country": "USA",
+			"city": "Ney-York",
+			"address": "Near Central Park"
+		},
+		"receiver": {
+			"name": "Rwabahizi Jonathan",
+			"phone": "+250781146646",
+			"email": "jonathanrwabaizi@gmail.com",
+			"country": "Rwanda",
+			"city": "Gisenyi",
+			"address": "Mbugangari"
+		},
+		"product": "MacBook Pro",
+		"weight" : "10Kg",
+		"quantity": "1",
+		"price": "USD 10",
+		"status" : "In transit",
+		"presentLocation": "Uganda, Kampala"
+	}
+}

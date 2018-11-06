@@ -1,0 +1,64 @@
+doctype html
+html
+ -(path ? path : path = '../../')
+  head
+    title= title
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="#{path}css/main.css")
+
+  body
+    header
+      a(href="#{path}#{apiVersion}")
+        img(id="logo-top", src="#{path}images/sendit.png")
+
+      if user
+        a(id="user-top", href="#{path}#{apiVersion}/users/#{user.id}")
+          b(class="arp") #{user.uname}
+          img(id="top-user-picture", src="#{path}images/user.jpg")
+
+    nav
+      if user || admin
+        button(id="menu-aside-toggle-btn")
+          <hr/><hr/><hr/>
+
+      ul(id="menu-top", class="arp")
+        li
+          a(href="#{path}#{apiVersion}") Home
+        if user
+          li
+            a(href="#{path}#{apiVersion}/users/#{user ? user.id : ''}") Profile
+          li
+            a(href="#{path}#{apiVersion}/users/signout") Sign-out
+        if !user
+          li
+            a(href="#{path}#{apiVersion}/users/signup") Sign-up
+          li
+            a(href="#{path}#{apiVersion}/users/signin") Sign-in
+        li
+          a(href="#{path}#{apiVersion}/admin") Admin
+
+    aside(id="menu-aside")
+      if user
+        div(class="atp alp arp")
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/create") Create a parcel delivery order
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/created") Created order(s)
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/in-transit") Parcel in transit
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/delivered") Delivered parcel
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/") All delivery orders
+
+      if admin
+        div(class="atp alp arp") 
+          a(href="#{path}#{apiVersion}/parcels/created") Created order(s)
+          a(href="#{path}#{apiVersion}/parcels/in-transit") Parcel in transit
+          a(href="#{path}#{apiVersion}/parcels/delivered") Delivered parcel
+          a(href="#{path}#{apiVersion}/parcels") All delivery orders
+   
+    section
+      block section
+
+    footer
+      div(class="text-center")
+        p(class="alm") Copyright &copy; 2018 SendIT
+
+    script(type="text/javascript", src="#{path}js/main.js")
