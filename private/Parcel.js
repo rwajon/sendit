@@ -53,7 +53,7 @@ class Parcel {
     return {};
   } // end fo getAll method
 
-  getNewCreated(userId) {
+  getPending(userId) {
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
         if (this.parcels[key].status === 'Unprocessed' && this.parcels[key].sender.id === userId) {
@@ -65,7 +65,7 @@ class Parcel {
         return this.newCreatedParcels;
       }
 
-      this.error = 'Sorry, you don\'t have new created parcel delivery orders';
+      this.error = 'Sorry, you don\'t have pending parcel delivery orders';
       return {};
     }
     Object.keys(this.parcels).forEach((key) => {
@@ -78,9 +78,9 @@ class Parcel {
       return this.newCreatedParcels;
     }
 
-    this.error = 'Sorry, there are no new created parcel delivery orders';
+    this.error = 'Sorry, there are no pending parcel delivery orders';
     return {};
-  } // end of getNewCreated method
+  } // end of getPending method
 
   getInTransit(userId) {
     if (userId) {

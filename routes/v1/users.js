@@ -173,18 +173,18 @@ router.all('/:id/parcels/create', (req, res) => {
 });
 
 // Fetch all created parcel delivery orders of a specific user
-router.get('/:id/parcels/created', (req, res) => {
+router.get('/:id/parcels/pending', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
   const parcel = new Parcel(ssn.parcels);
-  const newCreated = parcel.getNewCreated(req.params.id);
+  const pending = parcel.getPending(req.params.id);
 
-  res.render('v1/created_orders', {
+  res.render('v1/pending_orders', {
     title: 'Parcels | SendIT',
     path: '../../../../../',
     apiVersion: 'api/v1',
     user: ssn.user || false,
-    parcels: newCreated,
+    parcels: pending,
     error: parcel.error,
   });
 });

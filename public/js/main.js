@@ -1,8 +1,7 @@
 function menuAsideToggle() {
-
-  var button = document.getElementById('menu-aside-toggle-btn');
-  var menu = document.getElementById('menu-aside');
-  var section = document.getElementsByTagName('section')[0];
+  const button = document.getElementById('menu-aside-toggle-btn');
+  const menu = document.getElementById('menu-aside');
+  const section = document.getElementsByTagName('section')[0];
 
   if (!document.getElementById('menu-aside').innerHTML) {
     menu.style.display = 'none';
@@ -21,7 +20,6 @@ function menuAsideToggle() {
         section.style.margin = '0';
         section.style.width = '100%';
       }
-
     } else if (window.outerWidth < 768) {
       if (menu.style.display === 'none' || menu.style.display === '') {
         menu.style.display = 'block';

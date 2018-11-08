@@ -42,14 +42,14 @@ html
       if user
         div(class="atp alp arp")
           a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/create") New order
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/created") Pending
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/pending") Pending
           a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/in-transit") In transit
           a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/delivered") Delivered
           a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/") All
 
       if admin
         div(class="atp alp arp") 
-          a(href="#{path}#{apiVersion}/parcels/created") Pending
+          a(href="#{path}#{apiVersion}/parcels/pending") Pending
           a(href="#{path}#{apiVersion}/parcels/in-transit") In transit
           a(href="#{path}#{apiVersion}/parcels/delivered") Delivered
           a(href="#{path}#{apiVersion}/parcels") All

@@ -32,19 +32,19 @@ router.get('/', (req, res) => {
   });
 });
 
-// Fetch all created parcel delivery orders
-router.get('/created', (req, res) => {
+// Fetch all pending parcel delivery orders
+router.get('/pending', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
   const parcel = new Parcel(ssn.parcels);
-  const newCreated = parcel.getNewCreated();
+  const pending = parcel.getPending();
 
-  res.render('v1/admin_created_orders', {
+  res.render('v1/admin_pending_orders', {
     title: 'Parcels | SendIT',
     path: '../../../',
     apiVersion: 'api/v1',
     admin: true,
-    parcels: newCreated,
+    parcels: pending,
     error: parcel.error,
   });
 });

@@ -457,8 +457,15 @@ label {
 	}
 
 	#user-signup,
-	#user-signin,
-	#create-order {
+	#user-signin {
+		width: 50%;
+		margin-left: 25%;
+		padding: 0 15px 15px 15px;
+	}
+
+	#create-order{
+		width: 70%;
+		margin-left: 15%;
 		padding: 0 15px 15px 15px;
 	}
 }

@@ -75,42 +75,42 @@ describe('Parcel class', () => {
   }); // end of getAll method tests
 
 
-  /** ****get all new created parcel delivery orders***** */
-  describe('getNewCreated method', () => {
+  /** ****get all pending parcel delivery orders***** */
+  describe('getPending method', () => {
     // test 1
-    it('should return all new created parcel delivery orders', () => {
+    it('should return all pending parcel delivery orders', () => {
       const parcel = new Parcel(parcels);
 
-      expect(parcel.getNewCreated() instanceof Object).to.be.true;
+      expect(parcel.getPending() instanceof Object).to.be.true;
     });
 
     // test 2
-    it('should display \'Sorry, there are no new created parcel delivery orders\'', () => {
+    it('should display \'Sorry, there are no pending parcel delivery orders\'', () => {
       const parcel = new Parcel();
       
-      parcel.getNewCreated();
+      parcel.getPending();
 
-      expect(parcel.error).to.equal('Sorry, there are no new created parcel delivery orders');
+      expect(parcel.error).to.equal('Sorry, there are no pending parcel delivery orders');
     });
 
     // test 3
-    it('should return all new created parcel delivery orders by a specific user', () => {
+    it('should return all pending parcel delivery orders by a specific user', () => {
       const userId = '001';
       const parcel = new Parcel(parcels);
 
-      expect(parcel.getNewCreated(userId) instanceof Object).to.be.true;
+      expect(parcel.getPending(userId) instanceof Object).to.be.true;
     });
 
     // test 3
-    it('should display \'Sorry, you don\'t have new created parcel delivery orders\'', () => {
+    it('should display \'Sorry, you don\'t have pending parcel delivery orders\'', () => {
       const userId = '001';
       const parcel = new Parcel();
       
-      parcel.getNewCreated(userId);
+      parcel.getPending(userId);
 
-      expect(parcel.error).to.equal('Sorry, you don\'t have new created parcel delivery orders');
+      expect(parcel.error).to.equal('Sorry, you don\'t have pending parcel delivery orders');
     });
-  }); // end of getNewCreated method tests
+  }); // end of getPending method tests
 
 
   /** ****get all parcel delivery orders that are yet to be delivered (in transit)***** */
