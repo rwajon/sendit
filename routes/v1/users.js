@@ -35,12 +35,8 @@ router.get('/signout', (req, res) => {
 // sign-up
 router.all('/signup', (req, res) => {
   ssn = req.session;
-  /* -------------------static users-----------------------------*/
-  ssn.users = JSON.parse(fs.readFileSync('private/users.json'));
-  res.redirect('/api/v1/users/001');
-  /*-----------------------------------------------------------*/
-  // ssn.users = ssn.users || {};
-  let user = new User(ssn.users);
+  ssn.users = ssn.users || {};
+  const user = new User(ssn.users);
 
   if (req.method === 'POST') {
     const newUser = user.signup(req.body);
@@ -58,7 +54,6 @@ router.all('/signup', (req, res) => {
       user: ssn.user,
       error: user.user,
     });
-
   } else {
     res.render('v1/signup', {
       title: 'Sign-up | SendIT',
@@ -72,11 +67,14 @@ router.all('/signup', (req, res) => {
 // sign-in
 router.all('/signin', (req, res) => {
   ssn = req.session;
-  ssn.users = ssn.users || {};
-  let user = new User(ssn.users);
 
   if (req.method === 'POST') {
-    const account = user.signin(req.body)
+    /* -------------------static users-----------------------------*/
+    const staticUsers = JSON.parse(fs.readFileSync('private/users.json'));
+    /*-----------------------------------------------------------*/
+    ssn.users = ssn.users || staticUsers;
+    const user = new User(ssn.users);
+    const account = user.signin(req.body);
 
     if (!user.error) {
       ssn.user = account;
@@ -92,7 +90,6 @@ router.all('/signin', (req, res) => {
       user: ssn.user,
       error: user.error,
     });
-
   } else {
     res.render('v1/signin', {
       title: 'Sign-in | SendIT',
@@ -128,11 +125,11 @@ router.get('/:id', (req, res) => {
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
   ssn = req.session;
-  /* -------------------static parcels-----------------------------*/
-  let parcel = new Parcel(JSON.parse(fs.readFileSync('private/parcels.json')));
+  /* -------------------static orders-----------------------------*/
+  const staticOrders = JSON.parse(fs.readFileSync('private/parcels.json'));
   /* --------------------------------------------------------------*/
-  /*ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);*/
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
   ssn.parcels = parcel.getAll(req.params.id);
 
   res.render('v1/all_orders', {
@@ -149,7 +146,7 @@ router.get('/:id/parcels', (req, res) => {
 router.all('/:id/parcels/create', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
 
   if (req.method === 'POST') {
     const createdOrder = parcel.createOrder(req.body, ssn.user);
@@ -165,7 +162,6 @@ router.all('/:id/parcels/create', (req, res) => {
       user: ssn.user || false,
       error: parcel.error,
     });
-
   } else {
     res.render('v1/create_order', {
       title: 'Parcels | SendIT',
@@ -180,7 +176,7 @@ router.all('/:id/parcels/create', (req, res) => {
 router.get('/:id/parcels/created', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const newCreated = parcel.getNewCreated(req.params.id);
 
   res.render('v1/created_orders', {
@@ -197,7 +193,7 @@ router.get('/:id/parcels/created', (req, res) => {
 router.get('/:id/parcels/in-transit', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit(req.params.id);
 
   res.render('v1/parcels_in_transit', {
@@ -214,7 +210,7 @@ router.get('/:id/parcels/in-transit', (req, res) => {
 router.get('/:id/parcels/delivered', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered(req.params.id);
 
   res.render('v1/delivered_parcels', {
@@ -231,7 +227,7 @@ router.get('/:id/parcels/delivered', (req, res) => {
 router.get('/:id/parcels/:pId', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const details = parcel.getDetails(req.params.pId);
 
   res.render('v1/order_details', {
@@ -262,11 +258,10 @@ router.get('/:id/parcels/:pId/cancel', (req, res) => {
 router.all('/:id/parcels/:pId/change', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const details = parcel.getDetails(req.params.pId);
 
   if (req.method === 'POST') {
-
     const changed = parcel.changeOrder(req.params.pId, req.body, ssn.user.id);
 
     res.render('v1/change_order', {
@@ -278,7 +273,6 @@ router.all('/:id/parcels/:pId/change', (req, res) => {
       error: parcel.error,
       changed: !parcel.error,
     });
-
   } else {
     res.render('v1/change_order', {
       title: 'Parcels | SendIT',

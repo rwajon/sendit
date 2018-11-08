@@ -15,11 +15,11 @@ router.use(session({
 // Fetch all parcel delivery orders
 router.get('/', (req, res) => {
   ssn = req.session;
-  /* -------------------static parcels-----------------------------*/
-  let parcel = new Parcel(JSON.parse(fs.readFileSync('private/parcels.json')));
+  /* -------------------static orders-----------------------------*/
+  const staticOrders = JSON.parse(fs.readFileSync('private/parcels.json'));
   /* --------------------------------------------------------------*/
-  /*ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);*/
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
   ssn.parcels = parcel.getAll();
 
   res.render('v1/admin_all_orders', {
@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
 router.get('/created', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const newCreated = parcel.getNewCreated();
 
   res.render('v1/admin_created_orders', {
@@ -53,7 +53,7 @@ router.get('/created', (req, res) => {
 router.get('/in-transit', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit();
 
   res.render('v1/admin_parcels_in_transit', {
@@ -70,7 +70,7 @@ router.get('/in-transit', (req, res) => {
 router.get('/delivered', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered();
 
   res.render('v1/admin_delivered_parcels', {
@@ -87,7 +87,7 @@ router.get('/delivered', (req, res) => {
 router.get('/:pId', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const details = parcel.getDetails(req.params.pId);
 
   res.render('v1/order_details', {
@@ -104,11 +104,10 @@ router.get('/:pId', (req, res) => {
 router.all('/:pId/change', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  let parcel = new Parcel(ssn.parcels);
+  const parcel = new Parcel(ssn.parcels);
   const details = parcel.getDetails(req.params.pId);
 
   if (req.method === 'POST') {
-
     const changed = parcel.changeOrder(req.params.pId, req.body);
 
     res.render('v1/admin_change_order', {
@@ -120,7 +119,6 @@ router.all('/:pId/change', (req, res) => {
       error: parcel.error,
       changed: !parcel.error,
     });
-
   } else {
     res.render('v1/admin_change_order', {
       title: 'Parcels | SendIT',

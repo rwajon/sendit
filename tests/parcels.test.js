@@ -172,160 +172,152 @@ describe('Parcel class', () => {
   describe('changeOrder method', () => {
     // test 1
     it('should return the changed order', () => {
-
       const parcel = new Parcel(parcels);
       const pId = '001';
       const form = {
-        new_status: "Delivered",
-        new_country: "Uganda",
-        new_city: "Kampala",
-        new_address: "",
-      }
+        new_status: 'Delivered',
+        new_country: 'Uganda',
+        new_city: 'Kampala',
+        new_address: '',
+      };
 
       expect(parcel.changeOrder(pId, form) instanceof Object).to.be.true;
     });
 
     // test 2
     it('should display \'Sorry, this order was not successfully changed\'', () => {
-
       const parcel = new Parcel(parcels);
       const pId = '0000';
       const form = {
-        new_status: "Delivered",
-        new_country: "Uganda",
-        new_city: "Kampala",
-        new_address: "",
-      }
+        new_status: 'Delivered',
+        new_country: 'Uganda',
+        new_city: 'Kampala',
+        new_address: '',
+      };
 
       expect(parcel.changeOrder(pId, form)).to.equal('Sorry, this order was not successfully changed');
     });
 
     // test 3
     it('should return the changed order by a specific user', () => {
-
       const parcel = new Parcel(parcels);
       const pId = '001';
       const userId = '001';
       const form = {
-        new_country: "Uganda",
-        new_city: "Kampala",
-        new_address: "",
-      }
+        new_country: 'Uganda',
+        new_city: 'Kampala',
+        new_address: '',
+      };
 
       expect(parcel.changeOrder(pId, form, userId) instanceof Object).to.be.true;
     });
 
     // test 4
     it('should display \'Sorry, this order was not successfully changed\'', () => {
-
       const parcel = new Parcel(parcels);
       const pId = '0000';
       const userId = '001';
       const form = {
-        new_country: "Uganda",
-        new_city: "Kampala",
-        new_address: "",
-      }
+        new_country: 'Uganda',
+        new_city: 'Kampala',
+        new_address: '',
+      };
 
       expect(parcel.changeOrder(pId, form, userId)).to.equal('Sorry, this order was not successfully changed');
     });
-
   }); // end of changeOrder method tests
 
   describe('createOrder method', () => {
     // test 1
     it('should return the created parcel delivery order', () => {
-
       const parcel = new Parcel(parcels);
 
       const user = {
-        id: "001",
-        fname: "Jonathan",
-        lname: "Rwabahizi",
-        uname: "rwajon",
-        password: "12345",
-        phone: "+250781146646",
-        email: "jonathanrwabahizi@gmail.com",
-        country: "Rwanda",
-        city: "Gisenyi",
-        address: "Mbugangari"
+        id: '001',
+        fname: 'Jonathan',
+        lname: 'Rwabahizi',
+        uname: 'rwajon',
+        password: '12345',
+        phone: '+250781146646',
+        email: 'jonathanrwabahizi@gmail.com',
+        country: 'Rwanda',
+        city: 'Gisenyi',
+        address: 'Mbugangari',
       };
 
       const form = {
-        rname: "John Smith",
-        rphone: "+123456789",
-        remail: "johnsmith@gmail.com",
-        product: "Sandals",
-        weight: "1.5 Kg",
-        quantity: "2",
-        sender_country: "Rwanda",
-        sender_city: "Gisenyi",
-        sender_address: "Mbugangari",
-        dest_country: "USA",
-        dest_city: "Ney-York",
-        dest_address: "Near Central Park",
-      }
+        rname: 'John Smith',
+        rphone: '+123456789',
+        remail: 'johnsmith@gmail.com',
+        product: 'Sandals',
+        weight: '1.5 Kg',
+        quantity: '2',
+        sender_country: 'Rwanda',
+        sender_city: 'Gisenyi',
+        sender_address: 'Mbugangari',
+        dest_country: 'USA',
+        dest_city: 'Ney-York',
+        dest_address: 'Near Central Park',
+      };
 
       expect(parcel.createOrder(form, user) instanceof Object).to.be.true;
     });
 
     // test 2
     it('should display \'Please enter the required information to create an order!\'', () => {
-
       const parcel = new Parcel(parcels);
 
       const user = {
-        id: "001",
-        fname: "Jonathan",
-        lname: "Rwabahizi",
-        uname: "rwajon",
-        password: "12345",
-        phone: "+250781146646",
-        email: "jonathanrwabahizi@gmail.com",
-        country: "Rwanda",
-        city: "Gisenyi",
-        address: "Mbugangari"
+        id: '001',
+        fname: 'Jonathan',
+        lname: 'Rwabahizi',
+        uname: 'rwajon',
+        password: '12345',
+        phone: '+250781146646',
+        email: 'jonathanrwabahizi@gmail.com',
+        country: 'Rwanda',
+        city: 'Gisenyi',
+        address: 'Mbugangari',
       };
 
       const form = {
-        rname: "",
-        rphone: "",
-        remail: "johnsmith@gmail.com",
-        product: "",
-        weight: "1.5 Kg",
-        quantity: "",
-        sender_country: "Rwanda",
-        sender_city: "Gisenyi",
-        sender_address: "Mbugangari",
-        dest_country: "",
-        dest_city: "Ney-York",
-        dest_address: "Near Central Park",
-      }
+        rname: '',
+        rphone: '',
+        remail: 'johnsmith@gmail.com',
+        product: '',
+        weight: '1.5 Kg',
+        quantity: '',
+        sender_country: 'Rwanda',
+        sender_city: 'Gisenyi',
+        sender_address: 'Mbugangari',
+        dest_country: '',
+        dest_city: 'Ney-York',
+        dest_address: 'Near Central Park',
+      };
 
       expect(parcel.createOrder(form, user)).to.equal('Please enter the required information to create an order!');
     });
 
     // test 3
     it('should display \'Please, sign-in to create an order!\'', () => {
-
       const parcel = new Parcel(parcels);
 
       const user = {};
 
       const form = {
-        rname: "John Smith",
-        rphone: "+123456789",
-        remail: "johnsmith@gmail.com",
-        product: "Sandals",
-        weight: "1.5 Kg",
-        quantity: "2",
-        sender_country: "Rwanda",
-        sender_city: "Gisenyi",
-        sender_address: "Mbugangari",
-        dest_country: "USA",
-        dest_city: "Ney-York",
-        dest_address: "Near Central Park",
-      }
+        rname: 'John Smith',
+        rphone: '+123456789',
+        remail: 'johnsmith@gmail.com',
+        product: 'Sandals',
+        weight: '1.5 Kg',
+        quantity: '2',
+        sender_country: 'Rwanda',
+        sender_city: 'Gisenyi',
+        sender_address: 'Mbugangari',
+        dest_country: 'USA',
+        dest_city: 'Ney-York',
+        dest_address: 'Near Central Park',
+      };
 
       expect(parcel.createOrder(form, user)).to.equal('Please, sign-in to create an order!');
     });

@@ -33,7 +33,7 @@ describe('User class', () => {
     });
   }); // end of getInfo method tests
 
-  /** ****signup method***** */
+  /** ****signin method***** */
   describe('signin method', () => {
     // test 1
     it('should return the user information if the account exists', () => {

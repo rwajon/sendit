@@ -33,7 +33,24 @@ block section
           input(type="email", class="form-control smooth-shadow", name="email")
           br
           label(for="country") Country
-          input(type="text", class="form-control smooth-shadow", name="country", required="")
+          select(name="country", class="form-control smooth-shadow no-bg").
+            <option></option>
+            <optgroup label="Africa">
+              <option value="Rwanda">Rwanda</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Kenya">Kenya</option>
+              <option value="Uganda">Uganda</option>
+            </optgroup>
+            <optgroup label="Europe">
+              <option value="France">France</option>
+              <option value="Belgium">Belgium</option>
+              <option value="England">England</option>
+              <option value="Spani">Spani</option>
+            </optgroup>
+            <optgroup label="Noth-America">
+              <option value="Canada">Canada</option>
+              <option value="USA">USA</option>
+            </optgroup>
           br
           label(for="city") City
           input(type="text", class="form-control smooth-shadow", name="city", required="")
