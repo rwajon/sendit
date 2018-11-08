@@ -10,6 +10,7 @@
     "build-public": "babel public --presets babel-preset-env --out-dir build/public/",
     "build-routes": "babel routes --presets babel-preset-env --out-dir build/routes/",
     "build-app.js": "babel app.js --presets babel-preset-env --out-dir build/",
+    "build-all": "babel . --presets babel-preset-env --ignore node_modules,tests --out-dir build/",
     "build": "npm run clean && npm run build-bin && npm run build-private && npm run build-public && npm run build-routes && npm run build-app.js",
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www --exec babel-node --presets env"
