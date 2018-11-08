@@ -1,102 +1,106 @@
 extends layout
 
 block section
-  div(class="container").
-    <h1 class="add-padding smooth-shadow">Order ##{parcel.orderId}</h1>
-    <!-- parcel details -->
-    <table class="table table-bordered table-hover smooth-shadow atm">
-      <thead class="table-head text-center">
-        <th colspan="2">Parcel details</th>
-      </thead>
-      <tr>
-        <td><b>Product :</b></td>
-        <td><i>#{parcel.product}</i></td>
-      </tr>
-        <td><b>Weight :</b></td>
-        <td><i>#{parcel.weight}</i></td>
-      </tr>
-      <tr>
-        <td><b>Quantity :</b></td>
-        <td><i>#{parcel.quantity}</i></td>
-      </tr>
-      <tr>
-        <td><b>Price</b></td>
-        <td><i>#{parcel.price}</i></td>
-      </tr>
-      <tr>
-        <td><b>Status</b></td>
-        <td><i>#{parcel.status}</i></td>
-      </tr>
-      <tr>
-        <td><b>Pickup location</b></td>
-        <td>
-          <i>
-            #{parcel.sender.country}#{parcel.sender.city ? ', '+parcel.sender.city : ''}
-            #{parcel.sender.address ? ' - '+parcel.sender.address : ''}
-          </i>
-        </td>
-      </tr>
-      <tr>
-        <td><b>Destination :</b></td>
-        <td>
-          <i>
-            #{parcel.receiver.country}#{parcel.receiver.city ? ', '+parcel.receiver.city : ''}
-            #{parcel.receiver.address ? ' - '+parcel.receiver.address : ''}
-          </i>
-        </td>
-      </tr>
-      <tr>
-        <td><b>Present location</b></td>
-        <td><i>#{parcel.presentLocation}</i></td>
-      </tr>
-    </table>
+  if error
+    div(class="container")
+      h1(class="message-error add-padding text-center") #{error}
+  else
+    div(class="container").
+      <h1 class="add-padding smooth-shadow">Order ##{parcel.orderId}</h1>
+      <!-- parcel details -->
+      <table class="table table-bordered table-hover smooth-shadow atm">
+        <thead class="table-head text-center">
+          <th colspan="2">Parcel details</th>
+        </thead>
+        <tr>
+          <td><b>Product :</b></td>
+          <td><i>#{parcel.product}</i></td>
+        </tr>
+          <td><b>Weight :</b></td>
+          <td><i>#{parcel.weight}</i></td>
+        </tr>
+        <tr>
+          <td><b>Quantity :</b></td>
+          <td><i>#{parcel.quantity}</i></td>
+        </tr>
+        <tr>
+          <td><b>Price</b></td>
+          <td><i>#{parcel.price}</i></td>
+        </tr>
+        <tr>
+          <td><b>Status</b></td>
+          <td><i>#{parcel.status}</i></td>
+        </tr>
+        <tr>
+          <td><b>Pickup location</b></td>
+          <td>
+            <i>
+              #{parcel.sender.country}#{parcel.sender.city ? ', '+parcel.sender.city : ''}
+              #{parcel.sender.address ? ' - '+parcel.sender.address : ''}
+            </i>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Destination :</b></td>
+          <td>
+            <i>
+              #{parcel.receiver.country}#{parcel.receiver.city ? ', '+parcel.receiver.city : ''}
+              #{parcel.receiver.address ? ' - '+parcel.receiver.address : ''}
+            </i>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Present location</b></td>
+          <td><i>#{parcel.presentLocation}</i></td>
+        </tr>
+      </table>
 
-    <!-- sender and receiver information -->
-    <table class="table table-bordered table-hover smooth-shadow atm">
-      <thead class="table-head text-center">
-        <th></th>
-        <th>Sender</th>
-        <th>Receiver</th>
-      </thead>
-      <tr>
-        <!-- sender -->
-        <td><b>Name :</b></td>
-        <td><i>#{parcel.sender.name}</i></td>
-        <!-- receiver -->
-        <td><i>#{parcel.receiver.name}</i></td>
-      </tr>
-        <!-- sender -->
-        <td><b>Phone :</b></td>
-        <td><i>#{parcel.sender.phone}</i></td>
-        <!-- receiver -->
-        <td><i>#{parcel.receiver.phone}</i></td>
-      </tr>
-      <tr>
-        <!-- sender -->
-        <td><b>Email :</b></td>
-        <td><i>#{parcel.sender.email}</i></td>
-        <!-- receiver -->
-        <td><i>#{parcel.receiver.email}</i></td>
-      </tr>
-      <tr>
-        <!-- sender -->
-        <td><b>Country :</b></td>
-        <td><i>#{parcel.sender.country}</i></td>
-        <!-- receiver -->
-        <td><i>#{parcel.receiver.country}</i></td>
-      </tr>
-      <tr>
-        <!-- sender -->
-        <td><b>City :</b></td>
-        <td><i>#{parcel.sender.city}</i></td>
-        <!-- receiver -->
-        <td><i>#{parcel.receiver.city}</i></td>
-      </tr>
-      <tr>
-        <!-- sender -->
-        <td><b>Address :</b></td>
-        <td><i>#{parcel.sender.address}</i></td>
-        <!-- receiver -->
-        <td><i>#{parcel.receiver.address}</i></td>
-      </tr>
-    </table>
+      <!-- sender and receiver information -->
+      <table class="table table-bordered table-hover smooth-shadow atm">
+        <thead class="table-head text-center">
+          <th></th>
+          <th>Sender</th>
+          <th>Receiver</th>
+        </thead>
+        <tr>
+          <!-- sender -->
+          <td><b>Name :</b></td>
+          <td><i>#{parcel.sender.name}</i></td>
+          <!-- receiver -->
+          <td><i>#{parcel.receiver.name}</i></td>
+        </tr>
+          <!-- sender -->
+          <td><b>Phone :</b></td>
+          <td><i>#{parcel.sender.phone}</i></td>
+          <!-- receiver -->
+          <td><i>#{parcel.receiver.phone}</i></td>
+        </tr>
+        <tr>
+          <!-- sender -->
+          <td><b>Email :</b></td>
+          <td><i>#{parcel.sender.email}</i></td>
+          <!-- receiver -->
+          <td><i>#{parcel.receiver.email}</i></td>
+        </tr>
+        <tr>
+          <!-- sender -->
+          <td><b>Country :</b></td>
+          <td><i>#{parcel.sender.country}</i></td>
+          <!-- receiver -->
+          <td><i>#{parcel.receiver.country}</i></td>
+        </tr>
+        <tr>
+          <!-- sender -->
+          <td><b>City :</b></td>
+          <td><i>#{parcel.sender.city}</i></td>
+          <!-- receiver -->
+          <td><i>#{parcel.receiver.city}</i></td>
+        </tr>
+        <tr>
+          <!-- sender -->
+          <td><b>Address :</b></td>
+          <td><i>#{parcel.sender.address}</i></td>
+          <!-- receiver -->
+          <td><i>#{parcel.receiver.address}</i></td>
+        </tr>
+      </table>

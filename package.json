@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --compilers js:babel-register",
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www --exec babel-node --presets env"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "^4.16.4",

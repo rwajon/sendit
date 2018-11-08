@@ -2,63 +2,66 @@ extends layout
 
 block section
   div(class="container")
-    h1(class="add-padding smooth-shadow") Change order ##{parcel.orderId}
+    h1(class="add-padding smooth-shadow") Order ##{parcel.orderId}
     div(class="smooth-shadow alp arp abp atm")
     
-      if changed
-        div(class="message-success add-padding text-center") This order was successfully changed
+      if error
+        h1(class="message-error add-padding text-center") #{error}
+      else
+        if changed
+          div(class="message-success add-padding text-center") This order was successfully changed
 
-      form(role="form", method="post", action="#{path}#{apiVersion}/parcels/#{parcel.orderId}/change").
-        <fieldset>
-          <legend><h1>Status</h1></legend>
-          <label>Current</label>
-          <input type="text" class="form-control smooth-shadow" value="#{parcel.status}">
-          <br>
-          <label for="new_status">New</label>
-          <select name="new_status" class="form-control smooth-shadow no-bg">
-            <option value="#{parcel.status}" hidden="hidden">#{parcel.status}</option>
-            <option value="Unprocessed">Unprocessed</option>
-            <option value="Delivered">Delivered</option>
-            <option value="In transit">In transit</option>
-          </select>
-        </fieldset>
-        <br>
-        <fieldset>
-          <legend><h1>Present Location</h1></legend>
-          <label>Present</label>
-          <input type="text" class="form-control smooth-shadow" value="#{parcel.presentLocation}">
-          <br>
+        form(role="form", method="post", action="#{path}#{apiVersion}/parcels/#{parcel.orderId}/change").
           <fieldset>
-            <legend>New</legend>
-            <label for="new_country">Country</label>
-            <select name="new_country" class="form-control smooth-shadow no-bg">
-              <option></option>
-              <optgroup label="Africa">
-                <option value="Rwanda">Rwanda</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Kenya">Kenya</option>
-                <option value="Uganda">Uganda</option>
-              </optgroup>
-              <optgroup label="Europe">
-                <option value="France">France</option>
-                <option value="Belgium">Belgium</option>
-                <option value="England">England</option>
-                <option value="Spani">Spani</option>
-              </optgroup>
-              <optgroup label="Noth-America">
-                <option value="Canada">Canada</option>
-                <option value="USA">USA</option>
-              </optgroup>
+            <legend><h1>Status</h1></legend>
+            <label>Current</label>
+            <input type="text" class="form-control smooth-shadow" value="#{parcel.status}">
+            <br>
+            <label for="new_status">New</label>
+            <select name="new_status" class="form-control smooth-shadow no-bg">
+              <option value="#{parcel.status}" hidden="hidden">#{parcel.status}</option>
+              <option value="Unprocessed">Unprocessed</option>
+              <option value="Delivered">Delivered</option>
+              <option value="In transit">In transit</option>
             </select>
-            <br>
-            <label for=new_city">City</label>
-            <input type="text" class="form-control smooth-shadow" name="new_city">
-            <br>
-            <label for="new_address">Address</label>
-            <input type="text" class="form-control smooth-shadow" name="new_address">
           </fieldset>
           <br>
-          <div class="text-center">
-              <button type="submit" class="submit-btn no-border smooth-shadow alp arp">Change</button>
-          </div>
-        </fieldset>
+          <fieldset>
+            <legend><h1>Present Location</h1></legend>
+            <label>Present</label>
+            <input type="text" class="form-control smooth-shadow" value="#{parcel.presentLocation}">
+            <br>
+            <fieldset>
+              <legend>New</legend>
+              <label for="new_country">Country</label>
+              <select name="new_country" class="form-control smooth-shadow no-bg">
+                <option></option>
+                <optgroup label="Africa">
+                  <option value="Rwanda">Rwanda</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="Kenya">Kenya</option>
+                  <option value="Uganda">Uganda</option>
+                </optgroup>
+                <optgroup label="Europe">
+                  <option value="France">France</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="England">England</option>
+                  <option value="Spani">Spani</option>
+                </optgroup>
+                <optgroup label="Noth-America">
+                  <option value="Canada">Canada</option>
+                  <option value="USA">USA</option>
+                </optgroup>
+              </select>
+              <br>
+              <label for=new_city">City</label>
+              <input type="text" class="form-control smooth-shadow" name="new_city">
+              <br>
+              <label for="new_address">Address</label>
+              <input type="text" class="form-control smooth-shadow" name="new_address">
+            </fieldset>
+            <br>
+            <div class="text-center">
+                <button type="submit" class="submit-btn no-border smooth-shadow alp arp">Change</button>
+            </div>
+          </fieldset>

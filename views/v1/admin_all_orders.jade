@@ -3,7 +3,7 @@ extends layout
 block section
   div(class="container table-responsive")
     h1(class="add-padding smooth-shadow") All parcel delivery orders
-    if Object.keys(parcels).length
+    if !error
       table(class="table table-bordered table-hover smooth-shadow atm abm")
         thead(class="table-head")
           th Order ID
@@ -36,4 +36,4 @@ block section
               td
                 a(href="#{path}#{apiVersion}/parcels/#{order.orderId}/change", class="btn smooth-shadow") Change
     else
-      h1(class="message-error add-padding text-center") Sorry, there is no parcel delivery order
+      h1(class="message-error add-padding text-center") #{error}

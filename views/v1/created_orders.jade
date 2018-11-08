@@ -3,7 +3,7 @@ extends layout
 block section
   div(class="container table-responsive")
     h1(class="add-padding smooth-shadow") Created order(s)
-    if Object.keys(parcels).length
+    if !error
       table(class="table table-bordered table-hover smooth-shadow atm abm")
         thead(class="table-head")
           th Order ID
@@ -27,4 +27,4 @@ block section
             td
               a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/#{order.orderId}/cancel", class="btn cancel-order smooth-shadow") Cancel
     else
-      h1(class="message-error add-padding text-center") Sorry, you don't have any parcel delivery order
+      h1(class="message-error add-padding text-center") #{error}

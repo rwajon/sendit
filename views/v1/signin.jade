@@ -3,12 +3,9 @@ extends layout
 block section
   div(class="container")
     div(id="user-signin", class="smooth-shadow atm")
-    
-      if user == false && !error
-        div(class="message-error add-padding text-center") Sorry, your username or password is incorrect!
 
       if error
-        div(class="message-error add-padding text-center") Sorry, this account doesn't exist!
+        div(class="message-error add-padding text-center") #{error}
 
       fieldset
         legend

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import express from 'express';
 import session from 'express-session';
+import Parcel from '../../private/Parcel';
 
 let ssn;
 const router = express.Router();
@@ -15,8 +16,11 @@ router.use(session({
 router.get('/', (req, res) => {
   ssn = req.session;
   /* -------------------static parcels-----------------------------*/
-  ssn.parcels = JSON.parse(fs.readFileSync('private/parcels.json'));
+  let parcel = new Parcel(JSON.parse(fs.readFileSync('private/parcels.json')));
   /* --------------------------------------------------------------*/
+  /*ssn.parcels = ssn.parcels || {};
+  let parcel = new Parcel(ssn.parcels);*/
+  ssn.parcels = parcel.getAll();
 
   res.render('v1/admin_all_orders', {
     title: 'Parcels | SendIT',
@@ -24,150 +28,108 @@ router.get('/', (req, res) => {
     apiVersion: 'api/v1',
     admin: true,
     parcels: ssn.parcels,
+    error: parcel.error,
   });
 });
 
 // Fetch all created parcel delivery orders
 router.get('/created', (req, res) => {
   ssn = req.session;
-  const parcels = {};
-
-  if (ssn.parcels) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].status === 'Unprocessed') {
-        parcels[key] = ssn.parcels[key];
-      }
-    });
-  }
+  ssn.parcels = ssn.parcels || {};
+  let parcel = new Parcel(ssn.parcels);
+  const newCreated = parcel.getNewCreated();
 
   res.render('v1/admin_created_orders', {
     title: 'Parcels | SendIT',
     path: '../../../',
     apiVersion: 'api/v1',
     admin: true,
-    parcels,
+    parcels: newCreated,
+    error: parcel.error,
   });
 });
 
 // Fetch all parcels in transit
 router.get('/in-transit', (req, res) => {
   ssn = req.session;
-  const parcels = {};
-
-  if (ssn.parcels) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].status === 'In transit') {
-        parcels[key] = ssn.parcels[key];
-      }
-    });
-  }
+  ssn.parcels = ssn.parcels || {};
+  let parcel = new Parcel(ssn.parcels);
+  const inTransit = parcel.getInTransit();
 
   res.render('v1/admin_parcels_in_transit', {
     title: 'Parcels | SendIT',
     path: '../../../',
     apiVersion: 'api/v1',
     admin: true,
-    parcels,
+    parcels: inTransit,
+    error: parcel.error,
   });
 });
 
 // Fetch all delivered parcel
 router.get('/delivered', (req, res) => {
   ssn = req.session;
-  const parcels = {};
-
-  if (ssn.parcels) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].status === 'Delivered') {
-        parcels[key] = ssn.parcels[key];
-      }
-    });
-  }
+  ssn.parcels = ssn.parcels || {};
+  let parcel = new Parcel(ssn.parcels);
+  const delivered = parcel.getDelivered();
 
   res.render('v1/admin_delivered_parcels', {
     title: 'Parcels | SendIT',
     path: '../../../',
     apiVersion: 'api/v1',
     admin: true,
-    parcels,
+    parcels: delivered,
+    error: parcel.error,
   });
 });
 
 // Fetch a specific parcel delivery oder
-router.get('/:p_id', (req, res) => {
+router.get('/:pId', (req, res) => {
   ssn = req.session;
-  let parcel = {};
+  ssn.parcels = ssn.parcels || {};
+  let parcel = new Parcel(ssn.parcels);
+  const details = parcel.getDetails(req.params.pId);
 
-  if (ssn.parcels) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.p_id) {
-        parcel = ssn.parcels[key];
-
-        res.render('v1/order_details', {
-          title: 'Parcels | SendIT',
-          path: '../../../',
-          apiVersion: 'api/v1',
-          admin: true,
-          parcel,
-        });
-      }
-    });
-  }
-
-  res.redirect('/api/v1/parcels');
+  res.render('v1/order_details', {
+    title: 'Parcels | SendIT',
+    path: '../../../',
+    apiVersion: 'api/v1',
+    admin: true,
+    parcel: details,
+    error: parcel.error,
+  });
 });
 
 // Change a specific parcel delivery order of a specific user
-router.all('/:p_id/change', (req, res) => {
+router.all('/:pId/change', (req, res) => {
   ssn = req.session;
-  let parcel = {};
+  ssn.parcels = ssn.parcels || {};
+  let parcel = new Parcel(ssn.parcels);
+  const details = parcel.getDetails(req.params.pId);
 
   if (req.method === 'POST') {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.p_id) {
-        if (req.body.new_status) {
-          ssn.parcels[key].status = req.body.new_status;
-        }
-        if (req.body.new_country) {
-          ssn.parcels[key].presentLocation = req.body.new_country;
-        }
-        if (req.body.new_city) {
-          ssn.parcels[key].presentLocation += `, ${req.body.new_city}`;
-        }
-        if (req.body.new_address) {
-          ssn.parcels[key].presentLocation += ` - ${req.body.new_address}`;
-        }
 
-        parcel = ssn.parcels[key];
+    const changed = parcel.changeOrder(req.params.pId, req.body);
 
-        res.render('v1/admin_change_order', {
-          title: 'Parcels | SendIT',
-          path: '../../../../',
-          apiVersion: 'api/v1',
-          admin: true,
-          parcel,
-          changed: true,
-        });
-      }
+    res.render('v1/admin_change_order', {
+      title: 'Parcels | SendIT',
+      path: '../../../../',
+      apiVersion: 'api/v1',
+      admin: true,
+      parcel: changed,
+      error: parcel.error,
+      changed: !parcel.error,
     });
+
   } else {
-    if (ssn.parcels) {
-      Object.keys(ssn.parcels).forEach((key) => {
-        if (ssn.parcels[key].orderId === req.params.p_id) {
-          parcel = ssn.parcels[key];
-
-          res.render('v1/admin_change_order', {
-            title: 'Parcels | SendIT',
-            path: '../../../../',
-            apiVersion: 'api/v1',
-            admin: true,
-            parcel,
-          });
-        }
-      });
-    }
-
-    res.redirect('/api/v1/parcels');
+    res.render('v1/admin_change_order', {
+      title: 'Parcels | SendIT',
+      path: '../../../../',
+      apiVersion: 'api/v1',
+      admin: true,
+      parcel: details,
+      error: parcel.error,
+    });
   }
 });
 
