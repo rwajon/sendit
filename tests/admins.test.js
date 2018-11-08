@@ -29,7 +29,9 @@ describe('Admin class', () => {
         password: '1234',
       };
 
-      expect(admin.signin(form)).to.equal('Sorry, your username or password is incorrect');
+      admin.signin(form);
+
+      expect(admin.error).to.equal('Sorry, your username or password is incorrect');
     });
 
     // test 3
@@ -41,7 +43,9 @@ describe('Admin class', () => {
         password: '',
       };
 
-      expect(admin.signin(form)).to.equal('Please, enter your username and your password!');
+      admin.signin(form);
+
+      expect(admin.error).to.equal('Please, enter your username and your password!');
     });
   }); // end of signin method tests
 });

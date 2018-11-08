@@ -12,7 +12,7 @@ class Parcel {
   getDetails(pId) {
     if (!pId) {
       this.error = 'Please, provide a parcel delivery order id to check!';
-      return this.error;
+      return {};
     }
 
     Object.keys(this.parcels).forEach((key) => {
@@ -26,7 +26,7 @@ class Parcel {
     }
 
     this.error = `Sorry, there is no parcel delivery order with this id : ${pId}`;
-    return this.error;
+    return {};
   } // end of get method
 
   getAll(userId) {
@@ -42,14 +42,15 @@ class Parcel {
       }
 
       this.error = 'Sorry, you don\'t have any parcel delivery order';
-      return this.error;
+      return {};
     }
+
     if (Object.keys(this.parcels).length > 0) {
       return this.parcels;
     }
 
     this.error = 'Sorry, there are no parcel delivery orders';
-    return this.error;
+    return {};
   } // end fo getAll method
 
   getNewCreated(userId) {
@@ -65,7 +66,7 @@ class Parcel {
       }
 
       this.error = 'Sorry, you don\'t have new created parcel delivery orders';
-      return this.error;
+      return {};
     }
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Unprocessed') {
@@ -78,7 +79,7 @@ class Parcel {
     }
 
     this.error = 'Sorry, there are no new created parcel delivery orders';
-    return this.error;
+    return {};
   } // end of getNewCreated method
 
   getInTransit(userId) {
@@ -94,7 +95,7 @@ class Parcel {
       }
 
       this.error = 'Sorry, you don\'t have parcels in transit';
-      return this.error;
+      return {};
     }
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'In transit') {
@@ -107,7 +108,7 @@ class Parcel {
     }
 
     this.error = 'Sorry, there are no parcels in transit';
-    return this.error;
+    return {};
   } // end of getInTransit method
 
   getDelivered(userId) {
@@ -123,7 +124,7 @@ class Parcel {
       }
 
       this.error = 'Sorry, you don\'t have delivered parcels';
-      return this.error;
+      return {};
     }
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Delivered') {
@@ -136,7 +137,7 @@ class Parcel {
     }
 
     this.error = 'Sorry, no parcel has been delivered';
-    return this.error;
+    return {};
   } // end of getDelivered method
 
   changeOrder(pId, form, userId) {
@@ -162,7 +163,7 @@ class Parcel {
       }
 
       this.error = 'Sorry, this order was not successfully changed';
-      return this.error;
+      return {};
     }
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].orderId === pId) {
@@ -188,7 +189,7 @@ class Parcel {
     }
 
     this.error = 'Sorry, this order was not successfully changed';
-    return this.error;
+    return {};
   } // end of changeOrder method
 
   createOrder(form, user) {
@@ -229,15 +230,15 @@ class Parcel {
         }
 
         this.error = 'Sorry, the order was not successfully. Please try again!';
-        return this.error;
+        return {};
       }
 
       this.error = 'Please enter the required information to create an order!';
-      return this.error;
+      return {};
     }
 
     this.error = this.error || 'Please, sign-in to create an order!';
-    return this.error;
+    return {};
   } // end of createOrder method
 
   cancelOrder(pId, userId) {
@@ -255,15 +256,15 @@ class Parcel {
         }
 
         this.error = 'Sorry, you can only cancel order that you created';
-        return this.error;
+        return {};
       }
 
       this.error = 'Sorry, you can not cancel this order';
-      return this.error;
+      return {};
     }
 
     this.error = 'Please, provide the id of the order to cancel!';
-    return this.error;
+    return {};
   }
 }
 
