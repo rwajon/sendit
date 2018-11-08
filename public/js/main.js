@@ -49,7 +49,26 @@ function cancelOrder() {
   });
 }
 
+function parcelsCount() {
+  const request = new XMLHttpRequest();
+  request.open('GET', '/api/v1/users/parcels/count', true);
+  request.send(null);
+
+  request.onreadystatechange = () => {
+    if (request.status == 200) {
+      const parcels = JSON.parse(request.responseText);
+
+      if (parcels.pending || parcels.inTransit || parcels.delivered) {
+        document.getElementsByClassName('pending')[0].innerHTML = parcels.pending || 0;
+        document.getElementsByClassName('in-transit')[0].innerHTML = parcels.inTransit || 0;
+        document.getElementsByClassName('delivered')[0].innerHTML = parcels.delivered || 0;
+      }
+    }
+  };
+}
+
 window.document.addEventListener('DOMContentLoaded', () => {
   menuAsideToggle();
   cancelOrder();
+  parcelsCount();
 });

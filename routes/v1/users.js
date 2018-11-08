@@ -122,6 +122,39 @@ router.get('/:id', (req, res) => {
 
 
 /* ----Parcel delivery order-----*/
+// Count all parcel delivery orders of a specific user
+router.get('/parcels/count', (req, res) => {
+  ssn = req.session;
+
+  if (ssn.user) {
+    let pending = 0;
+    let inTransit = 0;
+    let delivered = 0;
+
+    Object.keys(ssn.parcels).forEach((key) => {
+      if (ssn.parcels[key].status === 'Pending') {
+        pending += 1;
+      }
+      if (ssn.parcels[key].status === 'In transit') {
+        inTransit += 1;
+      }
+      if (ssn.parcels[key].status === 'Delivered') {
+        delivered += 1;
+      }
+    });
+
+    const parcels = {
+      pending,
+      inTransit,
+      delivered,
+    };
+
+    res.send(parcels);
+  } else {
+    res.send(false);
+  }
+});
+
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
   ssn = req.session;

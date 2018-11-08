@@ -56,7 +56,7 @@ class Parcel {
   getPending(userId) {
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
-        if (this.parcels[key].status === 'Unprocessed' && this.parcels[key].sender.id === userId) {
+        if (this.parcels[key].status === 'Pending' && this.parcels[key].sender.id === userId) {
           this.newCreatedParcels[key] = this.parcels[key];
         }
       });
@@ -69,7 +69,7 @@ class Parcel {
       return {};
     }
     Object.keys(this.parcels).forEach((key) => {
-      if (this.parcels[key].status === 'Unprocessed') {
+      if (this.parcels[key].status === 'Pending') {
         this.newCreatedParcels[key] = this.parcels[key];
       }
     });
@@ -219,9 +219,9 @@ class Parcel {
           },
           product: form.product,
           weight: form.weight,
-          quantity: form.quantity,
+          quantity: Math.abs(form.quantity),
           price: `USD ${price}`,
-          status: 'Unprocessed',
+          status: 'Pending',
           presentLocation: `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`,
         };
 

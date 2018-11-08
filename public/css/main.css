@@ -166,6 +166,13 @@ label {
 	background: #fff;
 }
 
+.badge {
+	background-color: turquoise;
+	font-weight: bold;
+	padding: 3px 7px;
+	border-radius: 50%;
+}
+
 .message-error {
 	border-radius: 5px;
 	background-color: #f2dede;

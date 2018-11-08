@@ -42,9 +42,9 @@ html
       if user
         div(class="atp alp arp")
           a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/create") New order
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/pending") Pending
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/in-transit") In transit
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/delivered") Delivered
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/pending") Pending <span class="badge pending">0</span>
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/in-transit") In transit <span class="badge in-transit">0</span>
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/delivered") Delivered <span class="badge delivered">0</span>
           a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/") All
 
       if admin
