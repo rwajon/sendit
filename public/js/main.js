@@ -1,41 +1,39 @@
-
-/* function load(el, path, done, async) {
-  const request = new XMLHttpRequest();
-
-  if (async) {
-    request.open('GET', path, true);
-    request.send(null);
-
-    request.onreadystatechange = () => {
-      if (request.status === 200) {
-        done(el, request);
-      }
-    };
-  } else {
-    request.open('GET', path, false);
-    request.send(null);
-
-    if (request.status === 200) {
-      done(el, request);
-    }
-  }
-} */
-
 function menuAsideToggle() {
-  if (document.getElementById('menu-aside')) {
-    const button = document.getElementById('menu-aside-toggle-btn');
-    const menu = document.querySelector('aside');
 
-    button.addEventListener('click', () => {
-      if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-      } else {
-        menu.style.display = 'block';
-      }
-    });
-  } else {
-    document.getElementById('menu-aside-toggle-btn').style.display = 'none';
+  var button = document.getElementById('menu-aside-toggle-btn');
+  var menu = document.getElementById('menu-aside');
+  var section = document.getElementsByTagName('section')[0];
+
+  if (!document.getElementById('menu-aside').innerHTML) {
+    menu.style.display = 'none';
+    section.style.margin = '0';
+    section.style.width = '100%';
   }
+
+  button.addEventListener('click', () => {
+    if (window.outerWidth > 768) {
+      if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+        section.style.marginLeft = '20%';
+        section.style.width = '80%';
+      } else {
+        menu.style.display = 'none';
+        section.style.margin = '0';
+        section.style.width = '100%';
+      }
+
+    } else if (window.outerWidth < 768) {
+      if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'block';
+        section.style.margin = '0';
+        section.style.width = '100%';
+      } else {
+        menu.style.display = 'none';
+        section.style.margin = '0';
+        section.style.width = '100%';
+      }
+    }
+  });
 }
 
 function cancelOrder() {
@@ -54,9 +52,6 @@ function cancelOrder() {
 }
 
 window.document.addEventListener('DOMContentLoaded', () => {
-  // section height
-  // document.querySelector("section").style.minHeight = window.innerHeight - 195 + "px";
-
   menuAsideToggle();
   cancelOrder();
 });

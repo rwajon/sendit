@@ -41,18 +41,18 @@ html
     aside(id="menu-aside")
       if user
         div(class="atp alp arp")
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/create") Create a parcel delivery order
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/created") Created order(s)
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/in-transit") Parcel in transit
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/delivered") Delivered parcel
-          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/") All delivery orders
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/create") New order
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/created") Pending
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/in-transit") In transit
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/delivered") Delivered
+          a(href="#{path}#{apiVersion}/users/#{user.id}/parcels/") All
 
       if admin
         div(class="atp alp arp") 
-          a(href="#{path}#{apiVersion}/parcels/created") Created order(s)
-          a(href="#{path}#{apiVersion}/parcels/in-transit") Parcel in transit
-          a(href="#{path}#{apiVersion}/parcels/delivered") Delivered parcel
-          a(href="#{path}#{apiVersion}/parcels") All delivery orders
+          a(href="#{path}#{apiVersion}/parcels/created") Pending
+          a(href="#{path}#{apiVersion}/parcels/in-transit") In transit
+          a(href="#{path}#{apiVersion}/parcels/delivered") Delivered
+          a(href="#{path}#{apiVersion}/parcels") All
    
     section
       block section

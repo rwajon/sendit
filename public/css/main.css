@@ -257,11 +257,10 @@ label {
 }
 
 #menu-aside {
-	display: none;
 	position: absolute;
 	min-height: 500px;
 	background-color: #fff;
-	box-shadow: 5px 0px 10px #aaa;
+	box-shadow: 2px -1px 7px #aaa;
 }
 
 #menu-aside>div {
@@ -405,7 +404,13 @@ label {
 		padding: 5px;
 	}
 
+	section{
+		margin: 0px;
+		width: 100%;
+	}
+
 	#menu-aside {
+		display: none;
 		width: 60%;
 	}
 
@@ -437,8 +442,14 @@ label {
 		padding: 5px;
 	}
 
+	section{
+		width: 80%;
+		margin-left: 20%;
+	}
+
 	#menu-aside {
-		width: 25%;
+		display: block;
+		width: 20%;
 	}
 
 	.container {
@@ -448,8 +459,6 @@ label {
 	#user-signup,
 	#user-signin,
 	#create-order {
-		width: 50%;
-		margin-left: 24%;
 		padding: 0 15px 15px 15px;
 	}
 }
