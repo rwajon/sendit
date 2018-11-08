@@ -8,7 +8,7 @@ class User {
   getInfo(id) {
     if (!id) {
       this.error = 'Please, provide a user id to check!';
-      return this.error;
+      return {};
     }
 
     Object.keys(this.users).forEach((key) => {
@@ -22,13 +22,13 @@ class User {
     }
 
     this.error = `Sorry, there is no user that corresponds to this id: ${id}`;
-    return this.error;
+    return {};
   } // end of get method
 
   signup(form) {
     if (!form) {
       this.error = 'Please, enter the required information to sign-up!';
-      return this.error;
+      return {};
     }
 
     if (form.fname && form.lname && form.uname && form.password && form.phone && form.country) {
@@ -53,13 +53,13 @@ class User {
     }
 
     this.error = 'Please, enter the required information to sign-up!';
-    return this.error;
+    return {};
   } // end of signup method
 
   signin(form) {
     if (!form) {
       this.error = 'Please, enter your username and your password!';
-      return this.error;
+      return {};
     }
 
     if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
@@ -74,11 +74,11 @@ class User {
       }
 
       this.error = 'Sorry, your username or password is incorrect';
-      return this.error;
+      return {};
     }
 
     this.error = 'Please, enter your username and your password!';
-    return this.error;
+    return {};
   } // end of signin method
 } // end of User class
 

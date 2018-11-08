@@ -21,7 +21,9 @@ describe('User class', () => {
       const id = '0000';
       const user = new User(users);
 
-      expect(user.getInfo(id)).to.equal('Sorry, there is no user that corresponds to this id: 0000');
+      user.getInfo(id);
+
+      expect(user.error).to.equal('Sorry, there is no user that corresponds to this id: 0000');
     });
 
     // test 3
@@ -29,7 +31,9 @@ describe('User class', () => {
       const id = null;
       const user = new User(users);
 
-      expect(user.getInfo(id)).to.equal('Please, provide a user id to check!');
+      user.getInfo(id);
+
+      expect(user.error).to.equal('Please, provide a user id to check!');
     });
   }); // end of getInfo method tests
 
@@ -56,7 +60,9 @@ describe('User class', () => {
         password: '1234',
       };
 
-      expect(user.signin(form)).to.equal('Sorry, your username or password is incorrect');
+      user.signin(form);
+
+      expect(user.error).to.equal('Sorry, your username or password is incorrect');
     });
 
     // test 3
@@ -68,7 +74,9 @@ describe('User class', () => {
         password: '',
       };
 
-      expect(user.signin(form)).to.equal('Please, enter your username and your password!');
+      user.signin(form);
+
+      expect(user.error).to.equal('Please, enter your username and your password!');
     });
   }); // end of signin method tests
 
@@ -111,7 +119,9 @@ describe('User class', () => {
         address: 'Mbugangari',
       };
 
-      expect(user.signup(form)).to.equal('Please, enter the required information to sign-up!');
+      user.signup(form);
+
+      expect(user.error).to.equal('Please, enter the required information to sign-up!');
     });
   }); // end of signup method tests
 });
