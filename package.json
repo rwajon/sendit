@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "test": "mocha --compilers js:babel-register",
+    "test": "mocha --compilers js:babel-register tests/**.test.js",
     "build": "babel . --presets babel-preset-env --ignore node_modules,tests,UI,build --out-dir build/",
     "start": "node ./build/bin/www.js",
     "devstart": "nodemon ./bin/www.js --exec babel-node --presets env"
