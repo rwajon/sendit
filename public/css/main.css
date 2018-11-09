@@ -20,10 +20,10 @@ nav {
 section {
 	min-height: 500px;
 	padding-bottom: 20px;
-	border-bottom: solid 2px turquoise;
 }
 
 footer {
+	border-top: solid 2px turquoise;
 	border-bottom: solid 2px turquoise;
 }
 
