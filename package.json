@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "test": "mocha --compilers js:babel-register",
-    "build": "npm run clean && babel . --presets babel-preset-env --ignore node_modules,tests --out-dir build/",
-    "start": "node ./bin/www.js",
+    "build": "npm run clean && babel src --presets babel-preset-env --ignore node_modules,tests --out-dir build/",
+    "start": "node ./build/bin/www.js",
     "devstart": "nodemon ./bin/www.js --exec babel-node --presets env"
   },
   "dependencies": {
