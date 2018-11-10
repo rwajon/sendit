@@ -1,20 +1,24 @@
 import express from 'express';
-// import session from 'express-session';
+import session from 'express-session';
 
-// let ssn;
+let ssn;
 const router = express.Router();
 
-/* router.use(session({
+router.use(session({
   secret: 'rwajon@sendit',
   resave: true,
   saveUninitialized: true,
-})); */
+}));
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  // ssn = req.session;
+  ssn = req.session;
 
-  res.send('Welcome!!!');
+  res.render('index', {
+    title: 'Home | SendIT',
+    path: '',
+    user: ssn.user ? ssn.user : null,
+  });
 });
 
 export default router;

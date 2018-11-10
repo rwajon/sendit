@@ -1,7 +1,7 @@
 import fs from 'fs';
 import express from 'express';
 import session from 'express-session';
-import Admin from '../../private/Admin';
+import Admin from '../private/Admin';
 
 let ssn;
 const router = express.Router();
@@ -16,10 +16,14 @@ router.get('/', (req, res) => {
   ssn = req.session;
 
   if (!ssn.admin) {
-    res.redirect('/api/v1/admins/signin');
+    res.redirect('/admins/signin');
   }
 
-  res.send('Welcome Admin!!!');
+  res.render('admins', {
+    title: 'Admin | SendIT',
+    path: '../',
+    admin: true,
+  });
 });
 
 // signin
@@ -33,18 +37,23 @@ router.all('/signin', (req, res) => {
 
     if (!admin.error) {
       ssn.admin = account;
-      res.send({
-        admin: ssn.admin,
-      });
+      res.redirect('/admins');
     }
 
     ssn.admin = ssn.admin || false;
 
-    res.send({
+    res.render('admin_signin', {
+      title: 'Sign-in | SendIT',
+      path: '../',
+      admin: ssn.admin,
       error: admin.error,
     });
   } else {
-    res.send('Please, sign-in!');
+    res.render('admin_signin', {
+      title: 'Sign-in | SendIT',
+      path: '../',
+      admin: ssn.admin || false,
+    });
   }
 });
 
