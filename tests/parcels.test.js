@@ -20,7 +20,7 @@ describe('Parcel class', () => {
     it('should display \'Sorry, there is no parcel delivery order with this id : 12345\'', () => {
       const pId = '12345';
       const parcel = new Parcel(parcels);
-      
+
       parcel.getDetails(pId);
 
       expect(parcel.error).to.equal('Sorry, there is no parcel delivery order with this id : 12345');
@@ -29,7 +29,7 @@ describe('Parcel class', () => {
     // test 3
     it('should display \'Please, provide a parcel delivery order id to check!\'', () => {
       const parcel = new Parcel(parcels);
-      
+
       parcel.getDetails();
 
       expect(parcel.error).to.equal('Please, provide a parcel delivery order id to check!');
@@ -49,7 +49,7 @@ describe('Parcel class', () => {
     // test 2
     it('should display \'Sorry, there are no parcel delivery orders\'', () => {
       const parcel = new Parcel();
-      
+
       parcel.getAll();
 
       expect(parcel.error).to.equal('Sorry, there are no parcel delivery orders');
@@ -67,7 +67,7 @@ describe('Parcel class', () => {
     it('should display \'Sorry, you don\'t have any parcel delivery order\'', () => {
       const userId = '001';
       const parcel = new Parcel();
-      
+
       parcel.getAll(userId);
 
       expect(parcel.error).to.equal('Sorry, you don\'t have any parcel delivery order');
@@ -87,7 +87,7 @@ describe('Parcel class', () => {
     // test 2
     it('should display \'Sorry, there are no pending parcel delivery orders\'', () => {
       const parcel = new Parcel();
-      
+
       parcel.getPending();
 
       expect(parcel.error).to.equal('Sorry, there are no pending parcel delivery orders');
@@ -105,7 +105,7 @@ describe('Parcel class', () => {
     it('should display \'Sorry, you don\'t have pending parcel delivery orders\'', () => {
       const userId = '001';
       const parcel = new Parcel();
-      
+
       parcel.getPending(userId);
 
       expect(parcel.error).to.equal('Sorry, you don\'t have pending parcel delivery orders');
@@ -125,7 +125,7 @@ describe('Parcel class', () => {
     // test 2
     it('should display \'Sorry, there are no parcels in transit\'', () => {
       const parcel = new Parcel();
-      
+
       parcel.getInTransit();
 
       expect(parcel.error).to.equal('Sorry, there are no parcels in transit');
@@ -143,7 +143,7 @@ describe('Parcel class', () => {
     it('should display \'Sorry, you don\'t have parcels in transit\'', () => {
       const userId = '001';
       const parcel = new Parcel();
-      
+
       parcel.getInTransit(userId);
 
       expect(parcel.error).to.equal('Sorry, you don\'t have parcels in transit');
@@ -163,7 +163,7 @@ describe('Parcel class', () => {
     // test 2
     it('should display \'Sorry, no parcel has been delivered\'', () => {
       const parcel = new Parcel();
-      
+
       parcel.getDelivered();
 
       expect(parcel.error).to.equal('Sorry, no parcel has been delivered');
@@ -181,7 +181,7 @@ describe('Parcel class', () => {
     it('should display \'Sorry, you don\'t have delivered parcels\'', () => {
       const userId = '001';
       const parcel = new Parcel();
-      
+
       parcel.getDelivered(userId);
 
       expect(parcel.error).to.equal('Sorry, you don\'t have delivered parcels');
@@ -214,7 +214,7 @@ describe('Parcel class', () => {
         new_city: 'Kampala',
         new_address: '',
       };
-      
+
       parcel.changeOrder(pId, form);
 
       expect(parcel.error).to.equal('Sorry, this order was not successfully changed');
@@ -244,7 +244,7 @@ describe('Parcel class', () => {
         new_city: 'Kampala',
         new_address: '',
       };
-      
+
       parcel.changeOrder(pId, form, userId);
 
       expect(parcel.error).to.equal('Sorry, this order was not successfully changed');
@@ -318,7 +318,7 @@ describe('Parcel class', () => {
         dest_city: 'Ney-York',
         dest_address: 'Near Central Park',
       };
-      
+
       parcel.createOrder(form, user);
 
       expect(parcel.error).to.equal('Please enter the required information to create an order!');
@@ -344,7 +344,7 @@ describe('Parcel class', () => {
         dest_city: 'Ney-York',
         dest_address: 'Near Central Park',
       };
-      
+
       parcel.createOrder(form, user);
 
       expect(parcel.error).to.equal('Please, sign-in to create an order!');
@@ -367,7 +367,7 @@ describe('Parcel class', () => {
       const parcel = new Parcel(parcels);
       const pId = '';
       const userId = '001';
-      
+
       parcel.cancelOrder(pId, userId);
 
       expect(parcel.error).to.equal('Please, provide the id of the order to cancel!');
@@ -378,7 +378,7 @@ describe('Parcel class', () => {
       const parcel = new Parcel(parcels);
       const pId = '005';
       const userId = '001';
-      
+
       parcel.cancelOrder(pId, userId);
 
       expect(parcel.error).to.equal('Sorry, you can only cancel order that you created');
@@ -389,7 +389,7 @@ describe('Parcel class', () => {
       const parcel = new Parcel(parcels);
       const pId = '001';
       const userId = '';
-      
+
       parcel.cancelOrder(pId, userId);
 
       expect(parcel.error).to.equal('Sorry, you can not cancel this order');
