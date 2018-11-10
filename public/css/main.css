@@ -455,7 +455,7 @@ label {
 	}
 
 	#menu-aside {
-		display: block;
+		display: none;
 		width: 20%;
 	}
 

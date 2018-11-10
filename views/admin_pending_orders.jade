@@ -1,0 +1,28 @@
+extends layout
+
+block section
+  div(class="container table-responsive")
+    h1(class="add-padding smooth-shadow") Pending order(s)
+    if !error
+      table(class="table table-bordered table-hover smooth-shadow atm abm text-center")
+        thead(class="table-head")
+          th Order ID
+          th Product
+          th Quantity
+          th Weight
+          th Price
+          th(colspan="2")
+
+        each order in parcels
+          tr
+            td #{order.orderId}
+            td #{order.product}
+            td #{order.quantity}
+            td #{order.weight}
+            td #{order.price}
+            td
+              a(href="#{path}parcels/#{order.orderId}", class="btn smooth-shadow") Details
+            td
+              a(href="#{path}parcels/#{order.orderId}/change", class="btn smooth-shadow") Change
+    else
+      h1(class="message-error add-padding text-center") #{error}

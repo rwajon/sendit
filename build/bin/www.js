@@ -18,25 +18,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var debug = require('debug')('sendit:server');
 
 /**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
-_app2.default.set('port', port);
-
-/**
  * Create HTTP server.
  */
-
 var server = _http2.default.createServer(_app2.default);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -45,7 +29,7 @@ server.on('listening', onListening);
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (Number.isNaN(port)) {
     // named pipe
     return val;
   }
@@ -57,6 +41,23 @@ function normalizePort(val) {
 
   return false;
 }
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+_app2.default.set('port', port);
 
 /**
  * Event listener for HTTP server "error" event.
@@ -85,11 +86,9 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Listen on provided port, on all network interfaces.
  */
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);

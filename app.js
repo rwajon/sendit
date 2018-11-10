@@ -5,6 +5,11 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import adminsRouter from './routes/admins';
+import parcelsRouter from './routes/parcels';
+
 import indexRouterV1 from './routes/v1/index';
 import usersRouterV1 from './routes/v1/users';
 import adminsRouterV1 from './routes/v1/admins';
@@ -25,8 +30,12 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/admins', adminsRouter);
+app.use('/parcels', parcelsRouter);
+
 // api version 1
-app.use('/', indexRouterV1);
 app.use('/api/v1', indexRouterV1);
 app.use('/api/v1/users', usersRouterV1);
 app.use('/api/v1/admins', adminsRouterV1);
@@ -45,9 +54,7 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('v1/error', {
-    apiVersion: 'api/v1',
-  });
+  res.render('error', {});
   next();
 });
 

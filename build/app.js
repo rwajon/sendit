@@ -28,21 +28,37 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
-var _index = require('./routes/v1/index');
+var _index = require('./routes/index');
 
 var _index2 = _interopRequireDefault(_index);
 
-var _users = require('./routes/v1/users');
+var _users = require('./routes/users');
 
 var _users2 = _interopRequireDefault(_users);
 
-var _admins = require('./routes/v1/admins');
+var _admins = require('./routes/admins');
 
 var _admins2 = _interopRequireDefault(_admins);
 
-var _parcels = require('./routes/v1/parcels');
+var _parcels = require('./routes/parcels');
 
 var _parcels2 = _interopRequireDefault(_parcels);
+
+var _index3 = require('./routes/v1/index');
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _users3 = require('./routes/v1/users');
+
+var _users4 = _interopRequireDefault(_users3);
+
+var _admins3 = require('./routes/v1/admins');
+
+var _admins4 = _interopRequireDefault(_admins3);
+
+var _parcels3 = require('./routes/v1/parcels');
+
+var _parcels4 = _interopRequireDefault(_parcels3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -61,12 +77,16 @@ app.use((0, _cookieParser2.default)());
 
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
-// api version 1
 app.use('/', _index2.default);
-app.use('/api/v1', _index2.default);
-app.use('/api/v1/users', _users2.default);
-app.use('/api/v1/admins', _admins2.default);
-app.use('/api/v1/parcels', _parcels2.default);
+app.use('/users', _users2.default);
+app.use('/admins', _admins2.default);
+app.use('/parcels', _parcels2.default);
+
+// api version 1
+app.use('/api/v1', _index4.default);
+app.use('/api/v1/users', _users4.default);
+app.use('/api/v1/admins', _admins4.default);
+app.use('/api/v1/parcels', _parcels4.default);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -81,9 +101,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('v1/error', {
-    apiVersion: 'api/v1'
-  });
+  res.render('error', {});
   next();
 });
 
