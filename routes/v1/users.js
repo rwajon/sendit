@@ -76,9 +76,7 @@ router.all('/signin', (req, res) => {
       error: user.error,
     });
   } else {
-    res.send({
-      user: ssn.user,
-    });
+    res.send('Please, sign-in!');
   }
 });
 

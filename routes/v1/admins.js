@@ -16,10 +16,10 @@ router.get('/', (req, res) => {
   ssn = req.session;
 
   if (!ssn.admin) {
-    res.redirect('/api/v1/admins/signin');
+    // res.redirect('/api/v1/admins/signin');
   }
 
-  res.send('Welcome Admin!!!');
+  res.send('Welcome admin!!!');
 });
 
 // signin

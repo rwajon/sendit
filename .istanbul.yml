@@ -4,7 +4,7 @@ instrumentation:
     extensions:
         - .js
     default-excludes: true
-    excludes: ['**/build/routes/index.js**', '**/build/routes/users.js**', '**/build/routes/admins.js**', '**/build/routes/parcels.js**']
+    excludes: ['app.js', '**/routes/index.js**', '**/routes/users.js**', '**/routes/admins.js**', '**/routes/parcels.js**']
     variable: __coverage__
     compact: true
     preserve-comments: false
