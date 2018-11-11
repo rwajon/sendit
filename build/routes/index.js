@@ -24,7 +24,7 @@ router.use((0, _expressSession2.default)({
 }));
 
 /* GET home page. */
-router.get('/', function (req, res, done) {
+router.get('/', function (req, res) {
   ssn = req.session;
 
   res.render('index', {
@@ -32,8 +32,6 @@ router.get('/', function (req, res, done) {
     path: '',
     user: ssn.user ? ssn.user : null
   });
-
-  done();
 });
 
 exports.default = router;
