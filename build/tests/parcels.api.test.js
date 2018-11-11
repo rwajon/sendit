@@ -169,36 +169,41 @@ describe('Parcel', function () {
     });
   }); // end of POST /users/:id/parcels/:pId/change
 
-  describe('GET /users/:id/parcels/:pId/cancel', function () {
-    it('cancel a specific parcel delivery order with the id: 003', function (done) {
-      _chai2.default.request(_app2.default).get('/users/001/parcels/003/cancel').end(function (err, res) {
-        expect(res.status).to.equal(200);
-        // expect(Object.keys(JSON.parse(res.text).cancel).length).to.be.above(0);
-        done();
-      });
-    });
-  }); // end of GET /users/:id/parcels/:pId/cancel
+  // describe('GET /users/:id/parcels/:pId/cancel', () => {
+  //   it('cancel a specific parcel delivery order with the id: 003', (done) => {
+  //     chai.request(app)
+  //       .get('/users/001/parcels/003/cancel')
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(200);
+  //         // expect(Object.keys(JSON.parse(res.text).cancel).length).to.be.above(0);
+  //         done();
+  //       });
+  //   });
+  // }); // end of GET /users/:id/parcels/:pId/cancel
 
-  describe('POST /users/:id/parcels/create', function () {
-    it('create a parcel delivery order', function (done) {
-      _chai2.default.request(_app2.default).post('/users/001/parcels/create').send({
-        rname: 'John Smith',
-        rphone: '+123456789',
-        remail: 'johnsmith@gmail.com',
-        product: 'Sandals',
-        weight: '1.5 Kg',
-        quantity: '2',
-        sender_country: 'Rwanda',
-        sender_city: 'Gisenyi',
-        sender_address: 'Mbugangari',
-        dest_country: 'USA',
-        dest_city: 'Ney-York',
-        dest_address: 'Near Central Park'
-      }).end(function (err, res) {
-        expect(res.status).to.equal(200);
-        // expect(Object.keys(JSON.parse(res.text).createdOrder).length).to.be.above(0);
-        done();
-      });
-    });
-  }); // end of POST /users/:id/parcels/create
+  // describe('POST /users/:id/parcels/create', () => {
+  //   it('create a parcel delivery order', (done) => {
+  //     chai.request(app)
+  //       .post('/users/001/parcels/create')
+  //       .send({
+  //         rname: 'John Smith',
+  //         rphone: '+123456789',
+  //         remail: 'johnsmith@gmail.com',
+  //         product: 'Sandals',
+  //         weight: '1.5 Kg',
+  //         quantity: '2',
+  //         sender_country: 'Rwanda',
+  //         sender_city: 'Gisenyi',
+  //         sender_address: 'Mbugangari',
+  //         dest_country: 'USA',
+  //         dest_city: 'Ney-York',
+  //         dest_address: 'Near Central Park',
+  //       })
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(200);
+  //         // expect(Object.keys(JSON.parse(res.text).createdOrder).length).to.be.above(0);
+  //         done();
+  //       });
+  //   });
+  // }); // end of POST /users/:id/parcels/create
 });
