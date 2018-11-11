@@ -1,9 +1,6 @@
 language: node_js
 node_js:
   - "stable"
-install:
-  # - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  # - chmod +x ./cc-test-reporter
 cache:
   directories:
     - "node_modules"
@@ -12,7 +9,8 @@ script:
   - npm run coveralls
 after_script:
   - |
+    # Upload coverage to coveralls
     npm install --save-dev coveralls@2.10.0
     coveralls < ./coverage/lcov.info
-env:
-  # - CC_TEST_REPORTER_ID=ABC123
+    set CODECLIMATE_REPO_TOKEN=76ded8beb1f1781866ae0e5c4cea77de3c309fa96a12035cdd0a13c0020adfa8
+    codeclimate < build\reports\coverage\report-lcov\lcov.info
