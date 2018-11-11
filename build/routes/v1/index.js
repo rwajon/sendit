@@ -22,10 +22,11 @@ var router = _express2.default.Router();
 })); */
 
 /* GET home page. */
-router.get('/', function (req, res) {
+router.get('/', function (req, res, done) {
   // ssn = req.session;
 
   res.send('Welcome!!!');
+  done();
 });
 
 exports.default = router;

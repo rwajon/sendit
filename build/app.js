@@ -28,28 +28,39 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
-var _index = require('./routes/v1/index');
+var _index = require('./routes/index');
 
 var _index2 = _interopRequireDefault(_index);
 
-var _users = require('./routes/v1/users');
+var _users = require('./routes/users');
 
 var _users2 = _interopRequireDefault(_users);
 
-var _admins = require('./routes/v1/admins');
+var _admins = require('./routes/admins');
 
 var _admins2 = _interopRequireDefault(_admins);
 
-var _parcels = require('./routes/v1/parcels');
+var _parcels = require('./routes/parcels');
 
 var _parcels2 = _interopRequireDefault(_parcels);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _index3 = require('./routes/v1/index');
 
-/*import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import adminsRouter from './routes/admins';
-import parcelsRouter from './routes/parcels';*/
+var _index4 = _interopRequireDefault(_index3);
+
+var _users3 = require('./routes/v1/users');
+
+var _users4 = _interopRequireDefault(_users3);
+
+var _admins3 = require('./routes/v1/admins');
+
+var _admins4 = _interopRequireDefault(_admins3);
+
+var _parcels3 = require('./routes/v1/parcels');
+
+var _parcels4 = _interopRequireDefault(_parcels3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
 
@@ -66,16 +77,16 @@ app.use((0, _cookieParser2.default)());
 
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
-/*app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/admins', adminsRouter);
-app.use('/parcels', parcelsRouter);*/
+app.use('/', _index2.default);
+app.use('/users', _users2.default);
+app.use('/admins', _admins2.default);
+app.use('/parcels', _parcels2.default);
 
 // api version 1
-app.use('/api/v1', _index2.default);
-app.use('/api/v1/users', _users2.default);
-app.use('/api/v1/admins', _admins2.default);
-app.use('/api/v1/parcels', _parcels2.default);
+app.use('/api/v1', _index4.default);
+app.use('/api/v1/users', _users4.default);
+app.use('/api/v1/admins', _admins4.default);
+app.use('/api/v1/parcels', _parcels4.default);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

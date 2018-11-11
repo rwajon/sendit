@@ -16,7 +16,7 @@ var _expressSession = require('express-session');
 
 var _expressSession2 = _interopRequireDefault(_expressSession);
 
-var _Parcel = require('../../private/Parcel');
+var _Parcel = require('../private/Parcel');
 
 var _Parcel2 = _interopRequireDefault(_Parcel);
 
@@ -31,19 +31,21 @@ router.use((0, _expressSession2.default)({
   saveUninitialized: true
 }));
 
-/* -------------------static orders-----------------------------*/
-var staticOrders = JSON.parse(_fs2.default.readFileSync('private/parcels.json'));
-/* --------------------------------------------------------------*/
-
 // Fetch all parcel delivery orders
 router.get('/', function (req, res, done) {
   ssn = req.session;
+  /* -------------------static orders-----------------------------*/
+  var staticOrders = JSON.parse(_fs2.default.readFileSync('private/parcels.json'));
+  /* --------------------------------------------------------------*/
   ssn.parcels = ssn.parcels || staticOrders;
   var parcel = new _Parcel2.default(ssn.parcels);
   ssn.parcels = parcel.getAll();
 
-  res.send({
-    allParcels: ssn.parcels,
+  res.render('admin_all_orders', {
+    title: 'Parcels | SendIT',
+    path: '../',
+    admin: true,
+    parcels: ssn.parcels,
     error: parcel.error
   });
 
@@ -53,13 +55,15 @@ router.get('/', function (req, res, done) {
 // Fetch all pending parcel delivery orders
 router.get('/pending', function (req, res, done) {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.parcels = ssn.parcels || {};
   var parcel = new _Parcel2.default(ssn.parcels);
   var pending = parcel.getPending();
 
-  res.send({
-    pending: pending,
+  res.render('admin_pending_orders', {
+    title: 'Parcels | SendIT',
+    path: '../',
+    admin: true,
+    parcels: pending,
     error: parcel.error
   });
 
@@ -69,13 +73,15 @@ router.get('/pending', function (req, res, done) {
 // Fetch all parcels in transit
 router.get('/in-transit', function (req, res, done) {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.parcels = ssn.parcels || {};
   var parcel = new _Parcel2.default(ssn.parcels);
   var inTransit = parcel.getInTransit();
 
-  res.send({
-    inTransit: inTransit,
+  res.render('admin_parcels_in_transit', {
+    title: 'Parcels | SendIT',
+    path: '../',
+    admin: true,
+    parcels: inTransit,
     error: parcel.error
   });
 
@@ -85,13 +91,15 @@ router.get('/in-transit', function (req, res, done) {
 // Fetch all delivered parcel
 router.get('/delivered', function (req, res, done) {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.parcels = ssn.parcels || {};
   var parcel = new _Parcel2.default(ssn.parcels);
   var delivered = parcel.getDelivered();
 
-  res.send({
-    delivered: delivered,
+  res.render('admin_delivered_parcels', {
+    title: 'Parcels | SendIT',
+    path: '../',
+    admin: true,
+    parcels: delivered,
     error: parcel.error
   });
 
@@ -101,13 +109,15 @@ router.get('/delivered', function (req, res, done) {
 // Fetch a specific parcel delivery oder
 router.get('/:pId', function (req, res, done) {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.parcels = ssn.parcels || {};
   var parcel = new _Parcel2.default(ssn.parcels);
   var details = parcel.getDetails(req.params.pId);
 
-  res.send({
-    parcelDetails: details,
+  res.render('order_details', {
+    title: 'Parcels | SendIT',
+    path: '../',
+    admin: true,
+    parcel: details,
     error: parcel.error
   });
 
@@ -117,21 +127,27 @@ router.get('/:pId', function (req, res, done) {
 // Change a specific parcel delivery order of a specific user
 router.all('/:pId/change', function (req, res, done) {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.parcels = ssn.parcels || {};
   var parcel = new _Parcel2.default(ssn.parcels);
   var details = parcel.getDetails(req.params.pId);
 
   if (req.method === 'POST') {
     var changed = parcel.changeOrder(req.params.pId, req.body);
 
-    res.send({
-      changed: changed,
-      error: parcel.error
+    res.render('admin_change_order', {
+      title: 'Parcels | SendIT',
+      path: '../../',
+      admin: true,
+      parcel: changed,
+      error: parcel.error,
+      changed: !parcel.error
     });
   } else {
-    res.send({
-      parcelDetails: details,
+    res.render('admin_change_order', {
+      title: 'Parcels | SendIT',
+      path: '../../',
+      admin: true,
+      parcel: details,
       error: parcel.error
     });
   }

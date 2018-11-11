@@ -16,7 +16,7 @@ var _expressSession = require('express-session');
 
 var _expressSession2 = _interopRequireDefault(_expressSession);
 
-var _Admin = require('../../private/Admin');
+var _Admin = require('../private/Admin');
 
 var _Admin2 = _interopRequireDefault(_Admin);
 
@@ -35,10 +35,14 @@ router.get('/', function (req, res, done) {
   ssn = req.session;
 
   if (!ssn.admin) {
-    res.redirect('/api/v1/admins/signin');
+    res.redirect('/admins/signin');
   }
 
-  res.send('Welcome Admin!!!');
+  res.render('admins', {
+    title: 'Admin | SendIT',
+    path: '../',
+    admin: true
+  });
 
   done();
 });
@@ -54,18 +58,23 @@ router.all('/signin', function (req, res, done) {
 
     if (!admin.error) {
       ssn.admin = account;
-      res.send({
-        admin: ssn.admin
-      });
+      res.redirect('/admins');
     }
 
     ssn.admin = ssn.admin || false;
 
-    res.send({
+    res.render('admin_signin', {
+      title: 'Sign-in | SendIT',
+      path: '../',
+      admin: ssn.admin,
       error: admin.error
     });
   } else {
-    res.send('Please, sign-in!');
+    res.render('admin_signin', {
+      title: 'Sign-in | SendIT',
+      path: '../',
+      admin: ssn.admin || false
+    });
   }
 
   done();
