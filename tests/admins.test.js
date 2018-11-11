@@ -47,5 +47,16 @@ describe('Admin class', () => {
 
       expect(admin.error).to.equal('Please, enter your username and your password!');
     });
+
+    // test 4
+    it('should display \'Please, enter your username and your password!\'', () => {
+      const admin = new Admin(admins);
+
+      const form = {};
+
+      admin.signin();
+
+      expect(admin.error).to.equal('Please, enter your username and your password!');
+    });
   }); // end of signin method tests
 });
