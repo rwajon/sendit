@@ -11,7 +11,8 @@ script:
   - npm run build
   - npm run coveralls
 after_script:
-  - npm install --save-dev coveralls@2.10.0
+  - |
+    npm install --save-dev coveralls@2.10.0
     coveralls < ./coverage/lcov.info
 env:
   # - CC_TEST_REPORTER_ID=ABC123
