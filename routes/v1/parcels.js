@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
   res.send({
     allParcels: ssn.parcels,
     error: parcel.error,
-  });
+  });  
 });
 
 // Fetch all pending parcel delivery orders
@@ -40,7 +40,7 @@ router.get('/pending', (req, res) => {
   res.send({
     pending,
     error: parcel.error,
-  });
+  });  
 });
 
 // Fetch all parcels in transit
@@ -54,7 +54,7 @@ router.get('/in-transit', (req, res) => {
   res.send({
     inTransit,
     error: parcel.error,
-  });
+  });  
 });
 
 // Fetch all delivered parcel
@@ -68,7 +68,7 @@ router.get('/delivered', (req, res) => {
   res.send({
     delivered,
     error: parcel.error,
-  });
+  });  
 });
 
 // Fetch a specific parcel delivery oder
@@ -82,7 +82,7 @@ router.get('/:pId', (req, res) => {
   res.send({
     parcelDetails: details,
     error: parcel.error,
-  });
+  });  
 });
 
 // Change a specific parcel delivery order of a specific user
@@ -105,7 +105,7 @@ router.all('/:pId/change', (req, res) => {
       parcelDetails: details,
       error: parcel.error,
     });
-  }
+  }  
 });
 
 export default router;

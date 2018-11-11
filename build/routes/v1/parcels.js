@@ -36,7 +36,7 @@ var staticOrders = JSON.parse(_fs2.default.readFileSync('private/parcels.json'))
 /* --------------------------------------------------------------*/
 
 // Fetch all parcel delivery orders
-router.get('/', function (req, res, done) {
+router.get('/', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
   var parcel = new _Parcel2.default(ssn.parcels);
@@ -46,12 +46,10 @@ router.get('/', function (req, res, done) {
     allParcels: ssn.parcels,
     error: parcel.error
   });
-
-  done();
 });
 
 // Fetch all pending parcel delivery orders
-router.get('/pending', function (req, res, done) {
+router.get('/pending', function (req, res) {
   ssn = req.session;
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
@@ -62,12 +60,10 @@ router.get('/pending', function (req, res, done) {
     pending: pending,
     error: parcel.error
   });
-
-  done();
 });
 
 // Fetch all parcels in transit
-router.get('/in-transit', function (req, res, done) {
+router.get('/in-transit', function (req, res) {
   ssn = req.session;
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
@@ -78,12 +74,10 @@ router.get('/in-transit', function (req, res, done) {
     inTransit: inTransit,
     error: parcel.error
   });
-
-  done();
 });
 
 // Fetch all delivered parcel
-router.get('/delivered', function (req, res, done) {
+router.get('/delivered', function (req, res) {
   ssn = req.session;
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
@@ -94,12 +88,10 @@ router.get('/delivered', function (req, res, done) {
     delivered: delivered,
     error: parcel.error
   });
-
-  done();
 });
 
 // Fetch a specific parcel delivery oder
-router.get('/:pId', function (req, res, done) {
+router.get('/:pId', function (req, res) {
   ssn = req.session;
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
@@ -110,12 +102,10 @@ router.get('/:pId', function (req, res, done) {
     parcelDetails: details,
     error: parcel.error
   });
-
-  done();
 });
 
 // Change a specific parcel delivery order of a specific user
-router.all('/:pId/change', function (req, res, done) {
+router.all('/:pId/change', function (req, res) {
   ssn = req.session;
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
@@ -135,8 +125,6 @@ router.all('/:pId/change', function (req, res, done) {
       error: parcel.error
     });
   }
-
-  done();
 });
 
 exports.default = router;

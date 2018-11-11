@@ -31,7 +31,7 @@ router.use((0, _expressSession2.default)({
   saveUninitialized: true
 }));
 
-router.get('/', function (req, res, done) {
+router.get('/', function (req, res) {
   ssn = req.session;
 
   if (!ssn.admin) {
@@ -39,12 +39,10 @@ router.get('/', function (req, res, done) {
   }
 
   res.send('Welcome Admin!!!');
-
-  done();
 });
 
 // signin
-router.all('/signin', function (req, res, done) {
+router.all('/signin', function (req, res) {
   ssn = req.session;
 
   if (req.method === 'POST') {
@@ -67,8 +65,6 @@ router.all('/signin', function (req, res, done) {
   } else {
     res.send('Please, sign-in!');
   }
-
-  done();
 });
 
 exports.default = router;
