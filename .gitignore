@@ -1,1 +1,4 @@
+sendit_links.txt
+.gitignore
 node_modules
+coverage
