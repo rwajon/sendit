@@ -211,7 +211,7 @@ describe('Parcel class', function () {
         new_status: 'Delivered',
         new_country: 'Uganda',
         new_city: 'Kampala',
-        new_address: ''
+        new_address: 'Downtown'
       };
 
       expect(parcel.changeOrder(pId, form) instanceof Object).to.be.true;
@@ -225,7 +225,7 @@ describe('Parcel class', function () {
         new_status: 'Delivered',
         new_country: 'Uganda',
         new_city: 'Kampala',
-        new_address: ''
+        new_address: 'Downtown'
       };
 
       parcel.changeOrder(pId, form);
@@ -241,7 +241,7 @@ describe('Parcel class', function () {
       var form = {
         new_country: 'Uganda',
         new_city: 'Kampala',
-        new_address: ''
+        new_address: 'Downtown'
       };
 
       expect(parcel.changeOrder(pId, form, userId) instanceof Object).to.be.true;
@@ -255,7 +255,7 @@ describe('Parcel class', function () {
       var form = {
         new_country: 'Uganda',
         new_city: 'Kampala',
-        new_address: ''
+        new_address: 'Downtown'
       };
 
       parcel.changeOrder(pId, form, userId);

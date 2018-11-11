@@ -16,10 +16,6 @@ var _app = require('../app');
 
 var _app2 = _interopRequireDefault(_app);
 
-var _User = require('../private/User');
-
-var _User2 = _interopRequireDefault(_User);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var assert = _chai2.default.assert;
@@ -41,7 +37,7 @@ describe('User', function () {
   });
 
   // get user info
-  describe('GET /api/v1/users/0000', function () {
+  describe('GET /api/v1/users/:id', function () {
     it('should return the info of a specific user with the id: 001', function (done) {
       _chai2.default.request(_app2.default).get('/api/v1/users/001').end(function (err, res) {
         expect(res.status).to.equal(200);
@@ -61,6 +57,16 @@ describe('User', function () {
 
   /* Sign-in */
   describe('Sign-in', function () {
+    describe('GET /api/v1/users/signin', function () {
+      it('should display \'Please, sign-in!\'', function (done) {
+        _chai2.default.request(_app2.default).get('/api/v1/users/signin').end(function (err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.be.equal('Please, sign-in!');
+          done();
+        });
+      });
+    });
+
     describe('POST /api/v1/users/signin', function () {
       // test 1
       it('should return the user information if the account exists', function (done) {
@@ -102,6 +108,16 @@ describe('User', function () {
 
   /* Sign-up */
   describe('Sign-up', function () {
+    describe('GET /api/v1/users/signup', function () {
+      it('should display \'Please, sign-up!\'', function (done) {
+        _chai2.default.request(_app2.default).get('/api/v1/users/signup').end(function (err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.be.equal('Please, sign-up!');
+          done();
+        });
+      });
+    });
+
     describe('POST /api/v1/users/signup', function () {
       // test 1
       it('should return the user information if the registration has succeeded', function (done) {
@@ -144,4 +160,121 @@ describe('User', function () {
       });
     });
   }); // end of Sign-up
+
+  describe('GET /api/v1/users/:id/parcels', function () {
+    it('should return all parcel delivery orders of the user 001', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).allParcels).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels
+
+  describe('GET /api/v1/users/:id/parcels/:pId', function () {
+    it('should return details of a specific parcel delivery order with the id: 002 of the user 001', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/002').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).parcelDetails).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/:pId
+
+  describe('GET /api/v1/users/:id/parcels/pending', function () {
+    it('should return all pending parcel delivery orders of the user 001', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/pending').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).pending).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/pending
+
+  describe('GET /api/v1/users/:id/parcels/in-transit', function () {
+    it('should return all parcels in transit of the user 001', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/in-transit').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).inTransit).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/in-transit
+
+  describe('GET /api/v1/users/:id/parcels/delivered', function () {
+    it('should return all delivered parcels of the user 001', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/delivered').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).delivered).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/delivered
+
+  describe('GET /api/v1/users/:id/parcels/:pId/change', function () {
+    it('should return the current info of the order to change', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/002/change').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).parcelDetails).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/:pId/change
+
+  describe('POST /api/v1/users/:id/parcels/:pId/change', function () {
+    it('change the destination of a specific parcel delivery order with the id: 002 of the user 001', function (done) {
+      _chai2.default.request(_app2.default).post('/api/v1/users/001/parcels/002/change').send({
+        new_country: 'England',
+        new_city: 'London',
+        new_address: 'Downtown'
+      }).end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of POST /api/v1/users/:id/parcels/:pId/change
+
+  describe('GET /api/v1/users/:id/parcels/:pId/cancel', function () {
+    it('cancel a specific parcel delivery order with the id: 003', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/003/cancel').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).cancel).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/:pId/cancel
+
+  describe('GET /api/v1/users/:id/parcels/create', function () {
+    it('should display \'Please, create an order!\'', function (done) {
+      _chai2.default.request(_app2.default).get('/api/v1/users/001/parcels/create').end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(res.text).to.be.equal('Please, create an order!');
+        done();
+      });
+    });
+  }); // end of GET /api/v1/users/:id/parcels/create
+
+  describe('POST /api/v1/users/:id/parcels/create', function () {
+    it('create a parcel delivery order', function (done) {
+      _chai2.default.request(_app2.default).post('/api/v1/users/001/parcels/create').send({
+        rname: 'John Smith',
+        rphone: '+123456789',
+        remail: 'johnsmith@gmail.com',
+        product: 'Sandals',
+        weight: '1.5 Kg',
+        quantity: '2',
+        sender_country: 'Rwanda',
+        sender_city: 'Gisenyi',
+        sender_address: 'Mbugangari',
+        dest_country: 'USA',
+        dest_city: 'Ney-York',
+        dest_address: 'Near Central Park'
+      }).end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(Object.keys(JSON.parse(res.text).createdOrder).length).to.be.above(0);
+        done();
+      });
+    });
+  }); // end of POST /api/v1/users/:id/parcels/create
 });

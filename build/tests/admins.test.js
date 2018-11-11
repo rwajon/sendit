@@ -60,5 +60,16 @@ describe('Admin class', function () {
 
       expect(admin.error).to.equal('Please, enter your username and your password!');
     });
+
+    // test 4
+    it('should display \'Please, enter your username and your password!\'', function () {
+      var admin = new _Admin2.default(admins);
+
+      var form = {};
+
+      admin.signin();
+
+      expect(admin.error).to.equal('Please, enter your username and your password!');
+    });
   }); // end of signin method tests
 });

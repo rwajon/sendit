@@ -16,10 +16,6 @@ var _app = require('../app');
 
 var _app2 = _interopRequireDefault(_app);
 
-var _Admin = require('../private/Admin');
-
-var _Admin2 = _interopRequireDefault(_Admin);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var assert = _chai2.default.assert;
@@ -32,6 +28,26 @@ _chai2.default.use(_chaiHttp2.default);
 describe('Admin', function () {
   /* Sign-in */
   describe('Sign-in', function () {
+    describe('GET /api/v1/admins', function () {
+      it('should display \'Welcome admin!!!\' if the admin successfully signed in', function (done) {
+        _chai2.default.request(_app2.default).get('/api/v1/admins').end(function (err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.be.equal('Welcome admin!!!');
+          done();
+        });
+      });
+    });
+
+    describe('GET /api/v1/admins/signin', function () {
+      it('should display \'Please, sign-in!\'', function (done) {
+        _chai2.default.request(_app2.default).get('/api/v1/admins/signin').end(function (err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.be.equal('Please, sign-in!');
+          done();
+        });
+      });
+    });
+
     describe('POST /api/v1/admins/signin', function () {
       // test 1
       it('should return the admin information if the account exists', function (done) {

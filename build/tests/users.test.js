@@ -91,6 +91,15 @@ describe('User class', function () {
 
       expect(user.error).to.equal('Please, enter your username and your password!');
     });
+
+    // test 4
+    it('should display \'Please, enter your username and your password!\'', function () {
+      var user = new _User2.default(users);
+
+      user.signin();
+
+      expect(user.error).to.equal('Please, enter your username and your password!');
+    });
   }); // end of signin method tests
 
   /** *****signup method****** */
@@ -133,6 +142,15 @@ describe('User class', function () {
       };
 
       user.signup(form);
+
+      expect(user.error).to.equal('Please, enter the required information to sign-up!');
+    });
+
+    // test 4
+    it('should display \'Please, enter the required information to sign-up!\'', function () {
+      var user = new _User2.default(users);
+
+      user.signup();
 
       expect(user.error).to.equal('Please, enter the required information to sign-up!');
     });
