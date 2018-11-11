@@ -1,7 +1,7 @@
 
 env:
   global:
-    - CC_TEST_REPORTER_ID=76ded8beb1f1781866ae0e5c4cea77de3c309fa96a12035cdd0a13c0020adfa8
+    # - CC_TEST_REPORTER_ID=76ded8beb1f1781866ae0e5c4cea77de3c309fa96a12035cdd0a13c0020adfa8
 language: node_js
 node_js:
   - "stable"
@@ -9,9 +9,9 @@ cache:
   directories:
     - "node_modules"
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  # - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  # - chmod +x ./cc-test-reporter
+  # - ./cc-test-reporter before-build
 script:
   - npm run build
   - npm run coveralls
