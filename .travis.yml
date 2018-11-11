@@ -2,9 +2,8 @@ language: node_js
 node_js:
   - "stable"
 install:
-  # get the reporter for Code Climate
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
+  # - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  # - chmod +x ./cc-test-reporter
 cache:
   directories:
     - "node_modules"
@@ -12,10 +11,7 @@ script:
   - npm run build
   - npm run coveralls
 after_script:
-  - |
-    # Upload coverage to coveralls
-    npm install --save-dev coveralls@2.10.0
-    coveralls < ./coverage/lcov.info
+  - npm install --save-dev coveralls@2.10.0
+  - coveralls < ./coverage/lcov.info
 env:
-  # just an example, configure it in Travis to hide it, OK...?
-  - CC_TEST_REPORTER_ID=ABC123
+  # - CC_TEST_REPORTER_ID=ABC123
