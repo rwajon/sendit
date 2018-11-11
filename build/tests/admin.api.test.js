@@ -34,19 +34,16 @@ describe('Admin', function () {
   describe('Sign-in', function () {
     describe('POST /admins/signin', function () {
       // test 1
-      // it('should return the admin information if the account exists', (done) => {
-      //   chai.request(app)
-      //     .post('/admins/signin')
-      //     .send({
-      //       uname: 'rwajon',
-      //       password: '12345',
-      //     })
-      //     .end((err, res) => {
-      //       expect(res.status).to.equal(200);
-      //       // expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
-      //       done();
-      //     });
-      // });
+      it('should return the admin information if the account exists', function (done) {
+        _chai2.default.request(_app2.default).post('/admins/signin').send({
+          uname: 'rwajon',
+          password: '12345'
+        }).end(function (err, res) {
+          expect(res.status).to.equal(200);
+          // expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
+          done();
+        });
+      });
 
       // test 2
       it('should display \'Sorry, your username or password is incorrect\'', function (done) {
