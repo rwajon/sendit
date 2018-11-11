@@ -15,9 +15,9 @@ before_script:
 script:
   - npm run build
   - npm run coveralls
-  - bundle exec rspec
+  # - bundle exec rspec
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - |
     # Upload coverage to coveralls
     npm install --save-dev coveralls@2.10.0
