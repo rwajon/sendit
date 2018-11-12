@@ -14,7 +14,7 @@ cache:
 script:
   - npm run build
   - npm run coveralls
-  - bundle exec rspec
+  - bundle exec rspec --color --format documentation --require spec_helper --require rails_helper
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - |
