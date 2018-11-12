@@ -228,9 +228,6 @@ class Parcel {
         if (Object.keys(this.parcels[`order${orderId}`]).length > 0) {
           return this.parcels[`order${orderId}`];
         }
-
-        this.error = 'Sorry, the order was not successfully. Please try again!';
-        return {};
       }
 
       this.error = 'Please enter the required information to create an order!';

@@ -78,6 +78,15 @@ describe('User class', () => {
 
       expect(user.error).to.equal('Please, enter your username and your password!');
     });
+
+    // test 4
+    it('should display \'Please, enter your username and your password!\'', () => {
+      const user = new User(users);
+
+      user.signin();
+
+      expect(user.error).to.equal('Please, enter your username and your password!');
+    });
   }); // end of signin method tests
 
   /** *****signup method****** */
@@ -120,6 +129,15 @@ describe('User class', () => {
       };
 
       user.signup(form);
+
+      expect(user.error).to.equal('Please, enter the required information to sign-up!');
+    });
+
+    // test 4
+    it('should display \'Please, enter the required information to sign-up!\'', () => {
+      const user = new User(users);
+
+      user.signup();
 
       expect(user.error).to.equal('Please, enter the required information to sign-up!');
     });
