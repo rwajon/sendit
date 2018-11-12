@@ -1,5 +1,6 @@
-set:
-    - CODECLIMATE_REPO_TOKEN=76ded8beb1f1781866ae0e5c4cea77de3c309fa96a12035cdd0a13c0020adfa8
+env:
+  global:
+    - CC_TEST_REPORTER_ID=76ded8beb1f1781866ae0e5c4cea77de3c309fa96a12035cdd0a13c0020adfa8
 language: node_js
 node_js:
   - "stable"
