@@ -17,6 +17,7 @@ function main() {
   include(document.querySelector('footer'), 'includes/footer.html', displayLoad, false);
 
   // section height
+  document.querySelector('aside').style.minHeight = `${window.innerHeight - 150}px`;
   document.querySelector('section').style.minHeight = `${window.innerHeight - 150}px`;
 
   // display boody after loading all required components

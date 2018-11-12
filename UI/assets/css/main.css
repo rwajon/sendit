@@ -266,14 +266,14 @@ label {
 #user-menu-aside,
 #admin-menu-aside {
 	position: absolute;
-	min-height: 400px;
+	min-height: 500px;
 	background-color: #fff;
 	box-shadow: 2px -1px 7px #aaa;
 }
 
 #user-menu-aside>div,
 #admin-menu-aside>div {
-	min-height: 400px;
+	min-height: 500px;
 	background-color: rgba(0, 0, 0, .01);
 }
 
