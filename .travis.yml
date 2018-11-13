@@ -16,7 +16,6 @@ before_script:
 script:
   - npm run build
   - npm run coveralls
-  - istanbul cover node_modules/mocha/bin/_mocha -- -R spec
 after_script:
   - codeclimate-test-reporter < ./coverage/lcov.info
   - |
