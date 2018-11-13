@@ -4,12 +4,12 @@ env:
 language: node_js
 node_js:
   - "stable"
-addons:
-  code_climate:
-    repo_token: TweeikAFGpg0c6Ds9lcJCc1z4R9CxgaK8
 cache:
   directories:
     - "node_modules"
+addons:
+  code_climate:
+    repo_token: TweeikAFGpg0c6Ds9lcJCc1z4R9CxgaK8
 before_script:
   - npm install --save-dev coveralls@2.10.0
   - npm install codeclimate-test-reporter istanbul -g
