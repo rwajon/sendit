@@ -1,6 +1,5 @@
 body {
 	margin: 0;
-	display: none;
 	font-family: "Lucida Grande", "Open Sans", Helvetica, Arial, sans-serif;
 }
 
@@ -264,22 +263,19 @@ label {
 	margin: 3px 0;
 }
 
-#user-menu-aside,
-#admin-menu-aside {
+#menu-aside {
 	position: absolute;
 	min-height: 500px;
 	background-color: #fff;
 	box-shadow: 2px -1px 7px #aaa;
 }
 
-#user-menu-aside>div,
-#admin-menu-aside>div {
+#menu-aside>div {
 	min-height: 500px;
 	background-color: rgba(0, 0, 0, .01);
 }
 
-#user-menu-aside>div>a,
-#admin-menu-aside>div>a {
+#menu-aside>div>a {
 	text-decoration-line: none;
 	display: block;
 	padding: 5px;
@@ -290,8 +286,7 @@ label {
 	box-shadow: 0 0 7px #ddd;
 }
 
-#user-menu-aside>div>a:hover,
-#admin-menu-aside>div>a:hover {
+#menu-aside>div>a:hover {
 	border-left: solid 10px turquoise;
 	border-right: solid 10px turquoise;
 }
@@ -421,8 +416,7 @@ label {
 		width: 100%;
 	}
 
-	#user-menu-aside,
-	#admin-menu-aside {
+	#menu-aside {
 		display: none;
 		width: 60%;
 	}
@@ -460,8 +454,7 @@ label {
 		margin-left: 20%;
 	}
 
-	#user-menu-aside,
-	#admin-menu-aside {
+	#menu-aside {
 		display: none;
 		width: 20%;
 	}
