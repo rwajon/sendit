@@ -51,20 +51,18 @@ function cancelOrder() {
 
       var remove = confirm('Do you want to cancel this order?');
       if (remove === true) {
+        button.parentNode.parentNode.style.opacity = "0.2";
+        button.style.cursor = "not-allowed";
+
         var request = new XMLHttpRequest();
         request.open('PUT', button.href, true);
         request.send(null);
-
-        request.onloadstart = function () {
-          button.parentNode.parentNode.style.opacity = "0.2";
-          button.style.cursor = "not-allowed";
-        };
 
         request.onloadend = function () {
           if (request.status === 200) {
             if (request.responseText === 'cancelled') {
               parcelsCount();
-              button.parentNode.parentNode.remove();
+              // button.parentNode.parentNode.remove();
             }
           }
         };
