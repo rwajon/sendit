@@ -5,9 +5,9 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "lint": "./node_modules/eslint/bin/eslint.js",
-    "test": "mocha --timeout 15000 --compilers js:babel-register tests/**.test.js",
+    "test": "mocha --timeout 15000 --compilers js:babel-register test/**.test.js",
     "build": "babel src/ --presets babel-preset-env --out-dir build/",
-    "cover": "istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 tests/**.test.js",
+    "cover": "istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 test/**.test.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "start": "node ./build/bin/www.js",
     "devstart": "nodemon ./src/bin/www.js --exec babel-node --presets env"

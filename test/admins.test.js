@@ -1,6 +1,6 @@
 import fs from 'fs';
 import chai from 'chai';
-import Admin from './src/controllers/Admin';
+import Admin from '../src/controllers/Admin';
 
 const { expect } = chai;
 const admins = JSON.parse(fs.readFileSync('JSONFiles/admins.json'));

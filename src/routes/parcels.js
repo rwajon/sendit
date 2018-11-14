@@ -95,6 +95,20 @@ router.get('/:pId', (req, res) => {
   });
 });
 
+// Cancel a specific parcel delivery order of a specific user
+router.put('/:pId/cancel', (req, res) => {
+  ssn = req.session;
+
+  if (ssn.parcels && req.params.pId) {
+    Object.keys(ssn.parcels).forEach((key) => {
+      if (ssn.parcels[key].orderId === req.params.pId) {
+        delete ssn.parcels[key];
+        res.send('cancelled');
+      }
+    });
+  }
+});
+
 // Change a specific parcel delivery order of a specific user
 router.all('/:pId/change', (req, res) => {
   ssn = req.session;

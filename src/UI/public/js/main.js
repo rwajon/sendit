@@ -45,12 +45,28 @@ function cancelOrder() {
 
   Array.from(buttons).forEach((button) => {
     button.addEventListener('click', (e) => {
+      e.preventDefault();
+      
       const remove = confirm('Do you want to cancel this order?');
       if (remove === true) {
-        return true;
+        const request = new XMLHttpRequest();
+        request.open('PUT', button.href, true);
+        request.send(null);
+
+        request.onload = () => {
+          button.parentNode.parentNode.style.opacity="0.2";
+          button.style.cursor="not-allowed";
+        }
+
+        request.onloadend = () => {
+          if (request.status === 200) {
+            if (request.responseText === 'cancelled') {
+              parcelsCount();
+              button.parentNode.parentNode.remove();
+            }
+          }
+        };
       }
-      e.preventDefault();
-      return false;
     });
   });
 }

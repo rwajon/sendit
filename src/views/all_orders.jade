@@ -36,6 +36,6 @@ block section
               td
                 a(href="#{path}users/#{user.id}/parcels/#{order.orderId}/change", class="btn smooth-shadow") Change
               td
-                a(href="#{path}users/#{user.id}/parcels/#{order.orderId}/cancel", class="btn cancel-order smooth-shadow") Cancel
+                a(href="/parcels/#{order.orderId}/cancel", class="btn cancel-order smooth-shadow") Cancel
     else
       h1(class="message-error add-padding text-center") #{error}

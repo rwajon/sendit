@@ -1,7 +1,7 @@
 import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from './src/app';
+import app from '../src/app';
 
 const { assert } = chai;
 const { expect } = chai;

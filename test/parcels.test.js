@@ -1,6 +1,6 @@
 import fs from 'fs';
 import chai from 'chai';
-import Parcel from './src/controllers/Parcel';
+import Parcel from '../src/controllers/Parcel';
 
 const { expect } = chai;
 const parcels = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
