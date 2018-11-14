@@ -191,7 +191,7 @@ router.get('/:id/parcels', function (req, res) {
 });
 
 // Create a parcel delivery order
-router.all('/:id/parcels/create', function (req, res) {
+router.post('/:id/parcels', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
   var parcel = new _Parcel2.default(ssn.parcels);
@@ -209,13 +209,19 @@ router.all('/:id/parcels/create', function (req, res) {
       user: ssn.user || false,
       error: parcel.error
     });
-  } else {
-    res.render('create_order', {
-      title: 'Parcels | SendIT',
-      path: '../../../',
-      user: ssn.user || false
-    });
   }
+});
+
+router.get('/:id/parcels/create', function (req, res) {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || {};
+  var parcel = new _Parcel2.default(ssn.parcels);
+
+  res.render('create_order', {
+    title: 'Parcels | SendIT',
+    path: '../../../',
+    user: ssn.user || false
+  });
 });
 
 // Fetch all created parcel delivery orders of a specific user
