@@ -1,9 +1,9 @@
 import fs from 'fs';
 import chai from 'chai';
-import Parcel from '../private/Parcel';
+import Parcel from 'src/controllers/Parcel';
 
 const { expect } = chai;
-const parcels = JSON.parse(fs.readFileSync('private/parcels.json'));
+const parcels = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
 
 describe('Parcel class', () => {
   /** ****get a specific parcel delivery order details***** */

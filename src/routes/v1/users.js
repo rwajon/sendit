@@ -1,8 +1,8 @@
 import fs from 'fs';
 import express from 'express';
 import session from 'express-session';
-import User from '../../private/User';
-import Parcel from '../../private/Parcel';
+import User from '../../controllers/User';
+import Parcel from '../../controllers/Parcel';
 
 let ssn;
 const router = express.Router();
@@ -14,10 +14,10 @@ router.use(session({
 }));
 
 /* -------------------static users-----------------------------*/
-const staticUsers = JSON.parse(fs.readFileSync('private/users.json'));
+const staticUsers = JSON.parse(fs.readFileSync('JSONFiles/users.json'));
 /*-----------------------------------------------------------*/
 /* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('private/parcels.json'));
+const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // sign-in

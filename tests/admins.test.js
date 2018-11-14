@@ -1,9 +1,9 @@
 import fs from 'fs';
 import chai from 'chai';
-import Admin from '../private/Admin';
+import Admin from 'src/controllers/Admin';
 
 const { expect } = chai;
-const admins = JSON.parse(fs.readFileSync('private/admins.json'));
+const admins = JSON.parse(fs.readFileSync('JSONFiles/admins.json'));
 
 describe('Admin class', () => {
   /** ****signin method***** */

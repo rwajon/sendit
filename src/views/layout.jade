@@ -5,17 +5,17 @@ html
     title= title
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="#{path}css/main.css")
+    link(rel="stylesheet", href="#{path}public/css/main.css")
 
   body
     header
       a(href="#{path}")
-        img(id="logo-top", src="#{path}images/sendit.png")
+        img(id="logo-top", src="#{path}public/images/sendit.png")
 
       if user
         a(id="user-top", href="#{path}users/#{user.id}")
           b(class="arp") #{user.uname}
-          img(id="top-user-picture", src="#{path}images/user.jpg")
+          img(id="top-user-picture", src="#{path}public/images/user.jpg")
 
     nav
       if user || admin
@@ -62,4 +62,4 @@ html
       div(class="text-center")
         p(class="alm") Copyright &copy; 2018 SendIT
 
-    script(type="text/javascript", src="#{path}js/main.js")
+    script(type="text/javascript", src="#{path}public/js/main.js")

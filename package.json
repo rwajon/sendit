@@ -6,11 +6,11 @@
     "clean": "rm -rf build && mkdir build",
     "lint": "./node_modules/eslint/bin/eslint.js",
     "test": "mocha --timeout 15000 --compilers js:babel-register tests/**.test.js",
-    "build": "babel . --presets babel-preset-env --ignore node_modules,UI,build,coverage --out-dir build/",
+    "build": "babel src/ --presets babel-preset-env --out-dir build/",
     "cover": "istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 tests/**.test.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "start": "node ./build/bin/www.js",
-    "devstart": "nodemon ./bin/www.js --exec babel-node --presets env"
+    "devstart": "nodemon ./src/bin/www.js --exec babel-node --presets env"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

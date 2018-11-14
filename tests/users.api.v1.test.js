@@ -1,11 +1,11 @@
 import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../app';
+import app from 'src/app';
 
 const { assert } = chai;
 const { expect } = chai;
-const users = JSON.parse(fs.readFileSync('private/users.json'));
+const users = JSON.parse(fs.readFileSync('JSONFiles/users.json'));
 
 chai.use(chaiHttp);
 

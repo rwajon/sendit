@@ -1,8 +1,8 @@
 import fs from 'fs';
 import express from 'express';
 import session from 'express-session';
-import User from '../private/User';
-import Parcel from '../private/Parcel';
+import User from '../controllers/User';
+import Parcel from '../controllers/Parcel';
 
 let ssn;
 const router = express.Router();
@@ -12,6 +12,13 @@ router.use(session({
   resave: true,
   saveUninitialized: true,
 }));
+
+/* -------------------static users-----------------------------*/
+const staticUsers = JSON.parse(fs.readFileSync('JSONFiles/users.json'));
+/*-----------------------------------------------------------*/
+/* -------------------static orders-----------------------------*/
+const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+/* --------------------------------------------------------------*/
 
 // sign-in
 router.get('/', (req, res) => {
@@ -66,9 +73,6 @@ router.all('/signin', (req, res) => {
   ssn = req.session;
 
   if (req.method === 'POST') {
-    /* -------------------static users-----------------------------*/
-    const staticUsers = JSON.parse(fs.readFileSync('private/users.json'));
-    /*-----------------------------------------------------------*/
     ssn.users = ssn.users || staticUsers;
     const user = new User(ssn.users);
     const account = user.signin(req.body);
@@ -152,9 +156,6 @@ router.get('/parcels/count', (req, res) => {
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
   ssn = req.session;
-  /* -------------------static orders-----------------------------*/
-  const staticOrders = JSON.parse(fs.readFileSync('private/parcels.json'));
-  /* --------------------------------------------------------------*/
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   ssn.parcels = parcel.getAll(req.params.id);

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import express from 'express';
 import session from 'express-session';
-import Admin from '../../private/Admin';
+import Admin from '../../controllers/Admin';
 
 let ssn;
 const router = express.Router();
@@ -27,7 +27,7 @@ router.all('/signin', (req, res) => {
   ssn = req.session;
 
   if (req.method === 'POST') {
-    ssn.admins = JSON.parse(fs.readFileSync('private/admins.json'));
+    ssn.admins = JSON.parse(fs.readFileSync('JSONFiles/admins.json'));
     const admin = new Admin(ssn.admins);
     const account = admin.signin(req.body);
 
