@@ -55,7 +55,7 @@ function cancelOrder() {
         request.open('PUT', button.href, true);
         request.send(null);
 
-        request.onload = function () {
+        request.onloadstart = function () {
           button.parentNode.parentNode.style.opacity = "0.2";
           button.style.cursor = "not-allowed";
         };
