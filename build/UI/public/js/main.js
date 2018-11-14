@@ -62,7 +62,7 @@ function cancelOrder() {
           if (request.status === 200) {
             if (request.responseText === 'cancelled') {
               parcelsCount();
-              // button.parentNode.parentNode.remove();
+              button.parentNode.parentNode.remove();
             }
           }
         };
