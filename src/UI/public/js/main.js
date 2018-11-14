@@ -1,7 +1,9 @@
+'use strict';
+
 function menuAsideToggle() {
-  const button = document.getElementById('menu-aside-toggle-btn');
-  const menu = document.getElementById('menu-aside');
-  const section = document.getElementsByTagName('section')[0];
+  var button = document.getElementById('menu-aside-toggle-btn');
+  var menu = document.getElementById('menu-aside');
+  var section = document.getElementsByTagName('section')[0];
 
   if (!document.getElementById('menu-aside').innerHTML || window.outerWidth < 768) {
     menu.style.display = 'none';
@@ -15,7 +17,7 @@ function menuAsideToggle() {
     section.style.width = '80%';
   }
 
-  button.addEventListener('click', () => {
+  button.addEventListener('click', function () {
     if (window.outerWidth > 768) {
       if (menu.style.display === 'none') {
         menu.style.display = 'block';
@@ -41,24 +43,22 @@ function menuAsideToggle() {
 }
 
 function cancelOrder() {
-  const buttons = document.getElementsByClassName('cancel-order');
+  var buttons = document.getElementsByClassName('cancel-order');
 
-  Array.from(buttons).forEach((button) => {
-    button.addEventListener('click', (e) => {
+  Array.from(buttons).forEach(function (button) {
+    button.addEventListener('click', function (e) {
       e.preventDefault();
-      
-      const remove = confirm('Do you want to cancel this order?');
+
+      var remove = confirm('Do you want to cancel this order?');
       if (remove === true) {
-        const request = new XMLHttpRequest();
+        button.parentNode.parentNode.style.opacity = "0.2";
+        button.style.cursor = "not-allowed";
+
+        var request = new XMLHttpRequest();
         request.open('PUT', button.href, true);
         request.send(null);
 
-        request.onloadstart = () => {
-          button.parentNode.parentNode.style.opacity="0.2";
-          button.style.cursor="not-allowed";
-        }
-
-        request.onloadend = () => {
+        request.onloadend = function () {
           if (request.status === 200) {
             if (request.responseText === 'cancelled') {
               parcelsCount();
@@ -72,13 +72,13 @@ function cancelOrder() {
 }
 
 function parcelsCount() {
-  const request = new XMLHttpRequest();
+  var request = new XMLHttpRequest();
   request.open('GET', '/users/parcels/count', true);
   request.send(null);
 
-  request.onreadystatechange = () => {
+  request.onreadystatechange = function () {
     if (request.status === 200) {
-      const parcels = JSON.parse(request.responseText);
+      var parcels = JSON.parse(request.responseText);
 
       if (parcels.pending || parcels.inTransit || parcels.delivered) {
         document.getElementsByClassName('pending')[0].innerHTML = parcels.pending || 0;
@@ -89,7 +89,7 @@ function parcelsCount() {
   };
 }
 
-window.document.addEventListener('DOMContentLoaded', () => {
+window.document.addEventListener('DOMContentLoaded', function () {
   menuAsideToggle();
   cancelOrder();
   parcelsCount();
