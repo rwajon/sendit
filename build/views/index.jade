@@ -1,0 +1,34 @@
+extends layout
+
+block section
+  style(type="text/css").
+    .signup,.signin{
+      display: inline-block;
+      width: 200px;
+      height: 40px;
+      color: #fff;
+      font-weight: bold;
+      padding-top: 20px;
+      text-decoration-line: none;
+      background-color: turquoise;
+      box-shadow:0 7px 7px #ddd;
+      border-radius: 10px;
+    }
+
+    .signup:hover,.signin:hover{
+      box-shadow:0 0 15px rgba(0,0,0,1);
+    }
+    
+  div(class="container")
+    div(class="text-center smooth-shadow abp abm")
+      h1 Welcome to SendIT
+      p.
+        SendIT is a courier service that helps users deliver parcels to different destinations.
+        SendIT provides courier quotes based on weight categories.
+
+    div(class="text-center smooth-shadow atp abp abm")
+      a(href="#{path}users/signup", class="signup") Sign up
+      
+      <br/><br/> OR <br/><br/>
+
+      a(href="#{path}users/signin", class="signin") Sign in
