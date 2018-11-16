@@ -60,7 +60,7 @@ function cancelOrder() {
 
         request.onloadend = function () {
           if (request.status === 200) {
-            if (request.responseText === 'cancelled') {
+            if (request.responseText === 'Cancelled') {
               parcelsCount();
               button.parentNode.parentNode.remove();
             }
