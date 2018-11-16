@@ -291,7 +291,7 @@ var Parcel = function () {
           });
 
           if (Object.keys(this.parcel).length > 0) {
-            return true;
+            return 'Cancelled';
           }
 
           this.error = 'Sorry, you can only cancel order that you created';
