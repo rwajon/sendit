@@ -46,7 +46,6 @@ router.get('/pending', (req, res) => {
 // Fetch all parcels in transit
 router.get('/in-transit', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit();
@@ -60,7 +59,6 @@ router.get('/in-transit', (req, res) => {
 // Fetch all delivered parcel
 router.get('/delivered', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered();
@@ -74,7 +72,6 @@ router.get('/delivered', (req, res) => {
 // Fetch a specific parcel delivery oder
 router.get('/:pId', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const details = parcel.getDetails(req.params.pId);
@@ -85,10 +82,24 @@ router.get('/:pId', (req, res) => {
   });
 });
 
+// Cancel a specific parcel delivery order of a specific user
+router.put('/:pId/cancel', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+
+  if (ssn.parcels && req.params.pId) {
+    Object.keys(ssn.parcels).forEach((key) => {
+      if (ssn.parcels[key].orderId === req.params.pId) {
+        delete ssn.parcels[key];
+        res.send('Cancelled');
+      }
+    });
+  }
+});
+
 // Change a specific parcel delivery order of a specific user
 router.all('/:pId/change', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const details = parcel.getDetails(req.params.pId);

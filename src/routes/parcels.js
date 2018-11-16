@@ -103,7 +103,7 @@ router.put('/:pId/cancel', (req, res) => {
     Object.keys(ssn.parcels).forEach((key) => {
       if (ssn.parcels[key].orderId === req.params.pId) {
         delete ssn.parcels[key];
-        res.send('cancelled');
+        res.send('Cancelled');
       }
     });
   }

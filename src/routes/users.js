@@ -174,21 +174,18 @@ router.post('/:id/parcels', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
   const parcel = new Parcel(ssn.parcels);
+  const createdOrder = parcel.createOrder(req.body, ssn.user);
 
-  if (req.method === 'POST') {
-    const createdOrder = parcel.createOrder(req.body, ssn.user);
-
-    if (Object.keys(createdOrder).length > 0) {
-      res.redirect(`/users/${ssn.user.id}/parcels/${createdOrder.orderId}`);
-    }
-
-    res.render('create_order', {
-      title: 'Parcels | SendIT',
-      path: '../../../',
-      user: ssn.user || false,
-      error: parcel.error,
-    });
+  if (Object.keys(createdOrder).length > 0) {
+    res.redirect(`/users/${ssn.user.id}/parcels/${createdOrder.orderId}`);
   }
+
+  res.render('create_order', {
+    title: 'Parcels | SendIT',
+    path: '../../../',
+    user: ssn.user || false,
+    error: parcel.error,
+  });
 });
 
 router.get('/:id/parcels/create', (req, res) => {
@@ -268,14 +265,14 @@ router.get('/:id/parcels/:pId', (req, res) => {
 });
 
 // Cancel a specific parcel delivery order of a specific user
-router.get('/:id/parcels/:pId/cancel', (req, res) => {
+router.put('/:id/parcels/:pId/cancel', (req, res) => {
   ssn = req.session;
 
-  if (ssn.parcels && req.params.id) {
+  if (ssn.parcels && req.params.pId) {
     Object.keys(ssn.parcels).forEach((key) => {
       if (ssn.parcels[key].orderId === req.params.pId) {
         delete ssn.parcels[key];
-        res.redirect('back');
+        res.send('Cancelled');
       }
     });
   }

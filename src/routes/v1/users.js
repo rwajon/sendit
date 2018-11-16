@@ -30,7 +30,6 @@ router.get('/', (req, res) => {
 // sign-up
 router.all('/signup', (req, res) => {
   ssn = req.session;
-  // ssn.users = ssn.users || {};
   ssn.users = ssn.users || staticUsers;
   const user = new User(ssn.users);
 
@@ -58,7 +57,6 @@ router.all('/signin', (req, res) => {
   ssn = req.session;
 
   if (req.method === 'POST') {
-    // ssn.users = ssn.users || {};
     ssn.users = ssn.users || staticUsers;
     const user = new User(ssn.users);
     const account = user.signin(req.body);
@@ -83,7 +81,6 @@ router.all('/signin', (req, res) => {
 // Fetch a specific user information
 router.get('/:id', (req, res) => {
   ssn = req.session;
-  // ssn.users = ssn.users || {};
   ssn.users = ssn.users || staticUsers;
   const user = new User(ssn.users);
   const userInfo = user.getInfo(req.params.id);
@@ -118,27 +115,29 @@ router.get('/:id/parcels', (req, res) => {
 });
 
 // Create a parcel delivery order
-router.all('/:id/parcels/create', (req, res) => {
+router.post('/:id/parcels', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
+  const createdOrder = parcel.createOrder(req.body, staticUsers.user6781);
+
+  if (Object.keys(createdOrder).length > 0) {
+    res.send({
+      createdOrder,
+    });
+  }
+
+  res.send({
+    error: parcel.error,
+  });
+});
+
+router.get('/:id/parcels/create', (req, res) => {
+  ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
 
-  if (req.method === 'POST') {
-    const createdOrder = parcel.createOrder(req.body, staticUsers.user6781);
-
-    if (Object.keys(createdOrder).length > 0) {
-      res.send({
-        createdOrder,
-      });
-    }
-
-    res.send({
-      error: parcel.error,
-    });
-  } else {
-    res.send('Please, create an order!');
-  }
+  res.send('Please, create an order!');
 });
 
 // Fetch all created parcel delivery orders of a specific user
@@ -201,6 +200,21 @@ router.get('/:id/parcels/:pId', (req, res) => {
   });
 });
 
+// Cancel a specific parcel delivery order of a specific user
+router.put('/:id/parcels/:pId/cancel', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+
+  if (ssn.parcels && req.params.pId) {
+    Object.keys(ssn.parcels).forEach((key) => {
+      if (ssn.parcels[key].orderId === req.params.pId) {
+        delete ssn.parcels[key];
+        res.send('Cancelled');
+      }
+    });
+  }
+});
+
 // Change a specific parcel delivery order of a specific user
 router.all('/:id/parcels/:pId/change', (req, res) => {
   ssn = req.session;
@@ -222,24 +236,6 @@ router.all('/:id/parcels/:pId/change', (req, res) => {
       user: ssn.user,
       parcelDetails: details,
       error: parcel.error,
-    });
-  }
-});
-
-// Cancel a specific parcel delivery order of a specific user
-router.get('/:id/parcels/:pId/cancel', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-
-  if (ssn.parcels && req.params.id) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.pId) {
-        res.send({
-          cancel: ssn.parcels[key],
-        });
-        delete ssn.parcels[key];
-        // res.redirect('back');
-      }
     });
   }
 });
