@@ -259,17 +259,17 @@ describe('User', () => {
     });
   }); // end of POST /api/v1/users/:id/parcels/:pId/change
 
-  describe('GET /api/v1/users/:id/parcels/:pId/cancel', () => {
+  describe('PUT /api/v1/users/:id/parcels/:pId/cancel', () => {
     it('cancel a specific parcel delivery order with the id: 003', (done) => {
       chai.request(app)
-        .get('/api/v1/users/001/parcels/003/cancel')
+        .put('/api/v1/users/001/parcels/003/cancel')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).cancel).length).to.be.above(0);
+          expect(res.text).to.be.equal('Cancelled');
           done();
         });
     });
-  }); // end of GET /api/v1/users/:id/parcels/:pId/cancel
+  }); // end of PUT /api/v1/users/:id/parcels/:pId/cancel
 
   describe('GET /api/v1/users/:id/parcels/create', () => {
     it('should display \'Please, create an order!\'', (done) => {
@@ -283,10 +283,10 @@ describe('User', () => {
     });
   }); // end of GET /api/v1/users/:id/parcels/create
 
-  describe('POST /api/v1/users/:id/parcels/create', () => {
+  describe('POST /api/v1/users/:id/parcels', () => {
     it('create a parcel delivery order', (done) => {
       chai.request(app)
-        .post('/api/v1/users/001/parcels/create')
+        .post('/api/v1/users/001/parcels')
         .send({
           rname: 'John Smith',
           rphone: '+123456789',
@@ -307,5 +307,5 @@ describe('User', () => {
           done();
         });
     });
-  }); // end of POST /api/v1/users/:id/parcels/create
+  }); // end of POST /api/v1/users/:id/parcels
 });

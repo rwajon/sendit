@@ -354,12 +354,12 @@ describe('Parcel class', () => {
 
   describe('cancelOrder method', () => {
     // test 1
-    it('should return true if the order was successfully cancelled', () => {
+    it('should display \'Cancelled\' if the order was successfully cancelled', () => {
       const parcel = new Parcel(parcels);
       const pId = '001';
       const userId = '001';
 
-      expect(parcel.cancelOrder(pId, userId)).to.be.true;
+      expect(parcel.cancelOrder(pId, userId)).to.be.equal('Cancelled');
     });
 
     // test 2

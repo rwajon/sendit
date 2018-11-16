@@ -70,6 +70,18 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels/:pId
 
+ describe('PUT /api/v1/parcels/:pId/cancel', () => {
+    it('cancel a specific parcel delivery order with the id: 003', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/003/cancel')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.text).to.be.equal('Cancelled');
+          done();
+        });
+    });
+  }); // end of PUT /api/v1/parcels/:pId/cancel
+
   describe('GET /api/v1/parcels/:pId/change', () => {
     it('should return the current info of the order to change', (done) => {
       chai.request(app)
