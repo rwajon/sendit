@@ -14,10 +14,10 @@ router.use(session({
 }));
 
 /* -------------------static users-----------------------------*/
-const staticUsers = JSON.parse(fs.readFileSync('JSONFiles/users.json'));
+const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
 /*-----------------------------------------------------------*/
 /* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // sign-in

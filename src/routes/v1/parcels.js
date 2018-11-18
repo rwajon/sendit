@@ -13,7 +13,7 @@ router.use(session({
 }));
 
 /* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // Fetch all parcel delivery orders

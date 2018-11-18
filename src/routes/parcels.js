@@ -16,7 +16,7 @@ router.use(session({
 router.get('/', (req, res) => {
   ssn = req.session;
   /* -------------------static orders-----------------------------*/
-  const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+  const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
   /* --------------------------------------------------------------*/
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
