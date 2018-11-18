@@ -9,7 +9,7 @@
     "build": "babel src/ --presets babel-preset-env --out-dir build/",
     "cover": "istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 tests/**.test.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
-    "start": "node ./build/server/www.js",
+    "start": "babel-node ./src/server/www.js",
     "devstart": "nodemon ./src/server/www.js --exec babel-node --presets env"
   },
   "dependencies": {
