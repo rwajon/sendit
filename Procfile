@@ -1,1 +1,1 @@
-web: node ./build/server/www.js
+web: babel-node ./src/server/www.js
