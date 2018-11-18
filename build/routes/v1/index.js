@@ -1,8 +1,19 @@
-import express from 'express';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _express = require('express');
+
+var _express2 = _interopRequireDefault(_express);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // import session from 'express-session';
 
 // let ssn;
-const router = express.Router();
+var router = _express2.default.Router();
 
 /* router.use(session({
   secret: 'rwajon@sendit',
@@ -11,10 +22,10 @@ const router = express.Router();
 })); */
 
 /* GET home page. */
-router.get('/', (req, res) => {
+router.get('/', function (req, res) {
   // ssn = req.session;
 
   res.send('Welcome!!!');
 });
 
-export default router;
+exports.default = router;

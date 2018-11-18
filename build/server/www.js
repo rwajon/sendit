@@ -1,25 +1,33 @@
 #!/usr/bin/env node
+'use strict';
+
+var _http = require('http');
+
+var _http2 = _interopRequireDefault(_http);
+
+var _app = require('../app');
+
+var _app2 = _interopRequireDefault(_app);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Module dependencies.
  */
 
-import http from 'http';
-import app from '../app';
-
-const debug = require('debug')('sendit:server');
+var debug = require('debug')('sendit:server');
 
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app);
+var server = _http2.default.createServer(_app2.default);
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+  var port = parseInt(val, 10);
 
   if (Number.isNaN(port)) {
     // named pipe
@@ -39,19 +47,17 @@ function normalizePort(val) {
  */
 
 function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
+  var addr = server.address();
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  debug('Listening on ' + bind);
 }
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+var port = normalizePort(process.env.PORT || '3000');
+_app2.default.set('port', port);
 
 /**
  * Event listener for HTTP server "error" event.
@@ -62,18 +68,16 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
+      console.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
+      console.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:

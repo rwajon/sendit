@@ -1,53 +1,100 @@
-import createError from 'http-errors';
-import express from 'express';
-import path from 'path';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
+'use strict';
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import adminsRouter from './routes/admins';
-import parcelsRouter from './routes/parcels';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-import indexRouterV1 from './routes/v1/index';
-import usersRouterV1 from './routes/v1/users';
-import adminsRouterV1 from './routes/v1/admins';
-import parcelsRouterV1 from './routes/v1/parcels';
+var _httpErrors = require('http-errors');
 
-const app = express();
+var _httpErrors2 = _interopRequireDefault(_httpErrors);
+
+var _express = require('express');
+
+var _express2 = _interopRequireDefault(_express);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _bodyParser = require('body-parser');
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
+var _cookieParser = require('cookie-parser');
+
+var _cookieParser2 = _interopRequireDefault(_cookieParser);
+
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
+
+var _index = require('./routes/index');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _users = require('./routes/users');
+
+var _users2 = _interopRequireDefault(_users);
+
+var _admins = require('./routes/admins');
+
+var _admins2 = _interopRequireDefault(_admins);
+
+var _parcels = require('./routes/parcels');
+
+var _parcels2 = _interopRequireDefault(_parcels);
+
+var _index3 = require('./routes/v1/index');
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _users3 = require('./routes/v1/users');
+
+var _users4 = _interopRequireDefault(_users3);
+
+var _admins3 = require('./routes/v1/admins');
+
+var _admins4 = _interopRequireDefault(_admins3);
+
+var _parcels3 = require('./routes/v1/parcels');
+
+var _parcels4 = _interopRequireDefault(_parcels3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var app = (0, _express2.default)();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'UI/views'));
+app.set('views', _path2.default.join(__dirname, 'UI/views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use((0, _morgan2.default)('dev'));
+app.use(_express2.default.json());
+app.use(_express2.default.urlencoded({ extended: false }));
+app.use(_bodyParser2.default.json());
+app.use(_bodyParser2.default.urlencoded({ extended: false }));
+app.use((0, _cookieParser2.default)());
 
-app.use(express.static(path.join(__dirname, 'UI')));
+app.use(_express2.default.static(_path2.default.join(__dirname, 'UI')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/admins', adminsRouter);
-app.use('/parcels', parcelsRouter);
+app.use('/', _index2.default);
+app.use('/users', _users2.default);
+app.use('/admins', _admins2.default);
+app.use('/parcels', _parcels2.default);
 
 // api version 1
-app.use('/api/v1', indexRouterV1);
-app.use('/api/v1/users', usersRouterV1);
-app.use('/api/v1/admins', adminsRouterV1);
-app.use('/api/v1/parcels', parcelsRouterV1);
+app.use('/api/v1', _index4.default);
+app.use('/api/v1/users', _users4.default);
+app.use('/api/v1/admins', _admins4.default);
+app.use('/api/v1/parcels', _parcels4.default);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
+app.use(function (req, res, next) {
+  next((0, _httpErrors2.default)(404));
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -58,4 +105,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-export default app;
+exports.default = app;

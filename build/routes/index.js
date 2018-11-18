@@ -1,24 +1,37 @@
-import express from 'express';
-import session from 'express-session';
+'use strict';
 
-let ssn;
-const router = express.Router();
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-router.use(session({
+var _express = require('express');
+
+var _express2 = _interopRequireDefault(_express);
+
+var _expressSession = require('express-session');
+
+var _expressSession2 = _interopRequireDefault(_expressSession);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ssn = void 0;
+var router = _express2.default.Router();
+
+router.use((0, _expressSession2.default)({
   secret: 'rwajon@sendit',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: true
 }));
 
 /* GET home page. */
-router.get('/', (req, res) => {
+router.get('/', function (req, res) {
   ssn = req.session;
 
   res.render('index', {
     title: 'Home | SendIT',
     path: '',
-    user: ssn.user ? ssn.user : null,
+    user: ssn.user ? ssn.user : null
   });
 });
 
-export default router;
+exports.default = router;

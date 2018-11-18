@@ -1,54 +1,76 @@
-import fs from 'fs';
-import express from 'express';
-import session from 'express-session';
-import User from '../controllers/User';
-import Parcel from '../controllers/Parcel';
+'use strict';
 
-let ssn;
-const router = express.Router();
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-router.use(session({
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _express = require('express');
+
+var _express2 = _interopRequireDefault(_express);
+
+var _expressSession = require('express-session');
+
+var _expressSession2 = _interopRequireDefault(_expressSession);
+
+var _User = require('../controllers/User');
+
+var _User2 = _interopRequireDefault(_User);
+
+var _Parcel = require('../controllers/Parcel');
+
+var _Parcel2 = _interopRequireDefault(_Parcel);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ssn = void 0;
+var router = _express2.default.Router();
+
+router.use((0, _expressSession2.default)({
   secret: 'rwajon@sendit',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: true
 }));
 
 /* -------------------static users-----------------------------*/
-const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
+var staticUsers = JSON.parse(_fs2.default.readFileSync('src/models/users.json'));
 /*-----------------------------------------------------------*/
 /* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
+var staticOrders = JSON.parse(_fs2.default.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // sign-in
-router.get('/', (req, res) => {
+router.get('/', function (req, res) {
   ssn = req.session;
 
   res.render('signin', {
     title: 'Users | SendIT',
     path: '../',
-    user: ssn.user || false,
+    user: ssn.user || false
   });
 });
 
 // sign-out
-router.get('/signout', (req, res) => {
-  req.session.destroy(() => {
+router.get('/signout', function (req, res) {
+  req.session.destroy(function () {
     res.redirect('/users/signin');
   });
 });
 
 // sign-up
-router.all('/signup', (req, res) => {
+router.all('/signup', function (req, res) {
   ssn = req.session;
   ssn.users = ssn.users || {};
-  const user = new User(ssn.users);
+  var user = new _User2.default(ssn.users);
 
   if (req.method === 'POST') {
-    const newUser = user.signup(req.body);
+    var newUser = user.signup(req.body);
 
     if (!user.error) {
-      res.redirect(`/users/${newUser.id}`);
+      res.redirect('/users/' + newUser.id);
     }
 
     ssn.user = ssn.user || false;
@@ -57,29 +79,34 @@ router.all('/signup', (req, res) => {
       title: 'Sign-up | SendIT',
       path: '../',
       user: ssn.user,
-      error: user.user,
+      error: user.user
     });
   } else {
     res.render('signup', {
       title: 'Sign-up | SendIT',
       path: '../',
-      user: ssn.user || false,
+      user: ssn.user || false
     });
   }
 });
 
 // sign-in
-router.all('/signin', (req, res) => {
+router.all('/signin', function (req, res) {
   ssn = req.session;
 
   if (req.method === 'POST') {
     ssn.users = ssn.users || staticUsers;
-    const user = new User(ssn.users);
-    const account = user.signin(req.body);
+    ssn.parcels = ssn.parcels || staticOrders;
+
+    var user = new _User2.default(ssn.users);
+    var parcel = new _Parcel2.default(ssn.parcels);
+
+    var account = user.signin(req.body);
 
     if (!user.error) {
       ssn.user = account;
-      res.redirect(`/users/${ssn.user.id}`);
+      ssn.parcels = parcel.getAll(ssn.user.id);
+      res.redirect('/users/' + ssn.user.id);
     }
 
     ssn.user = ssn.user || false;
@@ -88,23 +115,23 @@ router.all('/signin', (req, res) => {
       title: 'Sign-in | SendIT',
       path: '../',
       user: ssn.user,
-      error: user.error,
+      error: user.error
     });
   } else {
     res.render('signin', {
       title: 'Sign-in | SendIT',
       path: '../',
-      user: ssn.user || false,
+      user: ssn.user || false
     });
   }
 });
 
 // Fetch a specific user information
-router.get('/:id', (req, res) => {
+router.get('/:id', function (req, res) {
   ssn = req.session;
   ssn.users = ssn.users || {};
-  const user = new User(ssn.users);
-  const userInfo = user.getInfo(req.params.id);
+  var user = new _User2.default(ssn.users);
+  var userInfo = user.getInfo(req.params.id);
 
   if (!user.error) {
     ssn.user = userInfo;
@@ -114,22 +141,21 @@ router.get('/:id', (req, res) => {
     title: 'Users | SendIT',
     path: '../',
     user: ssn.user || false,
-    error: user.error,
+    error: user.error
   });
 });
 
-
 /* ----Parcel delivery order-----*/
 // Count all parcel delivery orders of a specific user
-router.get('/parcels/count', (req, res) => {
+router.get('/parcels/count', function (req, res) {
   ssn = req.session;
 
   if (ssn.user) {
-    let pending = 0;
-    let inTransit = 0;
-    let delivered = 0;
+    var pending = 0;
+    var inTransit = 0;
+    var delivered = 0;
 
-    Object.keys(ssn.parcels).forEach((key) => {
+    Object.keys(ssn.parcels).forEach(function (key) {
       if (ssn.parcels[key].status === 'Pending') {
         pending += 1;
       }
@@ -141,10 +167,10 @@ router.get('/parcels/count', (req, res) => {
       }
     });
 
-    const parcels = {
-      pending,
-      inTransit,
-      delivered,
+    var parcels = {
+      pending: pending,
+      inTransit: inTransit,
+      delivered: delivered
     };
 
     res.send(parcels);
@@ -154,10 +180,10 @@ router.get('/parcels/count', (req, res) => {
 });
 
 // Fetch all parcel delivery orders of a specific user
-router.get('/:id/parcels', (req, res) => {
+router.get('/:id/parcels', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
+  var parcel = new _Parcel2.default(ssn.parcels);
   ssn.parcels = parcel.getAll(req.params.id);
 
   res.render('all_orders', {
@@ -165,111 +191,111 @@ router.get('/:id/parcels', (req, res) => {
     path: '../../',
     user: ssn.user || false,
     parcels: ssn.parcels,
-    error: parcel.error,
+    error: parcel.error
   });
 });
 
 // Create a parcel delivery order
-router.post('/:id/parcels', (req, res) => {
+router.post('/:id/parcels', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
-  const createdOrder = parcel.createOrder(req.body, ssn.user);
+  var parcel = new _Parcel2.default(ssn.parcels);
+  var createdOrder = parcel.createOrder(req.body, ssn.user);
 
   if (Object.keys(createdOrder).length > 0) {
-    res.redirect(`/users/${ssn.user.id}/parcels/${createdOrder.orderId}`);
+    res.redirect('/users/' + ssn.user.id + '/parcels/' + createdOrder.orderId);
   }
 
   res.render('create_order', {
     title: 'Parcels | SendIT',
     path: '../../../',
     user: ssn.user || false,
-    error: parcel.error,
+    error: parcel.error
   });
 });
 
-router.get('/:id/parcels/create', (req, res) => {
+router.get('/:id/parcels/create', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
+  var parcel = new _Parcel2.default(ssn.parcels);
 
   res.render('create_order', {
     title: 'Parcels | SendIT',
     path: '../../../',
-    user: ssn.user || false,
+    user: ssn.user || false
   });
 });
 
 // Fetch all created parcel delivery orders of a specific user
-router.get('/:id/parcels/pending', (req, res) => {
+router.get('/:id/parcels/pending', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
-  const pending = parcel.getPending(req.params.id);
+  var parcel = new _Parcel2.default(ssn.parcels);
+  var pending = parcel.getPending(req.params.id);
 
   res.render('pending_orders', {
     title: 'Parcels | SendIT',
     path: '../../../',
     user: ssn.user || false,
     parcels: pending,
-    error: parcel.error,
+    error: parcel.error
   });
 });
 
 // Fetch all parcels in transit of a specific user
-router.get('/:id/parcels/in-transit', (req, res) => {
+router.get('/:id/parcels/in-transit', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
-  const inTransit = parcel.getInTransit(req.params.id);
+  var parcel = new _Parcel2.default(ssn.parcels);
+  var inTransit = parcel.getInTransit(req.params.id);
 
   res.render('parcels_in_transit', {
     title: 'Parcels | SendIT',
     path: '../../../',
     user: ssn.user || false,
     parcels: inTransit,
-    error: parcel.error,
+    error: parcel.error
   });
 });
 
 // Fetch all delivered parcel orders of a specific user
-router.get('/:id/parcels/delivered', (req, res) => {
+router.get('/:id/parcels/delivered', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
-  const delivered = parcel.getDelivered(req.params.id);
+  var parcel = new _Parcel2.default(ssn.parcels);
+  var delivered = parcel.getDelivered(req.params.id);
 
   res.render('delivered_parcels', {
     title: 'Parcels | SendIT',
     path: '../../../',
     user: ssn.user || false,
     parcels: delivered,
-    error: parcel.error,
+    error: parcel.error
   });
 });
 
 // Fetch a specific parcel delivery oder of a specific user
-router.get('/:id/parcels/:pId', (req, res) => {
+router.get('/:id/parcels/:pId', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  var parcel = new _Parcel2.default(ssn.parcels);
+  var details = parcel.getDetails(req.params.pId);
 
   res.render('order_details', {
     title: 'Parcels | SendIT',
     path: '../../../',
     user: ssn.user || false,
     parcel: details,
-    error: parcel.error,
+    error: parcel.error
   });
 });
 
 // Cancel a specific parcel delivery order of a specific user
-router.put('/:id/parcels/:pId/cancel', (req, res) => {
+router.put('/:id/parcels/:pId/cancel', function (req, res) {
   ssn = req.session;
 
   if (ssn.parcels && req.params.pId) {
-    Object.keys(ssn.parcels).forEach((key) => {
+    Object.keys(ssn.parcels).forEach(function (key) {
       if (ssn.parcels[key].orderId === req.params.pId) {
         delete ssn.parcels[key];
         res.send('Cancelled');
@@ -279,14 +305,14 @@ router.put('/:id/parcels/:pId/cancel', (req, res) => {
 });
 
 // Change a specific parcel delivery order of a specific user
-router.all('/:id/parcels/:pId/change', (req, res) => {
+router.all('/:id/parcels/:pId/change', function (req, res) {
   ssn = req.session;
   ssn.parcels = ssn.parcels || {};
-  const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  var parcel = new _Parcel2.default(ssn.parcels);
+  var details = parcel.getDetails(req.params.pId);
 
   if (req.method === 'POST') {
-    const changed = parcel.changeOrder(req.params.pId, req.body, ssn.user.id);
+    var changed = parcel.changeOrder(req.params.pId, req.body, ssn.user.id);
 
     res.render('change_order', {
       title: 'Parcels | SendIT',
@@ -294,7 +320,7 @@ router.all('/:id/parcels/:pId/change', (req, res) => {
       user: ssn.user || false,
       parcel: changed,
       error: parcel.error,
-      changed: !parcel.error,
+      changed: !parcel.error
     });
   } else {
     res.render('change_order', {
@@ -302,9 +328,9 @@ router.all('/:id/parcels/:pId/change', (req, res) => {
       path: '../../../../',
       user: ssn.user || false,
       parcel: details,
-      error: parcel.error,
+      error: parcel.error
     });
   }
 });
 
-export default router;
+exports.default = router;
