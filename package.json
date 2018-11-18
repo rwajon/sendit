@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
+    "clean": "rm -rf build && mkdir dist",
     "lint": "./node_modules/eslint/bin/eslint.js",
     "test": "mocha --timeout 15000 --compilers js:babel-register tests/**.test.js",
     "build": "babel src/ --presets babel-preset-env --out-dir dist/",
