@@ -4,6 +4,9 @@ block section
   div(class="container table-responsive")
     h1(class="add-padding smooth-shadow") All parcel delivery orders
     if !error
+      form(class="inline-block", method="post", action="")
+        input(name="search_order", class="alm", placeholder="search by ID")
+        button(class="btn submit-btn") search
       table(class="table table-bordered table-hover smooth-shadow atm abm text-center")
         thead(class="table-head")
           th Order ID

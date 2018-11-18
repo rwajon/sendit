@@ -18,7 +18,7 @@ import parcelsRouterV1 from './routes/v1/parcels';
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'UI/views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));

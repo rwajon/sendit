@@ -1,37 +1,18 @@
-'use strict';
+import fs from 'fs';
+import express from 'express';
+import session from 'express-session';
+import Admin from '../controllers/Admin';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+let ssn;
+const router = express.Router();
 
-var _fs = require('fs');
-
-var _fs2 = _interopRequireDefault(_fs);
-
-var _express = require('express');
-
-var _express2 = _interopRequireDefault(_express);
-
-var _expressSession = require('express-session');
-
-var _expressSession2 = _interopRequireDefault(_expressSession);
-
-var _Admin = require('../controllers/Admin');
-
-var _Admin2 = _interopRequireDefault(_Admin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ssn = void 0;
-var router = _express2.default.Router();
-
-router.use((0, _expressSession2.default)({
+router.use(session({
   secret: 'rwajon@sendit',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
 }));
 
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
   ssn = req.session;
 
   if (!ssn.admin) {
@@ -41,18 +22,18 @@ router.get('/', function (req, res) {
   res.render('admins', {
     title: 'Admin | SendIT',
     path: '../',
-    admin: true
+    admin: true,
   });
 });
 
 // signin
-router.all('/signin', function (req, res) {
+router.all('/signin', (req, res) => {
   ssn = req.session;
 
   if (req.method === 'POST') {
-    ssn.admins = JSON.parse(_fs2.default.readFileSync('src/models/admins.json'));
-    var admin = new _Admin2.default(ssn.admins);
-    var account = admin.signin(req.body);
+    ssn.admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
+    const admin = new Admin(ssn.admins);
+    const account = admin.signin(req.body);
 
     if (!admin.error) {
       ssn.admin = account;
@@ -65,15 +46,15 @@ router.all('/signin', function (req, res) {
       title: 'Sign-in | SendIT',
       path: '../',
       admin: ssn.admin,
-      error: admin.error
+      error: admin.error,
     });
   } else {
     res.render('admin_signin', {
       title: 'Sign-in | SendIT',
       path: '../',
-      admin: ssn.admin || false
+      admin: ssn.admin || false,
     });
   }
 });
 
-exports.default = router;
+export default router;
