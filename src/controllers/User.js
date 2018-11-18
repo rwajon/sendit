@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 class User {
   constructor(users) {
     this.user = {};
@@ -63,6 +65,9 @@ class User {
     }
 
     if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
+
+      form.password = bcrypt.hashSync(form.password, 8);
+
       Object.keys(this.users).forEach((key) => {
         if (this.users[key].uname === form.uname && this.users[key].password === form.password) {
           this.user = this.users[key];
