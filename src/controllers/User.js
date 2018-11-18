@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 class User {
   constructor(users) {
     this.user = {};
@@ -39,7 +41,7 @@ class User {
         fname: form.fname,
         lname: form.lname,
         uname: form.uname,
-        password: form.password,
+        password: bcrypt.hashSync(form.password, 8),
         phone: form.phone,
         email: form.email,
         country: form.country,
