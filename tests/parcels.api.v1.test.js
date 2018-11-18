@@ -5,7 +5,7 @@ import app from '../src/app';
 
 const { assert } = chai;
 const { expect } = chai;
-const parcels = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+const parcels = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 
 chai.use(chaiHttp);
 

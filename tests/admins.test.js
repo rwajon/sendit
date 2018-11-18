@@ -3,7 +3,7 @@ import chai from 'chai';
 import Admin from '../src/controllers/Admin';
 
 const { expect } = chai;
-const admins = JSON.parse(fs.readFileSync('JSONFiles/admins.json'));
+const admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
 
 describe('Admin class', () => {
   /** ****signin method***** */

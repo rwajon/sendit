@@ -3,7 +3,7 @@ import chai from 'chai';
 import Parcel from '../src/controllers/Parcel';
 
 const { expect } = chai;
-const parcels = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+const parcels = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 
 describe('Parcel class', () => {
   /** ****get a specific parcel delivery order details***** */

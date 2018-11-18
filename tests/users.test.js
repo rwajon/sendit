@@ -3,7 +3,7 @@ import chai from 'chai';
 import User from '../src/controllers/User';
 
 const { expect } = chai;
-const users = JSON.parse(fs.readFileSync('JSONFiles/users.json'));
+const users = JSON.parse(fs.readFileSync('src/models/users.json'));
 
 describe('User class', () => {
   /** ****get user tests***** */
