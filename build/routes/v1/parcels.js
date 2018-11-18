@@ -32,7 +32,7 @@ router.use((0, _expressSession2.default)({
 }));
 
 /* -------------------static orders-----------------------------*/
-var staticOrders = JSON.parse(_fs2.default.readFileSync('JSONFiles/parcels.json'));
+var staticOrders = JSON.parse(_fs2.default.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // Fetch all parcel delivery orders

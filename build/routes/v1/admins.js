@@ -46,7 +46,7 @@ router.all('/signin', function (req, res) {
   ssn = req.session;
 
   if (req.method === 'POST') {
-    ssn.admins = JSON.parse(_fs2.default.readFileSync('JSONFiles/admins.json'));
+    ssn.admins = JSON.parse(_fs2.default.readFileSync('src/models/admins.json'));
     var admin = new _Admin2.default(ssn.admins);
     var account = admin.signin(req.body);
 

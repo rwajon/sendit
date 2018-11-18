@@ -35,7 +35,7 @@ router.use((0, _expressSession2.default)({
 router.get('/', function (req, res) {
   ssn = req.session;
   /* -------------------static orders-----------------------------*/
-  var staticOrders = JSON.parse(_fs2.default.readFileSync('JSONFiles/parcels.json'));
+  var staticOrders = JSON.parse(_fs2.default.readFileSync('src/models/parcels.json'));
   /* --------------------------------------------------------------*/
   ssn.parcels = ssn.parcels || staticOrders;
   var parcel = new _Parcel2.default(ssn.parcels);
