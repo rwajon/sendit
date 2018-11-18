@@ -74,11 +74,16 @@ router.all('/signin', (req, res) => {
 
   if (req.method === 'POST') {
     ssn.users = ssn.users || staticUsers;
+    ssn.parcels = ssn.parcels || staticOrders;
+
     const user = new User(ssn.users);
+    const parcel = new Parcel(ssn.parcels);
+    
     const account = user.signin(req.body);
 
     if (!user.error) {
       ssn.user = account;
+      ssn.parcels = parcel.getAll(ssn.user.id);
       res.redirect(`/users/${ssn.user.id}`);
     }
 
