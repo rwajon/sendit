@@ -44,8 +44,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "private/*.json",
-      "public/js/*.js"
+      "src/models/*.json",
+      "src/UI/**.js"
     ]
   }
 }
