@@ -1,0 +1,28 @@
+{
+	"user6781":
+	{
+		"id": "001",
+		"fname": "Jonathan",
+		"lname": "Rwabahizi",
+		"uname": "rwajon",
+		"password": "$2a$08$YVuqQ71GAoUgnCaU.dS0UeqXeR8rtHvEg51FUDrX8y6N56VcBFip6",
+		"phone": "+250781146646",
+		"email": "jonathanrwabahizi@gmail.com",
+		"country": "Rwanda",
+		"city": "Gisenyi",
+		"address": "Mbugangari"
+	},
+	"user4015":
+	{
+		"id": "002",
+		"fname": "Jonh",
+		"lname": "Smith",
+		"uname": "josmi",
+		"password": "$2a$08$YVuqQ71GAoUgnCaU.dS0UeqXeR8rtHvEg51FUDrX8y6N56VcBFip6",
+		"phone": "+250781146646",
+		"email": "josmi@gmail.com",
+		"country": "USA",
+		"city": "New-york",
+		"address": "Near central park"
+	}
+}
