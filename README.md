@@ -12,4 +12,3 @@ SendIT provides courier quotes based on weight categories.
 * JavaScript
 * NodeJs
 * Express
-* Jade
