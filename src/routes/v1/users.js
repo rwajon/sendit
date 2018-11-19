@@ -102,7 +102,6 @@ router.get('/:id', (req, res) => {
   });
 });
 
-
 /* ----Parcel delivery order-----*/
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
@@ -119,33 +118,7 @@ router.get('/:id/parcels', (req, res) => {
   });
 });
 
-// Create a parcel delivery order
-router.post('/:id/parcels', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const createdOrder = parcel.createOrder(req.body, staticUsers.user6781);
-
-  if (Object.keys(createdOrder).length > 0) {
-    res.send({
-      createdOrder,
-    });
-  }
-
-  res.send({
-    error: parcel.error,
-  });
-});
-
-router.get('/:id/parcels/create', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-
-  res.send('Please, create an order!');
-});
-
-// Fetch all created parcel delivery orders of a specific user
+// Fetch all pending parcel delivery orders of a specific user
 router.get('/:id/parcels/pending', (req, res) => {
   ssn = req.session;
   // ssn.parcels = ssn.parcels || {};

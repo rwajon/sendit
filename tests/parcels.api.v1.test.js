@@ -22,6 +22,58 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels
 
+  describe('POST /api/v1/parcels', () => {
+    // test 1
+    it('should create a parcel delivery order', (done) => {
+      chai.request(app)
+        .post('/api/v1/parcels')
+        .send({
+          rname: 'John Smith',
+          rphone: '+123456789',
+          remail: 'johnsmith@gmail.com',
+          product: 'Sandals',
+          weight: '1.5 Kg',
+          quantity: '2',
+          sender_country: 'Rwanda',
+          sender_city: 'Gisenyi',
+          sender_address: 'Mbugangari',
+          dest_country: 'USA',
+          dest_city: 'Ney-York',
+          dest_address: 'Near Central Park',
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);
+          done();
+        });
+    });
+
+    // test 2
+    it('should display \`Please enter the required information to create an order!\`', (done) => {
+      chai.request(app)
+        .post('/api/v1/parcels')
+        .send({
+          rname: '',
+          rphone: '',
+          remail: 'johnsmith@gmail.com',
+          product: '',
+          weight: '1.5 Kg',
+          quantity: '',
+          sender_country: 'Rwanda',
+          sender_city: 'Gisenyi',
+          sender_address: 'Mbugangari',
+          dest_country: '',
+          dest_city: 'Ney-York',
+          dest_address: 'Near Central Park',
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Please enter the required information to create an order!');
+          done();
+        });
+    });
+  }); // end of POST /api/v1/users/:id/parcels
+
   describe('GET /api/v1/parcels/pending', () => {
     it('should return all pending parcel delivery orders', (done) => {
       chai.request(app)

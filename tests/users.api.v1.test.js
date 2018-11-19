@@ -270,42 +270,4 @@ describe('User', () => {
         });
     });
   }); // end of PUT /api/v1/users/:id/parcels/:pId/cancel
-
-  describe('GET /api/v1/users/:id/parcels/create', () => {
-    it('should display \'Please, create an order!\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/001/parcels/create')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.text).to.be.equal('Please, create an order!');
-          done();
-        });
-    });
-  }); // end of GET /api/v1/users/:id/parcels/create
-
-  describe('POST /api/v1/users/:id/parcels', () => {
-    it('create a parcel delivery order', (done) => {
-      chai.request(app)
-        .post('/api/v1/users/001/parcels')
-        .send({
-          rname: 'John Smith',
-          rphone: '+123456789',
-          remail: 'johnsmith@gmail.com',
-          product: 'Sandals',
-          weight: '1.5 Kg',
-          quantity: '2',
-          sender_country: 'Rwanda',
-          sender_city: 'Gisenyi',
-          sender_address: 'Mbugangari',
-          dest_country: 'USA',
-          dest_city: 'Ney-York',
-          dest_address: 'Near Central Park',
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).createdOrder).length).to.be.above(0);
-          done();
-        });
-    });
-  }); // end of POST /api/v1/users/:id/parcels
 });
