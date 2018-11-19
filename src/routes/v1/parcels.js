@@ -12,6 +12,9 @@ router.use(session({
   saveUninitialized: true,
 }));
 
+/* -------------------static users-----------------------------*/
+const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
+/*-----------------------------------------------------------*/
 /* -------------------static orders-----------------------------*/
 const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
@@ -27,6 +30,25 @@ router.get('/', (req, res) => {
     allParcels: ssn.parcels,
     error: parcel.error,
   });
+});
+
+// Create a parcel delivery order
+router.post('/', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.user = ssn.user || staticUsers.user6781;
+
+  const parcel = new Parcel(ssn.parcels);
+  const order = parcel.createOrder(req.body, ssn.user);
+
+  if (!parcel.error) {
+    res.json(order);
+  }
+  else{
+    res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all pending parcel delivery orders
