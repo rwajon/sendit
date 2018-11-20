@@ -42,12 +42,12 @@ router.post('/', (req, res) => {
   const order = parcel.createOrder(req.body, ssn.user);
 
   if (!parcel.error) {
-    res.json({
+    return res.status(200).json({
       order,
-      status: '200',
+      status: 'Successfull',
     });
   } else {
-    res.json({
+    return res.status(200).json({
       error: parcel.error,
     });
   }
