@@ -124,9 +124,10 @@ class Parcel {
         return this.parcelsDelivered;
       }
 
-      this.error = 'Sorry, you don\'t have delivered parcels';
+      this.error = 'Sorry, no parcel has been delivered';
       return {};
     }
+    
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Delivered') {
         this.parcelsDelivered[key] = this.parcels[key];
