@@ -1,0 +1,5 @@
+1)https://github.com/rwajon/sendit
+2)https://rwajon.github.io/sendit/UI/
+3)https://rwajon-sendit.herokuapp.com/
+4)3)https://rwajon-sendit.herokuapp.com/api/v1
+5)https://www.pivotaltracker.com/n/projects/2214434
