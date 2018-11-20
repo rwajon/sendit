@@ -116,7 +116,17 @@ describe('Parcel', () => {
         .get('/api/v1/parcels/002')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).parcelDetails).length).to.be.above(0);
+          expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);
+          done();
+        });
+    });
+
+    it('should display \'Sorry, there is no parcel delivery order with this id: 0000\'', (done) => {
+      chai.request(app)
+        .get('/api/v1/parcels/0000')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there is no parcel delivery order with this id: 0000');
           done();
         });
     });
