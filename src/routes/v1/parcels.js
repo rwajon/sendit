@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
       parcels: ssn.parcels,
     });
 
-  }else{
+  } else {
     return res.json({
       error: parcel.error,
     });
@@ -63,15 +63,21 @@ router.post('/', (req, res) => {
 // Fetch all pending parcel delivery orders
 router.get('/pending', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const pending = parcel.getPending();
 
-  res.send({
-    pending,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      pending,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all parcels in transit

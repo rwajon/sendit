@@ -3,7 +3,7 @@ class Parcel {
     this.parcel = {};
     this.parcels = parcels || {};
     this.userParcels = {};
-    this.newCreatedParcels = {};
+    this.pendingParcels = {};
     this.parcelsInTransit = {};
     this.parcelsDelivered = {};
     this.error = '';
@@ -57,25 +57,26 @@ class Parcel {
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
         if (this.parcels[key].status === 'Pending' && this.parcels[key].sender.id === userId) {
-          this.newCreatedParcels[key] = this.parcels[key];
+          this.pendingParcels[key] = this.parcels[key];
         }
       });
 
-      if (Object.keys(this.newCreatedParcels).length > 0) {
-        return this.newCreatedParcels;
+      if (Object.keys(this.pendingParcels).length > 0) {
+        return this.pendingParcels;
       }
 
-      this.error = 'Sorry, you don\'t have pending parcel delivery orders';
+      this.error = 'Sorry, there are no pending parcel delivery orders';
       return {};
     }
+    
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Pending') {
-        this.newCreatedParcels[key] = this.parcels[key];
+        this.pendingParcels[key] = this.parcels[key];
       }
     });
 
-    if (Object.keys(this.newCreatedParcels).length > 0) {
-      return this.newCreatedParcels;
+    if (Object.keys(this.pendingParcels).length > 0) {
+      return this.pendingParcels;
     }
 
     this.error = 'Sorry, there are no pending parcel delivery orders';
