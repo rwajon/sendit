@@ -36,7 +36,7 @@ class User {
     if (form.fname && form.lname && form.uname && form.password && form.phone && form.country) {
       const id = Math.random().toString().substr(2, 3);
 
-      this.user = {
+      this.users[`user${id}`] = {
         id,
         fname: form.fname,
         lname: form.lname,
@@ -49,7 +49,17 @@ class User {
         address: form.address,
       };
 
-      this.users[`user${id}`] = this.user;
+      this.user = {
+        id,
+        fname: form.fname,
+        lname: form.lname,
+        uname: form.uname,
+        phone: form.phone,
+        email: form.email,
+        country: form.country,
+        city: form.city,
+        address: form.address,
+      };
 
       return this.user;
     }
