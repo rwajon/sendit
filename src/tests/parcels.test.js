@@ -16,7 +16,7 @@ describe('Parcel', () => {
         .get('/api/v1/parcels')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).allParcels).length).to.be.above(0);
+          expect(Object.keys(JSON.parse(res.text).parcels).length).to.be.above(0);
           done();
         });
     });

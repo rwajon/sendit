@@ -26,10 +26,17 @@ router.get('/', (req, res) => {
   const parcel = new Parcel(ssn.parcels);
   ssn.parcels = parcel.getAll();
 
-  res.send({
-    allParcels: ssn.parcels,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      parcels: ssn.parcels,
+    });
+
+  }else{
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Create a parcel delivery order
