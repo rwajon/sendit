@@ -87,10 +87,17 @@ router.get('/in-transit', (req, res) => {
   const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit();
 
-  res.send({
-    inTransit,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      inTransit,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all delivered parcel

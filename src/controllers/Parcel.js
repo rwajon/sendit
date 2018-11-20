@@ -95,9 +95,10 @@ class Parcel {
         return this.parcelsInTransit;
       }
 
-      this.error = 'Sorry, you don\'t have parcels in transit';
+      this.error = 'Sorry, there are no parcels in transit';
       return {};
     }
+    
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'In transit') {
         this.parcelsInTransit[key] = this.parcels[key];
