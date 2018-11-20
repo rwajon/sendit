@@ -1,4 +1,4 @@
-![alt text](https://travis-ci.com/rwajon/sendit.svg?branch=v1)
+![alt text](https://travis-ci.org/rwajon/sendit.svg?branch=ft-api-create-order-161762971)
 [![Coverage Status](https://coveralls.io/repos/github/rwajon/sendit/badge.svg?branch=v1)](https://coveralls.io/github/rwajon/sendit?branch=v1)
 <a href="https://codeclimate.com/github/rwajon/sendit/test_coverage"><img src="https://api.codeclimate.com/v1/badges/29cd9ecccc34cbc7eb0a/test_coverage" /></a>
 <a href="https://codeclimate.com/github/rwajon/sendit/maintainability"><img src="https://api.codeclimate.com/v1/badges/29cd9ecccc34cbc7eb0a/maintainability" /></a>
