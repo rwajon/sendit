@@ -11,7 +11,7 @@ cache:
   directories:
     - "node_modules"
 before_script:
-  - npm install --save-dev coveralls@2.10.0
+  - npm install --save-dev coveralls
   - npm install codeclimate-test-reporter istanbul -g
 script:
   - npm run coveralls
