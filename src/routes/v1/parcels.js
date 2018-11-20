@@ -43,8 +43,8 @@ router.post('/', (req, res) => {
 
   if (!parcel.error) {
     return res.status(200).json({
-      order,
       status: 'Successfull',
+      order,
     });
   } else {
     return res.status(200).json({
