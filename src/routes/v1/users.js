@@ -41,33 +41,29 @@ router.post('/signup', (req, res) => {
 });
 
 // sign-in
-router.all('/signin', (req, res) => {
+router.post('/signin', (req, res) => {
   ssn = req.session;
+  ssn.users = ssn.users || staticUsers;
+  ssn.parcels = ssn.parcels || staticOrders;
 
-  if (req.method === 'POST') {
-    ssn.users = ssn.users || staticUsers;
-    ssn.parcels = ssn.parcels || staticOrders;
+  const user = new User(ssn.users);
+  const parcel = new Parcel(ssn.parcels);
+  const account = user.signin(req.body);
 
-    const user = new User(ssn.users);
-    const parcel = new Parcel(ssn.parcels);
+  if (!user.error) {
+    ssn.user = account;
+    ssn.parcels = parcel.getAll(ssn.user.id);
+
+    return res.status(200).json({
+      status: 'Successfull',
+      message: `Welcome ${ssn.user.fname} ${ssn.user.lname}`,
+      user: ssn.user,
+    });
     
-    const account = user.signin(req.body);
-
-    if (!user.error) {
-      ssn.user = account;
-      ssn.parcels = parcel.getAll(ssn.user.id);
-      res.send({
-        user: ssn.user,
-      });
-    }
-
-    ssn.user = ssn.user || false;
-
-    res.send({
+  }else{
+    return res.json({
       error: user.error,
     });
-  } else {
-    res.send('Please, sign-in!');
   }
 });
 

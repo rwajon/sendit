@@ -77,7 +77,17 @@ class User {
     if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
       Object.keys(this.users).forEach((key) => {
         if (this.users[key].uname === form.uname && bcrypt.compareSync(form.password, this.users[key].password)) {
-          this.user = this.users[key];
+          this.user = {
+            id: this.users[key].id,
+            fname: this.users[key].fname,
+            lname: this.users[key].lname,
+            uname: this.users[key].uname,
+            phone: this.users[key].phone,
+            email: this.users[key].email,
+            country: this.users[key].country,
+            city: this.users[key].city,
+            address: this.users[key].address,
+          };
         }
       });
 
