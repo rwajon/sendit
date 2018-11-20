@@ -1,7 +1,7 @@
 import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
+import app from '../app';
 
 const { assert } = chai;
 const { expect } = chai;
@@ -10,18 +10,6 @@ const users = JSON.parse(fs.readFileSync('src/models/users.json'));
 chai.use(chaiHttp);
 
 describe('User', () => {
-  describe('GET /api/v1/users', () => {
-    it('should display \'Please, sign-in!\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.text).to.equal('Please, provide a user id to check!');
-          done();
-        });
-    });
-  });
-
   // get user info
   describe('GET /api/v1/users/:id', () => {
     it('should return the info of a specific user with the id: 001', (done) => {
@@ -47,18 +35,6 @@ describe('User', () => {
 
   /* Sign-in */
   describe('Sign-in', () => {
-    describe('GET /api/v1/users/signin', () => {
-      it('should display \'Please, sign-in!\'', (done) => {
-        chai.request(app)
-          .get('/api/v1/users/signin')
-          .end((err, res) => {
-            expect(res.status).to.equal(200);
-            expect(res.text).to.be.equal('Please, sign-in!');
-            done();
-          });
-      });
-    });
-
     describe('POST /api/v1/users/signin', () => {
       // test 1
       it('should return the user information if the account exists', (done) => {
@@ -109,18 +85,6 @@ describe('User', () => {
 
   /* Sign-up */
   describe('Sign-up', () => {
-    describe('GET /api/v1/users/signup', () => {
-      it('should display \'Please, sign-up!\'', (done) => {
-        chai.request(app)
-          .get('/api/v1/users/signup')
-          .end((err, res) => {
-            expect(res.status).to.equal(200);
-            expect(res.text).to.be.equal('Please, sign-up!');
-            done();
-          });
-      });
-    });
-
     describe('POST /api/v1/users/signup', () => {
       // test 1
       it('should return the user information if the registration has succeeded', (done) => {

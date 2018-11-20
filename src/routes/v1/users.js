@@ -20,13 +20,6 @@ const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
 const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
-// sign-in
-router.get('/', (req, res) => {
-  ssn = req.session;
-
-  res.send('Please, provide a user id to check!');
-});
-
 // sign-up
 router.all('/signup', (req, res) => {
   ssn = req.session;

@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-node_modules
-sendit_links.txt
-=======
 sendit_links.txt
 .gitignore
 node_modules
 coverage
->>>>>>> v1

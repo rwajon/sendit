@@ -5,9 +5,9 @@
   "scripts": {
     "clean": "rm -rf build && mkdir dist",
     "lint": "./node_modules/eslint/bin/eslint.js",
-    "test": "mocha --timeout 15000 --compilers js:babel-register tests/**.test.js",
+    "test": "mocha --timeout 15000 --compilers js:babel-register src/tests/**.test.js",
     "build": "babel src/ --presets babel-preset-env --out-dir dist/",
-    "cover": "istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 tests/**.test.js",
+    "cover": "istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 src/tests/**.test.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "start": "babel-node ./src/server/www.js --presets env",
     "devstart": "nodemon ./src/server/www.js --exec babel-node --presets env"
@@ -45,7 +45,7 @@
   "nodemonConfig": {
     "ignore": [
       "src/models/*.json",
-      "src/UI/**.js"
+      "UI/**.js"
     ]
   }
 }
