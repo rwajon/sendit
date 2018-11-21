@@ -207,12 +207,24 @@ describe('User', () => {
   }); // end of GET /api/v1/users/:id/parcels/in-transit
 
   describe('GET /api/v1/users/:id/parcels/delivered', () => {
+    // test 1
     it('should return all delivered parcels of the user 001', (done) => {
       chai.request(app)
         .get('/api/v1/users/001/parcels/delivered')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(Object.keys(JSON.parse(res.text).delivered).length).to.be.above(0);
+          done();
+        });
+    });
+
+    // test 2
+    it('should display \'Sorry, no parcel has been delivered\'', (done) => {
+      chai.request(app)
+        .get('/api/v1/users/0011/parcels/delivered')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, no parcel has been delivered');
           done();
         });
     });
