@@ -125,12 +125,19 @@ router.get('/:pId', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const order = parcel.getOrder(req.params.pId);
 
-  res.send({
-    parcelDetails: details,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      order,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Cancel a specific parcel delivery order of a specific user
@@ -153,7 +160,7 @@ router.all('/:pId/change', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const details = parcel.getOrder(req.params.pId);
 
   if (req.method === 'POST') {
     const changed = parcel.changeOrder(req.params.pId, req.body);

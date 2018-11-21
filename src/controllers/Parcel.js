@@ -9,12 +9,7 @@ class Parcel {
     this.error = '';
   }
 
-  getDetails(pId) {
-    if (!pId) {
-      this.error = 'Please, provide a parcel delivery order id to check!';
-      return {};
-    }
-
+  getOrder(pId) {
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].orderId === pId) {
         this.parcel = this.parcels[key];
@@ -25,7 +20,7 @@ class Parcel {
       return this.parcel;
     }
 
-    this.error = `Sorry, there is no parcel delivery order with this id : ${pId}`;
+    this.error = `Sorry, there is no parcel delivery order with this id: ${pId}`;
     return {};
   } // end of get method
 

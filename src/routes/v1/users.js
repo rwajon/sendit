@@ -153,7 +153,7 @@ router.get('/:id/parcels/:pId', (req, res) => {
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const details = parcel.getOrder(req.params.pId);
 
   res.send({
     user: ssn.user,
@@ -183,7 +183,7 @@ router.all('/:id/parcels/:pId/change', (req, res) => {
   // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const details = parcel.getOrder(req.params.pId);
 
   if (req.method === 'POST') {
     const changed = parcel.changeOrder(req.params.pId, req.body, staticUsers.user6781);
