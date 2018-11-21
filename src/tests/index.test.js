@@ -17,4 +17,13 @@ describe('index', () => {
       });
     });
   });
+
+  describe('Error page', () => {
+    it('it should return a status code of 404 ', (done) => {
+      chai.request(app).get('/api/v0').end((err, res) => {
+        expect(JSON.parse(res.text).error).to.equal(404);
+        done();
+      });
+    });
+  });
 });
