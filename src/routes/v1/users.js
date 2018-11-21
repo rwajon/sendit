@@ -159,16 +159,21 @@ router.get('/:id/parcels/in-transit', (req, res) => {
 // Fetch all delivered parcel orders of a specific user
 router.get('/:id/parcels/delivered', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    delivered,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      delivered,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch a specific parcel delivery oder of a specific user
