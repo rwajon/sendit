@@ -10,29 +10,6 @@ const users = JSON.parse(fs.readFileSync('src/models/users.json'));
 chai.use(chaiHttp);
 
 describe('User', () => {
-  // get user info
-  describe('GET /api/v1/users/:id', () => {
-    it('should return the info of a specific user with the id: 001', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/001')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).userInfo).length).to.be.above(0);
-          done();
-        });
-    });
-
-    it('should display \'Sorry, there is no user that corresponds to this id: 0000\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/0000')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.equal('Sorry, there is no user that corresponds to this id: 0000');
-          done();
-        });
-    });
-  });
-
   /* Sign-in */
   describe('Sign-in', () => {
     describe('POST /api/v1/users/signin', () => {
