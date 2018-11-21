@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 class User {
   constructor(users) {
     this.user = {};
@@ -34,12 +36,12 @@ class User {
     if (form.fname && form.lname && form.uname && form.password && form.phone && form.country) {
       const id = Math.random().toString().substr(2, 3);
 
-      this.user = {
+      this.users[`user${id}`] = {
         id,
         fname: form.fname,
         lname: form.lname,
         uname: form.uname,
-        password: form.password,
+        password: bcrypt.hashSync(form.password, 8),
         phone: form.phone,
         email: form.email,
         country: form.country,
@@ -47,7 +49,17 @@ class User {
         address: form.address,
       };
 
-      this.users[`user${id}`] = this.user;
+      this.user = {
+        id,
+        fname: form.fname,
+        lname: form.lname,
+        uname: form.uname,
+        phone: form.phone,
+        email: form.email,
+        country: form.country,
+        city: form.city,
+        address: form.address,
+      };
 
       return this.user;
     }
@@ -64,8 +76,18 @@ class User {
 
     if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
       Object.keys(this.users).forEach((key) => {
-        if (this.users[key].uname === form.uname && this.users[key].password === form.password) {
-          this.user = this.users[key];
+        if (this.users[key].uname === form.uname && bcrypt.compareSync(form.password, this.users[key].password)) {
+          this.user = {
+            id: this.users[key].id,
+            fname: this.users[key].fname,
+            lname: this.users[key].lname,
+            uname: this.users[key].uname,
+            phone: this.users[key].phone,
+            email: this.users[key].email,
+            country: this.users[key].country,
+            city: this.users[key].city,
+            address: this.users[key].address,
+          };
         }
       });
 

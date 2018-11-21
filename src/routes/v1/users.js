@@ -14,67 +14,56 @@ router.use(session({
 }));
 
 /* -------------------static users-----------------------------*/
-const staticUsers = JSON.parse(fs.readFileSync('JSONFiles/users.json'));
+const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
 /*-----------------------------------------------------------*/
 /* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
-// sign-in
-router.get('/', (req, res) => {
-  ssn = req.session;
-
-  res.send('Please, provide a user id to check!');
-});
-
 // sign-up
-router.all('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
   ssn = req.session;
   ssn.users = ssn.users || staticUsers;
+
   const user = new User(ssn.users);
+  const newUser = user.signup(req.body);
 
-  if (req.method === 'POST') {
-    const newUser = user.signup(req.body);
-
-    if (!user.error) {
-      res.send({
-        newUser,
-      });
-    }
-
-    ssn.user = ssn.user || false;
-
-    res.send({
+  if (!user.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      newUser,
+    });
+  }else{
+    return res.status(200).json({
       error: user.error,
     });
-  } else {
-    res.send('Please, sign-up!');
   }
 });
 
 // sign-in
-router.all('/signin', (req, res) => {
+router.post('/signin', (req, res) => {
   ssn = req.session;
+  ssn.users = ssn.users || staticUsers;
+  ssn.parcels = ssn.parcels || staticOrders;
 
-  if (req.method === 'POST') {
-    ssn.users = ssn.users || staticUsers;
-    const user = new User(ssn.users);
-    const account = user.signin(req.body);
+  const user = new User(ssn.users);
+  const parcel = new Parcel(ssn.parcels);
+  const account = user.signin(req.body);
 
-    if (!user.error) {
-      ssn.user = account;
-      res.send({
-        user: ssn.user,
-      });
-    }
+  if (!user.error) {
+    ssn.user = account;
+    ssn.parcels = parcel.getAll(ssn.user.id);
 
-    ssn.user = ssn.user || false;
-
-    res.send({
+    return res.status(200).json({
+      status: 'Successfull',
+      message: `Welcome ${ssn.user.fname} ${ssn.user.lname}`,
+      user: ssn.user,
+    });
+    
+  }else{
+    return res.json({
       error: user.error,
     });
-  } else {
-    res.send('Please, sign-in!');
   }
 });
 
@@ -97,144 +86,121 @@ router.get('/:id', (req, res) => {
   });
 });
 
-
 /* ----Parcel delivery order-----*/
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  ssn.parcels = parcel.getAll(req.params.id);
+  const parcels = parcel.getAll(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    allParcels: ssn.parcels,
-    error: parcel.error,
-  });
-});
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      parcels,
+    });
 
-// Create a parcel delivery order
-router.post('/:id/parcels', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const createdOrder = parcel.createOrder(req.body, staticUsers.user6781);
-
-  if (Object.keys(createdOrder).length > 0) {
-    res.send({
-      createdOrder,
+  } else {
+    return res.json({
+      error: parcel.error,
     });
   }
-
-  res.send({
-    error: parcel.error,
-  });
 });
 
-router.get('/:id/parcels/create', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-
-  res.send('Please, create an order!');
-});
-
-// Fetch all created parcel delivery orders of a specific user
+// Fetch all pending parcel delivery orders of a specific user
 router.get('/:id/parcels/pending', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const pending = parcel.getPending(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    pending,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      pending,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all parcels in transit of a specific user
 router.get('/:id/parcels/in-transit', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    inTransit,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      inTransit,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
+});
+
+router.get('/:id/parcels/in-transit', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
+  const inTransit = parcel.getInTransit(req.params.id);
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      inTransit,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all delivered parcel orders of a specific user
 router.get('/:id/parcels/delivered', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    delivered,
-    error: parcel.error,
-  });
-});
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      delivered,
+    });
 
-// Fetch a specific parcel delivery oder of a specific user
-router.get('/:id/parcels/:pId', (req, res) => {
-  ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
-
-  res.send({
-    user: ssn.user,
-    parcelDetails: details,
-    error: parcel.error,
-  });
-});
-
-// Cancel a specific parcel delivery order of a specific user
-router.put('/:id/parcels/:pId/cancel', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-
-  if (ssn.parcels && req.params.pId) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.pId) {
-        delete ssn.parcels[key];
-        res.send('Cancelled');
-      }
+  } else {
+    return res.json({
+      error: parcel.error,
     });
   }
 });
 
 // Change a specific parcel delivery order of a specific user
-router.all('/:id/parcels/:pId/change', (req, res) => {
+router.put('/:id/parcels/:pId/change', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const changed = parcel.changeOrder(req.params.pId, req.body, req.params.id);
 
-  if (req.method === 'POST') {
-    const changed = parcel.changeOrder(req.params.pId, req.body, staticUsers.user6781);
-
-    res.send({
-      user: ssn.user,
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
       changed,
-      error: parcel.error,
     });
+
   } else {
-    res.send({
-      user: ssn.user,
-      parcelDetails: details,
+    return res.json({
       error: parcel.error,
     });
   }

@@ -5,11 +5,6 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import adminsRouter from './routes/admins';
-import parcelsRouter from './routes/parcels';
-
 import indexRouterV1 from './routes/v1/index';
 import usersRouterV1 from './routes/v1/users';
 import adminsRouterV1 from './routes/v1/admins';
@@ -18,8 +13,8 @@ import parcelsRouterV1 from './routes/v1/parcels';
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+/*app.set('views', path.join(__dirname, 'UI'));
+app.set('view engine', 'jade');*/
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -28,12 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'UI')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/admins', adminsRouter);
-app.use('/parcels', parcelsRouter);
+app.use(express.static(path.join(__dirname, '../UI')));
 
 // api version 1
 app.use('/api/v1', indexRouterV1);

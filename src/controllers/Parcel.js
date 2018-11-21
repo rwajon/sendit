@@ -3,18 +3,13 @@ class Parcel {
     this.parcel = {};
     this.parcels = parcels || {};
     this.userParcels = {};
-    this.newCreatedParcels = {};
+    this.pendingParcels = {};
     this.parcelsInTransit = {};
     this.parcelsDelivered = {};
     this.error = '';
   }
 
-  getDetails(pId) {
-    if (!pId) {
-      this.error = 'Please, provide a parcel delivery order id to check!';
-      return {};
-    }
-
+  getOrder(pId) {
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].orderId === pId) {
         this.parcel = this.parcels[key];
@@ -25,7 +20,7 @@ class Parcel {
       return this.parcel;
     }
 
-    this.error = `Sorry, there is no parcel delivery order with this id : ${pId}`;
+    this.error = `Sorry, there is no parcel delivery order with this id: ${pId}`;
     return {};
   } // end of get method
 
@@ -41,7 +36,7 @@ class Parcel {
         return this.userParcels;
       }
 
-      this.error = 'Sorry, you don\'t have any parcel delivery order';
+      this.error = 'Sorry, there are no parcel delivery orders';
       return {};
     }
 
@@ -57,25 +52,26 @@ class Parcel {
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
         if (this.parcels[key].status === 'Pending' && this.parcels[key].sender.id === userId) {
-          this.newCreatedParcels[key] = this.parcels[key];
+          this.pendingParcels[key] = this.parcels[key];
         }
       });
 
-      if (Object.keys(this.newCreatedParcels).length > 0) {
-        return this.newCreatedParcels;
+      if (Object.keys(this.pendingParcels).length > 0) {
+        return this.pendingParcels;
       }
 
-      this.error = 'Sorry, you don\'t have pending parcel delivery orders';
+      this.error = 'Sorry, there are no pending parcel delivery orders';
       return {};
     }
+    
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Pending') {
-        this.newCreatedParcels[key] = this.parcels[key];
+        this.pendingParcels[key] = this.parcels[key];
       }
     });
 
-    if (Object.keys(this.newCreatedParcels).length > 0) {
-      return this.newCreatedParcels;
+    if (Object.keys(this.pendingParcels).length > 0) {
+      return this.pendingParcels;
     }
 
     this.error = 'Sorry, there are no pending parcel delivery orders';
@@ -94,9 +90,10 @@ class Parcel {
         return this.parcelsInTransit;
       }
 
-      this.error = 'Sorry, you don\'t have parcels in transit';
+      this.error = 'Sorry, there are no parcels in transit';
       return {};
     }
+    
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'In transit') {
         this.parcelsInTransit[key] = this.parcels[key];
@@ -123,9 +120,10 @@ class Parcel {
         return this.parcelsDelivered;
       }
 
-      this.error = 'Sorry, you don\'t have delivered parcels';
+      this.error = 'Sorry, no parcel has been delivered';
       return {};
     }
+    
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Delivered') {
         this.parcelsDelivered[key] = this.parcels[key];
@@ -141,6 +139,11 @@ class Parcel {
   } // end of getDelivered method
 
   changeOrder(pId, form, userId) {
+    if (!(form.new_country || form.new_city || form.new_address || form.new_status)) {
+      this.error = 'Sorry, this order was not changed';
+      return;
+    }
+    
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
         if (this.parcels[key].orderId === pId && this.parcels[key].sender.id === userId) {
@@ -158,13 +161,9 @@ class Parcel {
         }
       });
 
-      if (Object.keys(this.parcel).length > 0) {
-        return this.parcel;
-      }
-
-      this.error = 'Sorry, this order was not successfully changed';
-      return {};
+      return this.parcel;
     }
+
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].orderId === pId) {
         if (form.new_status) {
@@ -184,12 +183,7 @@ class Parcel {
       }
     });
 
-    if (Object.keys(this.parcel).length > 0) {
-      return this.parcel;
-    }
-
-    this.error = 'Sorry, this order was not successfully changed';
-    return {};
+    return this.parcel;
   } // end of changeOrder method
 
   createOrder(form, user) {
@@ -238,29 +232,19 @@ class Parcel {
     return {};
   } // end of createOrder method
 
-  cancelOrder(pId, userId) {
-    if (pId) {
-      if (userId) {
-        Object.keys(this.parcels).forEach((key) => {
-          if (this.parcels[key].orderId === pId && this.parcels[key].sender.id === userId) {
-            this.parcel = this.parcels[key];
-            delete this.parcels[key];
-          }
-        });
-
-        if (Object.keys(this.parcel).length > 0) {
-          return 'Cancelled';
-        }
-
-        this.error = 'Sorry, you can only cancel order that you created';
-        return {};
+  cancelOrder(pId) {
+    Object.keys(this.parcels).forEach((key) => {
+      if (this.parcels[key].orderId === pId) {
+        this.parcel = this.parcels[key];
+        this.parcel.status = 'Cancelled';
       }
+    });
 
-      this.error = 'Sorry, you can not cancel this order';
-      return {};
+    if (Object.keys(this.parcel).length > 0) {
+      return this.parcel;
     }
 
-    this.error = 'Please, provide the id of the order to cancel!';
+    this.error = 'Sorry, this order was not cancelled';
     return {};
   }
 }

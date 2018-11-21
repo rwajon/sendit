@@ -12,22 +12,12 @@ router.use(session({
   saveUninitialized: true,
 }));
 
-router.get('/', (req, res) => {
-  ssn = req.session;
-
-  if (!ssn.admin) {
-    // res.redirect('/api/v1/admins/signin');
-  }
-
-  res.send('Welcome admin!!!');
-});
-
 // signin
 router.all('/signin', (req, res) => {
   ssn = req.session;
 
   if (req.method === 'POST') {
-    ssn.admins = JSON.parse(fs.readFileSync('JSONFiles/admins.json'));
+    ssn.admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
     const admin = new Admin(ssn.admins);
     const account = admin.signin(req.body);
 

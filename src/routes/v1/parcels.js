@@ -12,8 +12,11 @@ router.use(session({
   saveUninitialized: true,
 }));
 
+/* -------------------static users-----------------------------*/
+const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
+/*-----------------------------------------------------------*/
 /* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('JSONFiles/parcels.json'));
+const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // Fetch all parcel delivery orders
@@ -23,24 +26,58 @@ router.get('/', (req, res) => {
   const parcel = new Parcel(ssn.parcels);
   ssn.parcels = parcel.getAll();
 
-  res.send({
-    allParcels: ssn.parcels,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      parcels: ssn.parcels,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
+});
+
+// Create a parcel delivery order
+router.post('/', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+  ssn.user = ssn.user || staticUsers.user6781;
+
+  const parcel = new Parcel(ssn.parcels);
+  const order = parcel.createOrder(req.body, ssn.user);
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      order,
+    });
+  } else {
+    return res.status(200).json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all pending parcel delivery orders
 router.get('/pending', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const pending = parcel.getPending();
 
-  res.send({
-    pending,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      pending,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all parcels in transit
@@ -50,10 +87,17 @@ router.get('/in-transit', (req, res) => {
   const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit();
 
-  res.send({
-    inTransit,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      inTransit,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all delivered parcel
@@ -63,10 +107,17 @@ router.get('/delivered', (req, res) => {
   const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered();
 
-  res.send({
-    delivered,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      delivered,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch a specific parcel delivery oder
@@ -74,49 +125,62 @@ router.get('/:pId', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const order = parcel.getOrder(req.params.pId);
 
-  res.send({
-    parcelDetails: details,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      order,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
+});
+
+// Change a specific parcel delivery order of a specific user
+router.put('/:pId/change', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
+  const changed = parcel.changeOrder(req.params.pId, req.body);
+
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      changed,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Cancel a specific parcel delivery order of a specific user
 router.put('/:pId/cancel', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
-
-  if (ssn.parcels && req.params.pId) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.pId) {
-        delete ssn.parcels[key];
-        res.send('Cancelled');
-      }
-    });
-  }
-});
-
-// Change a specific parcel delivery order of a specific user
-router.all('/:pId/change', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getDetails(req.params.pId);
+  const cancelled = parcel.cancelOrder(req.params.pId);
 
-  if (req.method === 'POST') {
-    const changed = parcel.changeOrder(req.params.pId, req.body);
-
-    res.send({
-      changed,
-      error: parcel.error,
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      cancelled,
     });
+
   } else {
-    res.send({
-      parcelDetails: details,
+    return res.json({
       error: parcel.error,
     });
   }
 });
+
+
 
 export default router;

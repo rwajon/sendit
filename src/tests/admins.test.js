@@ -1,41 +1,17 @@
 import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app.js';
+import app from '../app.js';
 
 const { assert } = chai;
 const { expect } = chai;
-const admins = JSON.parse(fs.readFileSync('JSONFiles/admins.json'));
+const admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
 
 chai.use(chaiHttp);
 
 describe('Admin', () => {
   /* Sign-in */
   describe('Sign-in', () => {
-    describe('GET /api/v1/admins', () => {
-      it('should display \'Welcome admin!!!\' if the admin successfully signed in', (done) => {
-        chai.request(app)
-          .get('/api/v1/admins')
-          .end((err, res) => {
-            expect(res.status).to.equal(200);
-            expect(res.text).to.be.equal('Welcome admin!!!');
-            done();
-          });
-      });
-    });
-
-    describe('GET /api/v1/admins/signin', () => {
-      it('should display \'Please, sign-in!\'', (done) => {
-        chai.request(app)
-          .get('/api/v1/admins/signin')
-          .end((err, res) => {
-            expect(res.status).to.equal(200);
-            expect(res.text).to.be.equal('Please, sign-in!');
-            done();
-          });
-      });
-    });
-
     describe('POST /api/v1/admins/signin', () => {
       // test 1
       it('should return the admin information if the account exists', (done) => {
