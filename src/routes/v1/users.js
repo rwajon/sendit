@@ -90,16 +90,21 @@ router.get('/:id', (req, res) => {
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  ssn.parcels = parcel.getAll(req.params.id);
+  const parcels = parcel.getAll(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    allParcels: ssn.parcels,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      parcels,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all pending parcel delivery orders of a specific user
@@ -174,21 +179,6 @@ router.get('/:id/parcels/delivered', (req, res) => {
       error: parcel.error,
     });
   }
-});
-
-// Fetch a specific parcel delivery oder of a specific user
-router.get('/:id/parcels/:pId', (req, res) => {
-  ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getOrder(req.params.pId);
-
-  res.send({
-    user: ssn.user,
-    parcelDetails: details,
-    error: parcel.error,
-  });
 });
 
 // Change a specific parcel delivery order of a specific user

@@ -36,7 +36,7 @@ class Parcel {
         return this.userParcels;
       }
 
-      this.error = 'Sorry, you don\'t have any parcel delivery order';
+      this.error = 'Sorry, there are no parcel delivery orders';
       return {};
     }
 
