@@ -107,10 +107,17 @@ router.get('/delivered', (req, res) => {
   const parcel = new Parcel(ssn.parcels);
   const delivered = parcel.getDelivered();
 
-  res.send({
-    delivered,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      delivered,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch a specific parcel delivery oder
