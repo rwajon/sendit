@@ -130,16 +130,21 @@ router.get('/:id/parcels/pending', (req, res) => {
 // Fetch all parcels in transit of a specific user
 router.get('/:id/parcels/in-transit', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const inTransit = parcel.getInTransit(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    inTransit,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      inTransit,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 router.get('/:id/parcels/in-transit', (req, res) => {
