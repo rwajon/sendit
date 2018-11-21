@@ -232,29 +232,19 @@ class Parcel {
     return {};
   } // end of createOrder method
 
-  cancelOrder(pId, userId) {
-    if (pId) {
-      if (userId) {
-        Object.keys(this.parcels).forEach((key) => {
-          if (this.parcels[key].orderId === pId && this.parcels[key].sender.id === userId) {
-            this.parcel = this.parcels[key];
-            delete this.parcels[key];
-          }
-        });
-
-        if (Object.keys(this.parcel).length > 0) {
-          return 'Cancelled';
-        }
-
-        this.error = 'Sorry, you can only cancel order that you created';
-        return {};
+  cancelOrder(pId) {
+    Object.keys(this.parcels).forEach((key) => {
+      if (this.parcels[key].orderId === pId) {
+        this.parcel = this.parcels[key];
+        this.parcel.status = 'Cancelled';
       }
+    });
 
-      this.error = 'Sorry, you can not cancel this order';
-      return {};
+    if (Object.keys(this.parcel).length > 0) {
+      return this.parcel;
     }
 
-    this.error = 'Please, provide the id of the order to cancel!';
+    this.error = 'Sorry, this order was not cancelled';
     return {};
   }
 }

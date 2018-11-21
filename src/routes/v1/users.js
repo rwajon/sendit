@@ -201,19 +201,4 @@ router.put('/:id/parcels/:pId/change', (req, res) => {
   }
 });
 
-// Cancel a specific parcel delivery order of a specific user
-router.put('/:id/parcels/:pId/cancel', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-
-  if (ssn.parcels && req.params.pId) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.pId) {
-        delete ssn.parcels[key];
-        res.send('Cancelled');
-      }
-    });
-  }
-});
-
 export default router;

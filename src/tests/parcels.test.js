@@ -132,18 +132,6 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels/:pId
 
- describe('PUT /api/v1/parcels/:pId/cancel', () => {
-    it('cancel a specific parcel delivery order with the id: 003', (done) => {
-      chai.request(app)
-        .put('/api/v1/parcels/003/cancel')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.text).to.be.equal('Cancelled');
-          done();
-        });
-    });
-  }); // end of PUT /api/v1/parcels/:pId/cancel
-
   describe('PUT /api/v1/parcels/:pId/change', () => {
     // test 1
     it('should change the status and present location of a specific parcel delivery order with the id: 001', (done) => {
@@ -179,4 +167,28 @@ describe('Parcel', () => {
         });
     });
   }); // end of PUT /api/v1/parcels/:pId/change
+
+ describe('PUT /api/v1/parcels/:pId/cancel', () => {
+    // test 1
+    it('cancel a specific parcel delivery order with the id: 003', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/003/cancel')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).cancelled.status).to.be.equal('Cancelled');
+          done();
+        });
+    });
+
+    // test 2
+    it('should display \'Sorry, this order was not cancelled\'', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/0033/cancel')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not cancelled');
+          done();
+        });
+    });
+  }); // end of PUT /api/v1/parcels/:pId/cancel
 });

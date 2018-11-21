@@ -263,16 +263,4 @@ describe('User', () => {
         });
     });
   }); // end of PUT /api/v1/users/:id/parcels/:pId/change
-
-  describe('PUT /api/v1/users/:id/parcels/:pId/cancel', () => {
-    it('cancel a specific parcel delivery order with the id: 003', (done) => {
-      chai.request(app)
-        .put('/api/v1/users/001/parcels/003/cancel')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.text).to.be.equal('Cancelled');
-          done();
-        });
-    });
-  }); // end of PUT /api/v1/users/:id/parcels/:pId/cancel
 });

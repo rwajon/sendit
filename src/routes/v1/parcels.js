@@ -140,21 +140,6 @@ router.get('/:pId', (req, res) => {
   }
 });
 
-// Cancel a specific parcel delivery order of a specific user
-router.put('/:pId/cancel', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-
-  if (ssn.parcels && req.params.pId) {
-    Object.keys(ssn.parcels).forEach((key) => {
-      if (ssn.parcels[key].orderId === req.params.pId) {
-        delete ssn.parcels[key];
-        res.send('Cancelled');
-      }
-    });
-  }
-});
-
 // Change a specific parcel delivery order of a specific user
 router.put('/:pId/change', (req, res) => {
   ssn = req.session;
@@ -175,5 +160,27 @@ router.put('/:pId/change', (req, res) => {
     });
   }
 });
+
+// Cancel a specific parcel delivery order of a specific user
+router.put('/:pId/cancel', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
+  const cancelled = parcel.cancelOrder(req.params.pId);
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      cancelled,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
+});
+
+
 
 export default router;
