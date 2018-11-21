@@ -135,28 +135,28 @@ describe('User', () => {
   }); // end of Sign-up
 
   describe('GET /api/v1/users/:id/parcels', () => {
+    // test 1
     it('should return all parcel delivery orders of the user 001', (done) => {
       chai.request(app)
         .get('/api/v1/users/001/parcels')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).allParcels).length).to.be.above(0);
+          expect(Object.keys(JSON.parse(res.text).parcels).length).to.be.above(0);
+          done();
+        });
+    });
+
+    // test 2
+    it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
+      chai.request(app)
+        .get('/api/v1/users/0011/parcels')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
           done();
         });
     });
   }); // end of GET /api/v1/users/:id/parcels
-
-  describe('GET /api/v1/users/:id/parcels/:pId', () => {
-    it('should return details of a specific parcel delivery order with the id: 002 of the user 001', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/001/parcels/002')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).parcelDetails).length).to.be.above(0);
-          done();
-        });
-    });
-  }); // end of GET /api/v1/users/:id/parcels/:pId
 
   describe('GET /api/v1/users/:id/parcels/pending', () => {
     // test 1
