@@ -105,16 +105,21 @@ router.get('/:id/parcels', (req, res) => {
 // Fetch all pending parcel delivery orders of a specific user
 router.get('/:id/parcels/pending', (req, res) => {
   ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
   const pending = parcel.getPending(req.params.id);
 
-  res.send({
-    user: ssn.user,
-    pending,
-    error: parcel.error,
-  });
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      pending,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
 });
 
 // Fetch all parcels in transit of a specific user
