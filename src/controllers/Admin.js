@@ -6,12 +6,7 @@ class Admin {
   }
 
   signin(form) {
-    if (!form) {
-      this.error = 'Please, enter your username and your password!';
-      return this.error;
-    }
-
-    if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
+    if (form.uname !== '' && form.password !== '') {
       Object.keys(this.admins).forEach((key) => {
         if (this.admins[key].uname === form.uname && this.admins[key].password === form.password) {
           this.admin = {
