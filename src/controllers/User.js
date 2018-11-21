@@ -76,7 +76,8 @@ class User {
 
     if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
       Object.keys(this.users).forEach((key) => {
-        if (this.users[key].uname === form.uname && bcrypt.compareSync(form.password, this.users[key].password)) {
+        if (this.users[key].uname === form.uname
+          && bcrypt.compareSync(form.password, this.users[key].password)) {
           this.user = {
             id: this.users[key].id,
             fname: this.users[key].fname,
