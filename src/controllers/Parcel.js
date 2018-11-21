@@ -63,7 +63,7 @@ class Parcel {
       this.error = 'Sorry, there are no pending parcel delivery orders';
       return {};
     }
-    
+
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Pending') {
         this.pendingParcels[key] = this.parcels[key];
@@ -93,7 +93,7 @@ class Parcel {
       this.error = 'Sorry, there are no parcels in transit';
       return {};
     }
-    
+
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'In transit') {
         this.parcelsInTransit[key] = this.parcels[key];
@@ -123,7 +123,7 @@ class Parcel {
       this.error = 'Sorry, no parcel has been delivered';
       return {};
     }
-    
+
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].status === 'Delivered') {
         this.parcelsDelivered[key] = this.parcels[key];
@@ -141,9 +141,9 @@ class Parcel {
   changeOrder(pId, form, userId) {
     if (!(form.new_country || form.new_city || form.new_address || form.new_status)) {
       this.error = 'Sorry, this order was not changed';
-      return;
+      return false;
     }
-    
+
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
         if (this.parcels[key].orderId === pId && this.parcels[key].sender.id === userId) {

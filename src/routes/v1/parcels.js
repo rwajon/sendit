@@ -31,12 +31,10 @@ router.get('/', (req, res) => {
       status: 'Successfull',
       parcels: ssn.parcels,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Create a parcel delivery order
@@ -53,11 +51,10 @@ router.post('/', (req, res) => {
       status: 'Successfull',
       order,
     });
-  } else {
-    return res.status(200).json({
-      error: parcel.error,
-    });
   }
+  return res.status(200).json({
+    error: parcel.error,
+  });
 });
 
 // Fetch all pending parcel delivery orders
@@ -72,12 +69,10 @@ router.get('/pending', (req, res) => {
       status: 'Successfull',
       pending,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Fetch all parcels in transit
@@ -92,12 +87,10 @@ router.get('/in-transit', (req, res) => {
       status: 'Successfull',
       inTransit,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Fetch all delivered parcel
@@ -112,12 +105,10 @@ router.get('/delivered', (req, res) => {
       status: 'Successfull',
       delivered,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Fetch a specific parcel delivery oder
@@ -132,12 +123,10 @@ router.get('/:pId', (req, res) => {
       status: 'Successfull',
       order,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Change a specific parcel delivery order of a specific user
@@ -153,12 +142,10 @@ router.put('/:pId/change', (req, res) => {
       status: 'Successfull',
       changed,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Cancel a specific parcel delivery order of a specific user
@@ -173,14 +160,11 @@ router.put('/:pId/cancel', (req, res) => {
       status: 'Successfull',
       cancelled,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
-
 
 
 export default router;

@@ -33,11 +33,10 @@ router.post('/signup', (req, res) => {
       status: 'Successfull',
       newUser,
     });
-  }else{
-    return res.status(200).json({
-      error: user.error,
-    });
   }
+  return res.status(200).json({
+    error: user.error,
+  });
 });
 
 // sign-in
@@ -59,12 +58,10 @@ router.post('/signin', (req, res) => {
       message: `Welcome ${ssn.user.fname} ${ssn.user.lname}`,
       user: ssn.user,
     });
-    
-  }else{
-    return res.json({
-      error: user.error,
-    });
   }
+  return res.json({
+    error: user.error,
+  });
 });
 
 // Fetch a specific user information
@@ -99,12 +96,10 @@ router.get('/:id/parcels', (req, res) => {
       status: 'Successfull',
       parcels,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Fetch all pending parcel delivery orders of a specific user
@@ -119,12 +114,10 @@ router.get('/:id/parcels/pending', (req, res) => {
       status: 'Successfull',
       pending,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Fetch all parcels in transit of a specific user
@@ -139,12 +132,10 @@ router.get('/:id/parcels/in-transit', (req, res) => {
       status: 'Successfull',
       inTransit,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 router.get('/:id/parcels/in-transit', (req, res) => {
@@ -158,12 +149,10 @@ router.get('/:id/parcels/in-transit', (req, res) => {
       status: 'Successfull',
       inTransit,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Fetch all delivered parcel orders of a specific user
@@ -178,12 +167,10 @@ router.get('/:id/parcels/delivered', (req, res) => {
       status: 'Successfull',
       delivered,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 // Change a specific parcel delivery order of a specific user
@@ -198,12 +185,10 @@ router.put('/:id/parcels/:pId/change', (req, res) => {
       status: 'Successfull',
       changed,
     });
-
-  } else {
-    return res.json({
-      error: parcel.error,
-    });
   }
+  return res.json({
+    error: parcel.error,
+  });
 });
 
 export default router;
