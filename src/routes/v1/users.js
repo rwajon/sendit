@@ -64,26 +64,7 @@ router.post('/signin', (req, res) => {
   });
 });
 
-// Fetch a specific user information
-router.get('/:id', (req, res) => {
-  ssn = req.session;
-  ssn.users = ssn.users || staticUsers;
-  const user = new User(ssn.users);
-  const userInfo = user.getInfo(req.params.id);
-
-  if (!user.error) {
-    ssn.user = userInfo;
-    res.send({
-      userInfo: ssn.user,
-    });
-  }
-
-  res.send({
-    error: user.error,
-  });
-});
-
-/* ----Parcel delivery order-----*/
+/* ----Parcel delivery orders-----*/
 // Fetch all parcel delivery orders of a specific user
 router.get('/:id/parcels', (req, res) => {
   ssn = req.session;
@@ -121,23 +102,6 @@ router.get('/:id/parcels/pending', (req, res) => {
 });
 
 // Fetch all parcels in transit of a specific user
-router.get('/:id/parcels/in-transit', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const inTransit = parcel.getInTransit(req.params.id);
-
-  if (!parcel.error) {
-    return res.status(200).json({
-      status: 'Successfull',
-      inTransit,
-    });
-  }
-  return res.json({
-    error: parcel.error,
-  });
-});
-
 router.get('/:id/parcels/in-transit', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
