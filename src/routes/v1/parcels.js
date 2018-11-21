@@ -156,22 +156,21 @@ router.put('/:pId/cancel', (req, res) => {
 });
 
 // Change a specific parcel delivery order of a specific user
-router.all('/:pId/change', (req, res) => {
+router.put('/:pId/change', (req, res) => {
   ssn = req.session;
   ssn.parcels = ssn.parcels || staticOrders;
   const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getOrder(req.params.pId);
+  const changed = parcel.changeOrder(req.params.pId, req.body);
 
-  if (req.method === 'POST') {
-    const changed = parcel.changeOrder(req.params.pId, req.body);
 
-    res.send({
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
       changed,
-      error: parcel.error,
     });
+
   } else {
-    res.send({
-      parcelDetails: details,
+    return res.json({
       error: parcel.error,
     });
   }

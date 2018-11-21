@@ -144,27 +144,16 @@ describe('Parcel', () => {
     });
   }); // end of PUT /api/v1/parcels/:pId/cancel
 
-  describe('GET /api/v1/parcels/:pId/change', () => {
-    it('should return the current info of the order to change', (done) => {
+  describe('PUT /api/v1/parcels/:pId/change', () => {
+    // test 1
+    it('should change the status and present location of a specific parcel delivery order with the id: 001', (done) => {
       chai.request(app)
-        .get('/api/v1/parcels/002/change')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).parcelDetails).length).to.be.above(0);
-          done();
-        });
-    });
-  }); // end of GET /api/v1/parcels/:pId/change
-
-  describe('POST /api/v1/parcels/:pId/change', () => {
-    it('change the status and present location of a specific parcel delivery order with the id: 002', (done) => {
-      chai.request(app)
-        .post('/api/v1/parcels/002/change')
+        .put('/api/v1/parcels/001/change')
         .send({
           new_status: 'In transit',
           new_country: 'Uganda',
           new_city: 'Kampala',
-          new_address: '',
+          new_address: 'Downtown',
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -172,5 +161,22 @@ describe('Parcel', () => {
           done();
         });
     });
-  }); // end of POST /api/v1/parcels/:pId/change
+
+    // test 2
+    it('should display \'Sorry, this order was not changed\'', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/001/change')
+        .send({
+          new_status: '',
+          new_country: '',
+          new_city: '',
+          new_address: '',
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
+          done();
+        });
+    });
+  }); // end of PUT /api/v1/parcels/:pId/change
 });

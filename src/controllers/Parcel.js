@@ -139,6 +139,11 @@ class Parcel {
   } // end of getDelivered method
 
   changeOrder(pId, form, userId) {
+    if (!(form.new_country || form.new_city || form.new_address || form.new_status)) {
+      this.error = 'Sorry, this order was not changed';
+      return;
+    }
+    
     if (userId) {
       Object.keys(this.parcels).forEach((key) => {
         if (this.parcels[key].orderId === pId && this.parcels[key].sender.id === userId) {
@@ -156,13 +161,9 @@ class Parcel {
         }
       });
 
-      if (Object.keys(this.parcel).length > 0) {
-        return this.parcel;
-      }
-
-      this.error = 'Sorry, this order was not successfully changed';
-      return {};
+      return this.parcel;
     }
+
     Object.keys(this.parcels).forEach((key) => {
       if (this.parcels[key].orderId === pId) {
         if (form.new_status) {
@@ -182,12 +183,7 @@ class Parcel {
       }
     });
 
-    if (Object.keys(this.parcel).length > 0) {
-      return this.parcel;
-    }
-
-    this.error = 'Sorry, this order was not successfully changed';
-    return {};
+    return this.parcel;
   } // end of changeOrder method
 
   createOrder(form, user) {

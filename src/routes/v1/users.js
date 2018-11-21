@@ -162,6 +162,26 @@ router.get('/:id/parcels/:pId', (req, res) => {
   });
 });
 
+// Change a specific parcel delivery order of a specific user
+router.put('/:id/parcels/:pId/change', (req, res) => {
+  ssn = req.session;
+  ssn.parcels = ssn.parcels || staticOrders;
+  const parcel = new Parcel(ssn.parcels);
+  const changed = parcel.changeOrder(req.params.pId, req.body, req.params.id);
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      changed,
+    });
+
+  } else {
+    return res.json({
+      error: parcel.error,
+    });
+  }
+});
+
 // Cancel a specific parcel delivery order of a specific user
 router.put('/:id/parcels/:pId/cancel', (req, res) => {
   ssn = req.session;
@@ -173,31 +193,6 @@ router.put('/:id/parcels/:pId/cancel', (req, res) => {
         delete ssn.parcels[key];
         res.send('Cancelled');
       }
-    });
-  }
-});
-
-// Change a specific parcel delivery order of a specific user
-router.all('/:id/parcels/:pId/change', (req, res) => {
-  ssn = req.session;
-  // ssn.parcels = ssn.parcels || {};
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const details = parcel.getOrder(req.params.pId);
-
-  if (req.method === 'POST') {
-    const changed = parcel.changeOrder(req.params.pId, req.body, staticUsers.user6781);
-
-    res.send({
-      user: ssn.user,
-      changed,
-      error: parcel.error,
-    });
-  } else {
-    res.send({
-      user: ssn.user,
-      parcelDetails: details,
-      error: parcel.error,
     });
   }
 });
