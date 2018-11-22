@@ -126,6 +126,10 @@ label {
 	display: none;
 }
 
+.img-responsive{
+	width: 100%;
+}
+
 .block {
 	display: block;
 }
