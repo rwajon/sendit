@@ -7,32 +7,7 @@ class User {
     this.error = '';
   }
 
-  getInfo(id) {
-    if (!id) {
-      this.error = 'Please, provide a user id to check!';
-      return {};
-    }
-
-    Object.keys(this.users).forEach((key) => {
-      if (this.users[key].id === id) {
-        this.user = this.users[key];
-      }
-    });
-
-    if (Object.keys(this.user).length > 0) {
-      return this.user;
-    }
-
-    this.error = `Sorry, there is no user that corresponds to this id: ${id}`;
-    return {};
-  } // end of get method
-
   signup(form) {
-    if (!form) {
-      this.error = 'Please, enter the required information to sign-up!';
-      return {};
-    }
-
     if (form.fname && form.lname && form.uname && form.password && form.phone && form.country) {
       const id = Math.random().toString().substr(2, 3);
 
@@ -69,14 +44,10 @@ class User {
   } // end of signup method
 
   signin(form) {
-    if (!form) {
-      this.error = 'Please, enter your username and your password!';
-      return {};
-    }
-
-    if (Object.keys(form).length === 2 && form.uname !== '' && form.password !== '') {
+    if (form.uname !== '' && form.password !== '') {
       Object.keys(this.users).forEach((key) => {
-        if (this.users[key].uname === form.uname && bcrypt.compareSync(form.password, this.users[key].password)) {
+        if (this.users[key].uname === form.uname
+          && bcrypt.compareSync(form.password, this.users[key].password)) {
           this.user = {
             id: this.users[key].id,
             fname: this.users[key].fname,

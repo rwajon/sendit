@@ -12,10 +12,6 @@ import parcelsRouterV1 from './routes/v1/parcels';
 
 const app = express();
 
-// view engine setup
-/*app.set('views', path.join(__dirname, 'UI'));
-app.set('view engine', 'jade');*/
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -44,7 +40,7 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {});
+  res.send({'error': err.status});
   next();
 });
 

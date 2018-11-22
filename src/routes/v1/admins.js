@@ -13,29 +13,25 @@ router.use(session({
 }));
 
 // signin
-router.all('/signin', (req, res) => {
+router.post('/signin', (req, res) => {
   ssn = req.session;
+  ssn.admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
+  const admin = new Admin(ssn.admins);
+  const account = admin.signin(req.body);
 
-  if (req.method === 'POST') {
-    ssn.admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
-    const admin = new Admin(ssn.admins);
-    const account = admin.signin(req.body);
 
-    if (!admin.error) {
-      ssn.admin = account;
-      res.send({
-        admin: ssn.admin,
-      });
-    }
-
-    ssn.admin = ssn.admin || false;
-
-    res.send({
-      error: admin.error,
+  if (!admin.error) {
+    ssn.admin = account;
+    return res.status(200).json({
+      status: 'Successfull',
+      message: `Welcome ${ssn.admin.uname}`,
+      admin: ssn.admin,
     });
-  } else {
-    res.send('Please, sign-in!');
   }
+
+  return res.json({
+    error: admin.error,
+  });
 });
 
 export default router;
