@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 sendit_links.txt
 .gitignore
 node_modules
 coverage
+=======
+node_modules
+sendit_links.txt
+coverage
+>>>>>>> feature
