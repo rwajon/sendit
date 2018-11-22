@@ -248,7 +248,6 @@ label {
 }
 
 #menu-aside-toggle-btn {
-	position: absolute;
 	padding: 3px 8px;
 	margin: -2px;
 }
@@ -380,22 +379,22 @@ label {
 	padding: 15px 5px;
 }
 
-.order-in-transit {
+.btn-warning {
 	color: #fff;
 	background-color: #f0ad4e;
 }
 
-.order-delivered {
+.btn-success {
 	color: #fff;
 	background-color: #5cb85c;
 }
 
-.cancel-order {
+.btn-danger {
 	color: #fff;
 	background-color: #a00;
 }
 
-.order-details {
+.btn-default {
 	background-color: #fbfbfb;
 }
 
@@ -453,11 +452,6 @@ label {
 	#logo-top {
 		height: 45px;
 		padding: 5px;
-	}
-
-	section {
-		width: 80%;
-		margin-left: 20%;
 	}
 
 	#user-menu-aside,

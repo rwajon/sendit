@@ -25,31 +25,31 @@
 						<fieldset>
 							<legend>Receiver Info</legend>
 							<label for="rname">Name</label>
-							<input type="text" class="form-control smooth-shadow" name="rname" required="required">
+							<input type="text" class="form-control name="rname" required="required">
 							<br>
 							<label for="rphone">Phone</label>
-							<input type="text" class="form-control smooth-shadow" name="rphone" required="required">
+							<input type="text" class="form-control name="rphone" required="required">
 							<br>
 							<label for="remail">Email</label>
-							<input type="email" class="form-control smooth-shadow" name="remail" required="">
+							<input type="email" class="form-control name="remail" required="">
 						</fieldset>
 						<br>
 						<fieldset>
 							<legend>Parcel details</legend>
 							<label for="product">Product</label>
-							<input type="text" class="form-control smooth-shadow" name="product" required="required">
+							<input type="text" class="form-control name="product" required="required">
 							<br>
 							<label for="weight">Weight (kg)</label>
-							<input type="text" class="form-control smooth-shadow" name="weight">
+							<input type="text" class="form-control name="weight">
 							<br>
 							<label for="quantity">Quantity</label>
-							<input type="number" class="form-control smooth-shadow" name="quantity" required="required">
+							<input type="number" class="form-control name="quantity" required="required">
 						</fieldset>
 						<br>
 						<fieldset>
 							<legend>Confirm your location</legend>
 							<label for="sender_country">Country</label>
-							<select name="sender_country" class="form-control smooth-shadow no-bg" required="required">
+							<select name="sender_country" class="form-control no-bg" required="required">
 								<option value="#{user.country}" hidden="hidden">#{user.country}</option>
 								<optgroup label="Africa">
 									<option value="Rwanda">Rwanda</option>
@@ -70,17 +70,17 @@
 							</select>
 							<br>
 							<label for="sender_city">City</label>
-							<input type="text" class="form-control smooth-shadow" name="sender_city" value="#{user.city}" required="">
+							<input type="text" class="form-control" name="sender_city" value="#{user.city}" required="">
 							<br>
 							<label for="sender_address">Address</label>
-							<input type="text" class="form-control smooth-shadow" name="sender_address" value="#{user.address}" required="">
+							<input type="text" class="form-control" name="sender_address" value="#{user.address}" required="">
 							<br>
 						</fieldset>
 						<br>
 						<fieldset>
 							<legend>Specify the destination</legend>
 							<label for="dest_country">Country</label>
-							<select name="dest_country" class="form-control smooth-shadow no-bg" required="required">
+							<select name="dest_country" class="form-control no-bg" required="required">
 								<option></option>
 								<optgroup label="Africa">
 									<option value="Rwanda">Rwanda</option>
@@ -101,10 +101,10 @@
 							</select>
 							<br>
 							<label for="dest_city">City</label>
-							<input type="text" class="form-control smooth-shadow" name="dest_city" required="">
+							<input type="text" class="form-control" name="dest_city" required="">
 							<br>
 							<label for="dest_address">Address</label>
-							<input type="text" class="form-control smooth-shadow" name="dest_address" required="required">
+							<input type="text" class="form-control" name="dest_address" required="required">
 							<br>
 						</fieldset>
 						<br>
