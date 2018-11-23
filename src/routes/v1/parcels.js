@@ -47,6 +47,7 @@ router.post('/', (req, res) => {
   const order = parcel.createOrder(req.body, ssn.user);
 
   if (!parcel.error) {
+    ssn.parcels[`order${order.orderId}`] = order;
     return res.status(200).json({
       status: 'Successfull',
       order,
