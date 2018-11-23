@@ -32,6 +32,10 @@ label {
 	font-weight: bold;
 }
 
+input, select{
+	background-color: #fafafa!important;
+}
+
 /*padding*/
 .no-padding {
 	padding: 0px !important;
