@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import db from '../models/index';
 
 class User {
   constructor(users) {
@@ -7,34 +8,44 @@ class User {
     this.error = '';
   }
 
-  signup(form) {
+  async signup(form) {
     if (form.fname && form.lname && form.uname && form.password && form.phone && form.country) {
-      const id = Math.random().toString().substr(2, 3);
 
-      this.users[`user${id}`] = {
-        id,
-        fname: form.fname,
-        lname: form.lname,
-        uname: form.uname,
-        password: bcrypt.hashSync(form.password, 8),
-        phone: form.phone,
-        email: form.email,
-        country: form.country,
-        city: form.city,
-        address: form.address,
-      };
+      const text = `INSERT INTO
+            users(fname, lname, uname, password, phone, email, country, city, address)
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            returning id, fname, uname, phone, email, country, city, address`;
 
-      this.user = {
-        id,
-        fname: form.fname,
-        lname: form.lname,
-        uname: form.uname,
-        phone: form.phone,
-        email: form.email,
-        country: form.country,
-        city: form.city,
-        address: form.address,
-      };
+      const values = [
+        form.fname,
+        form.lname,
+        form.uname,
+        bcrypt.hashSync(form.password, 8),
+        form.phone,
+        form.email,
+        form.country,
+        form.city,
+        form.address
+      ];
+
+      try {
+        const checkUser = await db.query('SELECT * FROM users WHERE uname=$1', [form.uname]);
+
+        if (checkUser.rows[0]) {
+          for (let i = 0; i < checkUser.rows.length; i++) {
+            if (bcrypt.compareSync(form.password, checkUser.rows[0].password)) {
+              this.error = 'Sorry, this account already exists';
+              return {};
+            }
+          }
+        }
+
+        const { rows } = await db.query(text, values);
+        this.user = rows[0];
+
+      } catch (error) {
+        console.log(error);
+      }
 
       return this.user;
     }
@@ -46,8 +57,8 @@ class User {
   signin(form) {
     if (form.uname !== '' && form.password !== '') {
       Object.keys(this.users).forEach((key) => {
-        if (this.users[key].uname === form.uname
-          && bcrypt.compareSync(form.password, this.users[key].password)) {
+        if (this.users[key].uname === form.uname &&
+          bcrypt.compareSync(form.password, this.users[key].password)) {
           this.user = {
             id: this.users[key].id,
             fname: this.users[key].fname,

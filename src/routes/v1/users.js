@@ -21,22 +21,23 @@ const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
 // sign-up
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
   ssn = req.session;
-  ssn.users = ssn.users || staticUsers;
-
-  const user = new User(ssn.users);
-  const newUser = user.signup(req.body);
+  const user = new User();
+  const newUser = await user.signup(req.body);
 
   if (!user.error) {
-    return res.status(200).json({
-      status: 'Successfull',
+    ssn.user = newUser;
+    return res.status(201).json({
+      status: 'Successful',
       newUser,
     });
   }
+
   return res.status(200).json({
     error: user.error,
   });
+
 });
 
 // sign-in
