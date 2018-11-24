@@ -20,13 +20,13 @@ pool.on('connect', () => {
 });
 
 const dropTables = () => {
+  const ordersTable = `DROP TABLE IF EXISTS orders`;
+  
   const usersTable = `DROP TABLE IF EXISTS users`;
 
   const adminsTable = `DROP TABLE IF EXISTS admins`;
 
-  const ordersTable = `DROP TABLE IF EXISTS orders`;
-
-  const dropTablesQueries = `${usersTable}; ${adminsTable}; ${ordersTable}`;   
+  const dropTablesQueries = `${ordersTable}; ${usersTable}; ${adminsTable}`;   
 
   pool.query(dropTablesQueries)
     .then((res) => {
@@ -55,7 +55,8 @@ const createTables = () => {
         email VARCHAR(100) NULL,
         country VARCHAR(50) NOT NULL,
         city VARCHAR(50) NULL,
-        address VARCHAR(100) NULL
+        address VARCHAR(100) NULL,
+        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const adminsTable = `CREATE TABLE IF NOT EXISTS
@@ -69,13 +70,14 @@ const createTables = () => {
         email VARCHAR(100) NULL,
         country VARCHAR(50) NOT NULL,
         city VARCHAR(50) NULL,
-        address VARCHAR(100) NULL
+        address VARCHAR(100) NULL,
+        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const ordersTable = `CREATE TABLE IF NOT EXISTS
       orders(
         id SERIAL PRIMARY KEY,
-        sender_id INT NOT NULL,
+        sender_id INT NOT NULL REFERENCES users(id),
         receiver_name VARCHAR(100) NOT NULL,
         receiver_phone VARCHAR(15) NOT NULL,
         receiver_email VARCHAR(100) NULL,
@@ -87,7 +89,8 @@ const createTables = () => {
         qty INT NOT NULL,
         price DECIMAL(12,3) NOT NULL,
         status VARCHAR(20) NULL,
-        presentLocation TEXT NULL
+        presentLocation TEXT NULL,
+        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const createTablesQueries = `${usersTable}; ${adminsTable}; ${ordersTable}`;   
