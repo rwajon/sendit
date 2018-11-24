@@ -41,7 +41,17 @@ class User {
         }
 
         const { rows } = await db.query(text, values);
-        this.user = rows[0];
+        
+        this.user = {
+          fname: rows[0].fname,
+          lname: rows[0].lname,
+          uname: rows[0].uname,
+          phone: rows[0].phone,
+          email: rows[0].email,
+          country: rows[0].country,
+          city: rows[0].city,
+          address: rows[0].address,
+        };
 
       } catch (error) {
         console.log(error);
