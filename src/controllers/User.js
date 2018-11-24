@@ -31,9 +31,9 @@ class User {
       try {
         const checkUser = await db.query('SELECT * FROM users WHERE uname=$1', [form.uname]);
 
-        if (checkUser.rows[0]) {
+        if (checkUser.rows.length) {
           for (let i = 0; i < checkUser.rows.length; i++) {
-            if (bcrypt.compareSync(form.password, checkUser.rows[0].password)) {
+            if (bcrypt.compareSync(form.password, checkUser.rows[i].password)) {
               this.error = 'Sorry, this account already exists';
               return {};
             }
@@ -41,7 +41,17 @@ class User {
         }
 
         const { rows } = await db.query(text, values);
-        this.user = rows[0];
+        
+        this.user = {
+          fname: rows[0].fname,
+          lname: rows[0].lname,
+          uname: rows[0].uname,
+          phone: rows[0].phone,
+          email: rows[0].email,
+          country: rows[0].country,
+          city: rows[0].city,
+          address: rows[0].address,
+        };
 
       } catch (error) {
         console.log(error);
