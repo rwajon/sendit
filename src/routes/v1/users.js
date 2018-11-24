@@ -41,26 +41,21 @@ router.post('/signup', async (req, res) => {
 });
 
 // sign-in
-router.post('/signin', (req, res) => {
+router.post('/signin', async (req, res) => {
   ssn = req.session;
-  ssn.users = ssn.users || staticUsers;
-  ssn.parcels = ssn.parcels || staticOrders;
-
-  const user = new User(ssn.users);
-  const parcel = new Parcel(ssn.parcels);
-  const account = user.signin(req.body);
+  const user = new User();
+  const account = await user.signin(req.body);
 
   if (!user.error) {
     ssn.user = account;
-    ssn.parcels = parcel.getAll(ssn.user.id);
-
-    return res.status(200).json({
+    return res.status(202).json({
       status: 'Successfull',
       message: `Welcome ${ssn.user.fname} ${ssn.user.lname}`,
       user: ssn.user,
     });
   }
-  return res.json({
+  
+  return res.status(200).json({
     error: user.error,
   });
 });

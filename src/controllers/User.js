@@ -41,7 +41,7 @@ class User {
         }
 
         const { rows } = await db.query(text, values);
-        
+
         this.user = {
           fname: rows[0].fname,
           lname: rows[0].lname,
@@ -64,35 +64,43 @@ class User {
     return {};
   } // end of signup method
 
-  signin(form) {
+  async signin(form) {
     if (form.uname !== '' && form.password !== '') {
-      Object.keys(this.users).forEach((key) => {
-        if (this.users[key].uname === form.uname &&
-          bcrypt.compareSync(form.password, this.users[key].password)) {
-          this.user = {
-            id: this.users[key].id,
-            fname: this.users[key].fname,
-            lname: this.users[key].lname,
-            uname: this.users[key].uname,
-            phone: this.users[key].phone,
-            email: this.users[key].email,
-            country: this.users[key].country,
-            city: this.users[key].city,
-            address: this.users[key].address,
-          };
+      try {
+        const checkUser = await db.query('SELECT * FROM users WHERE uname=$1', [form.uname]);
+
+        if (checkUser.rows.length > 0) {
+          for (let i = 0; i < checkUser.rows.length; i++) {
+            if (bcrypt.compareSync(form.password, checkUser.rows[i].password)) {
+              this.user = {
+                id: checkUser.rows[i].id,
+                fname: checkUser.rows[i].fname,
+                lname: checkUser.rows[i].lname,
+                uname: checkUser.rows[i].uname,
+                phone: checkUser.rows[i].phone,
+                email: checkUser.rows[i].email,
+                country: checkUser.rows[i].country,
+                city: checkUser.rows[i].city,
+                address: checkUser.rows[i].address,
+              }
+
+              return this.user;
+            }
+          }
         }
-      });
 
-      if (Object.keys(this.user).length > 0) {
-        return this.user;
+        if (Object.keys(this.user).length <= 0) {
+          this.error = 'Sorry, your username or password is incorrect';
+          return {};
+        }
+
+      } catch (error) {
+        console.log(error);
       }
-
-      this.error = 'Sorry, your username or password is incorrect';
+    } else {
+      this.error = 'Please, enter your username and your password!';
       return {};
     }
-
-    this.error = 'Please, enter your username and your password!';
-    return {};
   } // end of signin method
 } // end of User class
 

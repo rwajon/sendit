@@ -102,7 +102,8 @@ describe('User', () => {
             password: '12345',
           })
           .end((err, res) => {
-            expect(res.status).to.equal(200);
+            expect(res.status).to.equal(202);
+            console.log(res.text);
             expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
             done();
           });
