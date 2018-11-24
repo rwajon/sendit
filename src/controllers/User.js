@@ -31,9 +31,9 @@ class User {
       try {
         const checkUser = await db.query('SELECT * FROM users WHERE uname=$1', [form.uname]);
 
-        if (checkUser.rows[0]) {
+        if (checkUser.rows.length) {
           for (let i = 0; i < checkUser.rows.length; i++) {
-            if (bcrypt.compareSync(form.password, checkUser.rows[0].password)) {
+            if (bcrypt.compareSync(form.password, checkUser.rows[i].password)) {
               this.error = 'Sorry, this account already exists';
               return {};
             }
