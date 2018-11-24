@@ -1,5 +1,6 @@
 env:
   global:
+    - NODE_ENV=test
     - CC_TEST_REPORTER_ID=35bc56bf57f25bfcdb400793331b23f7a927b95e437d0d36b26ffe95b6f689fe
 language: node_js
 node_js:
@@ -10,7 +11,11 @@ addons:
 cache:
   directories:
     - "node_modules"
+services:
+  - postgresql
 before_script:
+  - psql -c 'CREATE DATABASE sendit_test;' -U postgres
+  - npm run createTables
   - npm install --save-dev coveralls
   - npm install codeclimate-test-reporter istanbul -g
 script:
