@@ -43,6 +43,7 @@ class User {
         const { rows } = await db.query(text, values);
 
         this.user = {
+          id: rows[0].id,
           fname: rows[0].fname,
           lname: rows[0].lname,
           uname: rows[0].uname,
