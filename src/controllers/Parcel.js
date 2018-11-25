@@ -11,19 +11,48 @@ class Parcel {
     this.error = '';
   }
 
-  getOrder(pId) {
-    Object.keys(this.parcels).forEach((key) => {
-      if (this.parcels[key].orderId === pId) {
-        this.parcel = this.parcels[key];
+  async getOrder(pId) {
+    try {
+      const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
+      if (order.rows.length > 0) {
+        const sender = await db.query('SELECT * FROM users WHERE id=$1', [order.rows[0].sender_id]);
+
+        return {
+          orderId: order.rows[0].id,
+          sender: {
+            id: sender.rows[0].id,
+            fname: sender.rows[0].fname,
+            lname: sender.rows[0].lname,
+            uname: sender.rows[0].uname,
+            phone: sender.rows[0].phone,
+            email: sender.rows[0].email,
+            country: sender.rows[0].country,
+            city: sender.rows[0].city,
+            address: sender.rows[0].address
+          },
+          receiver: {
+            name: order.rows[0].receiver_name,
+            phone: order.rows[0].receiver_phone,
+            email: order.rows[0].receiver_email,
+            country: order.rows[0].receiver_country,
+            city: order.rows[0].receiver_city,
+            address: order.rows[0].receiver_address
+          },
+          product: order.rows[0].product,
+          weight: order.rows[0].weight,
+          quantity: order.rows[0].qty,
+          price: `USD ${order.rows[0].price}`,
+          status: order.rows[0].status,
+          presentLocation: order.rows[0].presentlocation,
+          created_date: order.rows[0].created_date,
+        }
+      } else {
+        this.error = `Sorry, there is no parcel delivery order with this id: ${pId}`;
+        return {};
       }
-    });
-
-    if (Object.keys(this.parcel).length > 0) {
-      return this.parcel;
+    } catch (error) {
+      console.log(error);
     }
-
-    this.error = `Sorry, there is no parcel delivery order with this id: ${pId}`;
-    return {};
   } // end of get method
 
   async getAll(userId) {
