@@ -10,15 +10,17 @@ const parcels = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 
 chai.use(chaiHttp);
 
-// clear orders table
-try {
-  db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
-} catch (error) {
-  console.log(error);
-  exit();
-}
-
 describe('Parcel', () => {
+  // clear orders table
+  before(async () => {
+    try {
+      await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+    } catch (error) {
+      console.log(error);
+      exit();
+    }
+  });
+
   describe('POST /api/v1/parcels', () => {
     // test 1
     it('should create a parcel delivery order', (done) => {
@@ -137,6 +139,15 @@ describe('Parcel', () => {
   }); // end of GET /api/v1/parcels
 
   describe('GET /api/v1/parcels/pending', () => {
+    before(async () => {
+      try {
+        await db.query('UPDATE orders SET status=\'pending\';');
+      } catch (error) {
+        console.log(error);
+        exit();
+      }
+    });
+
     it('should return all pending parcel delivery orders', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/pending')
@@ -145,12 +156,19 @@ describe('Parcel', () => {
           expect(JSON.parse(res.text).pending.length).to.be.above(0);
           done();
         });
-      // update orders to in - transit for the next test
-      db.query('UPDATE orders SET status=\'in transit\';');
     });
   }); // end of GET /api/v1/parcels/pending
 
   describe('GET /api/v1/parcels/in-transit', () => {
+    before(async () => {
+      try {
+        await db.query('UPDATE orders SET status=\'in transit\';');
+      } catch (error) {
+        console.log(error);
+        exit();
+      }
+    });
+
     it('should return all parcels in transit', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/in-transit')
@@ -159,12 +177,19 @@ describe('Parcel', () => {
           expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
           done();
         });
-      // update orders to delivered for the next test
-      db.query('UPDATE orders SET status=\'delivered\';');
     });
   }); // end of GET /api/v1/parcels/in-transit
 
   describe('GET /api/v1/parcels/delivered', () => {
+    before(async () => {
+      try {
+        await db.query('UPDATE orders SET status=\'delivered\';');
+      } catch (error) {
+        console.log(error);
+        exit();
+      }
+    });
+
     it('should return all delivered parcels', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/delivered')

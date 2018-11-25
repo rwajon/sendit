@@ -10,15 +10,17 @@ const users = JSON.parse(fs.readFileSync('src/models/users.json'));
 
 chai.use(chaiHttp);
 
-// clear users table
-try {
-  db.query('TRUNCATE users CASCADE; ALTER SEQUENCE users_id_seq RESTART WITH 1;');
-} catch (error) {
-  console.log(error);
-  exit();
-}
-
 describe('User', () => {
+  // clear users table
+  before(async () => {
+    try {
+      await db.query('TRUNCATE users CASCADE; ALTER SEQUENCE users_id_seq RESTART WITH 1;');
+    } catch (error) {
+      console.log(error);
+      exit();
+    }
+  });
+
   /* Sign-up */
   describe('Sign-up', () => {
     describe('POST /api/v1/users/signup', () => {
@@ -200,6 +202,15 @@ describe('User', () => {
   }); // end of GET /api/v1/users/:userId/parcels
 
   describe('GET /api/v1/users/:userId/parcels/pending', () => {
+    before(async () => {
+      try {
+        await db.query('UPDATE orders SET status=\'pending\';');
+      } catch (error) {
+        console.log(error);
+        exit();
+      }
+    });
+
     // test 1
     it('should return all pending parcel delivery orders of user 1', (done) => {
       chai.request(app)
@@ -220,12 +231,19 @@ describe('User', () => {
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
           done();
         });
-      // update orders to in - transit for the next test
-      db.query('UPDATE orders SET status=\'in transit\';');
     });
   }); // end of GET /api/v1/users/:userId/parcels/pending
 
   describe('GET /api/v1/users/:userId/parcels/in-transit', () => {
+    before(async () => {
+      try {
+        await db.query('UPDATE orders SET status=\'in transit\';');
+      } catch (error) {
+        console.log(error);
+        exit();
+      }
+    });
+
     // test 1
     it('should return all parcels in transit of the user 1', (done) => {
       chai.request(app)
@@ -247,12 +265,19 @@ describe('User', () => {
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
           done();
         });
-      // update orders to delivered for the next test
-      db.query('UPDATE orders SET status=\'delivered\';');
     });
   }); // end of GET /api/v1/users/:userId/parcels/in-transit
 
   describe('GET /api/v1/users/:userId/parcels/delivered', () => {
+    before(async () => {
+      try {
+        await db.query('UPDATE orders SET status=\'delivered\';');
+      } catch (error) {
+        console.log(error);
+        exit();
+      }
+    });
+
     // test 1
     it('should return all delivered parcels of the user 1', (done) => {
       chai.request(app)
@@ -274,8 +299,6 @@ describe('User', () => {
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no delivered parcels');
           done();
         });
-      // update orders to pending for the next test
-      db.query('UPDATE orders SET status=\'pending\';');
     });
   }); // end of GET /api/v1/users/:userId/parcels/delivered
 
