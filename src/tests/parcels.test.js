@@ -145,20 +145,22 @@ describe('Parcel', () => {
           expect(JSON.parse(res.text).pending.length).to.be.above(0);
           done();
         });
+      // update orders to in - transit for the next test
+      db.query('UPDATE orders SET status=\'in transit\';');
     });
   }); // end of GET /api/v1/parcels/pending
 
-  /*describe('GET /api/v1/parcels/in-transit', () => {
+  describe('GET /api/v1/parcels/in-transit', () => {
     it('should return all parcels in transit', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/in-transit')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).inTransit).length).to.be.above(0);
+          expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
           done();
         });
     });
-  });*/ // end of GET /api/v1/parcels/in-transit
+  }); // end of GET /api/v1/parcels/in-transit
 
   describe('GET /api/v1/parcels/delivered', () => {
     it('should return all delivered parcels', (done) => {
@@ -282,4 +284,17 @@ describe('Parcel', () => {
         });
     });
   }); // end of GET /api/v1/parcels/pending
+
+  describe('GET /api/v1/parcels/in-transit', () => {
+    it('should display \'Sorry, there are no parcels in transit\'', (done) => {
+      db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      chai.request(app)
+        .get('/api/v1/parcels/in-transit')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
+          done();
+        });
+    });
+  }); // end of GET /api/v1/parcels/in-transit
 });

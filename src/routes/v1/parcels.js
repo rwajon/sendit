@@ -66,15 +66,14 @@ router.get('/pending', async (req, res) => {
 });
 
 // Fetch all parcels in transit
-router.get('/in-transit', (req, res) => {
+router.get('/in-transit', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const inTransit = parcel.getInTransit();
+  const parcel = new Parcel();
+  const inTransit = await parcel.getInTransit();
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       inTransit,
     });
   }
