@@ -55,15 +55,15 @@ router.post('/signin', async (req, res) => {
 
 /* ----Parcel delivery orders-----*/
 // Fetch all parcel delivery orders of a specific user
-router.get('/:id/parcels', (req, res) => {
+router.get('/:userId/parcels', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const parcels = parcel.getAll(req.params.id);
+  ssn.user = ssn.user || {};
+  const parcel = new Parcel();
+  const parcels = await parcel.getAll(req.params.userId);
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       parcels,
     });
   }

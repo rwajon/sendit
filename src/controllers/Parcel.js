@@ -26,28 +26,28 @@ class Parcel {
     return {};
   } // end of get method
 
-  getAll(userId) {
-    if (userId) {
-      Object.keys(this.parcels).forEach((key) => {
-        if (this.parcels[key].sender.id === userId) {
-          this.userParcels[key] = this.parcels[key];
+  async getAll(userId) {
+    try {
+      if (userId) {
+        const { rows } = await db.query('SELECT * FROM orders WHERE sender_id=$1', [userId]);
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no parcel delivery orders';
+          return {};
         }
-      });
-
-      if (Object.keys(this.userParcels).length > 0) {
-        return this.userParcels;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders');
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no parcel delivery orders';
+          return {};
+        }
       }
-
-      this.error = 'Sorry, there are no parcel delivery orders';
-      return {};
+    } catch (error) {
+      console.log(error);
     }
-
-    if (Object.keys(this.parcels).length > 0) {
-      return this.parcels;
-    }
-
-    this.error = 'Sorry, there are no parcel delivery orders';
-    return {};
   } // end fo getAll method
 
   getPending(userId) {
