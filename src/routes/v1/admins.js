@@ -1,16 +1,9 @@
 import fs from 'fs';
 import express from 'express';
-import session from 'express-session';
 import Admin from '../../controllers/Admin';
 
 let ssn;
 const router = express.Router();
-
-router.use(session({
-  secret: 'rwajon@sendit',
-  resave: true,
-  saveUninitialized: true,
-}));
 
 // signin
 router.post('/signin', (req, res) => {

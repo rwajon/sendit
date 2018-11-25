@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 // clear users table
 try {
-  db.query('TRUNCATE users; ALTER SEQUENCE users_id_seq RESTART WITH 1;');
+  db.query('TRUNCATE users CASCADE; ALTER SEQUENCE users_id_seq RESTART WITH 1;');
 } catch (error) {
   console.log(error);
   exit();
