@@ -83,15 +83,14 @@ router.get('/in-transit', async (req, res) => {
 });
 
 // Fetch all delivered parcel
-router.get('/delivered', (req, res) => {
+router.get('/delivered', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const delivered = parcel.getDelivered();
+  const parcel = new Parcel();
+  const delivered = await parcel.getDelivered();
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       delivered,
     });
   }
