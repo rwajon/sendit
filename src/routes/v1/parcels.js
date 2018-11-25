@@ -49,15 +49,14 @@ router.get('/', async (req, res) => {
 });
 
 // Fetch all pending parcel delivery orders
-router.get('/pending', (req, res) => {
+router.get('/pending', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const pending = parcel.getPending();
+  const parcel = new Parcel();
+  const pending = await parcel.getPending();
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       pending,
     });
   }

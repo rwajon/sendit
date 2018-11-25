@@ -136,17 +136,17 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels
 
-  /*describe('GET /api/v1/parcels/pending', () => {
+  describe('GET /api/v1/parcels/pending', () => {
     it('should return all pending parcel delivery orders', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/pending')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).pending).length).to.be.above(0);
+          expect(JSON.parse(res.text).pending.length).to.be.above(0);
           done();
         });
     });
-  });*/ // end of GET /api/v1/parcels/pending
+  }); // end of GET /api/v1/parcels/pending
 
   describe('GET /api/v1/parcels/in-transit', () => {
     it('should return all parcels in transit', (done) => {
@@ -254,7 +254,7 @@ describe('Parcel', () => {
     });
   }); // end of PUT /api/v1/parcels/:pId/cancel
 
-  
+
   /******************Clear all records in table orders********************/
 
   describe('GET /api/v1/parcels', () => {
@@ -269,4 +269,17 @@ describe('Parcel', () => {
         });
     });
   }); // end of GET /api/v1/parcels
+
+  describe('GET /api/v1/parcels/pending', () => {
+    it('should display \'Sorry, there are no pending parcel delivery orders\'', (done) => {
+      db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      chai.request(app)
+        .get('/api/v1/parcels/pending')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
+          done();
+        });
+    });
+  }); // end of GET /api/v1/parcels/pending
 });
