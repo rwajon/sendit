@@ -74,34 +74,28 @@ class Parcel {
     }
   } // end fo getPending method
 
-  getInTransit(userId) {
-    if (userId) {
-      Object.keys(this.parcels).forEach((key) => {
-        if (this.parcels[key].status === 'In transit' && this.parcels[key].sender.id === userId) {
-          this.parcelsInTransit[key] = this.parcels[key];
+  async getInTransit(userId) {
+    try {
+      if (userId) {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' AND sender_id=$1', [userId]);
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no parcels in transit';
+          return {};
         }
-      });
-
-      if (Object.keys(this.parcelsInTransit).length > 0) {
-        return this.parcelsInTransit;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\'');
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no parcels in transit';
+          return {};
+        }
       }
-
-      this.error = 'Sorry, there are no parcels in transit';
-      return {};
+    } catch (error) {
+      console.log(error);
     }
-
-    Object.keys(this.parcels).forEach((key) => {
-      if (this.parcels[key].status === 'In transit') {
-        this.parcelsInTransit[key] = this.parcels[key];
-      }
-    });
-
-    if (Object.keys(this.parcelsInTransit).length > 0) {
-      return this.parcelsInTransit;
-    }
-
-    this.error = 'Sorry, there are no parcels in transit';
-    return {};
   } // end of getInTransit method
 
   getDelivered(userId) {
