@@ -141,29 +141,63 @@ describe('User', () => {
     });
   }); // end of Sign-in
 
-  describe('GET /api/v1/users/:id/parcels', () => {
+  describe('GET /api/v1/users/:userId/parcels', () => {
     // test 1
-    it('should return all parcel delivery orders of the user 001', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/001/parcels')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).parcels).length).to.be.above(0);
-          done();
+    it('should return all parcel delivery orders of the user 1', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          agent.post('/api/v1/parcels')
+            .send({
+              rname: "John Smith",
+              rphone: "+123456789",
+              remail: "johnsmith@gmail.com",
+              product: "Sandals",
+              weight: "1.5 Kg",
+              quantity: "2",
+              sender_country: "Rwanda",
+              sender_city: "Gisenyi",
+              sender_address: "Mbugangari",
+              dest_country: "USA",
+              dest_city: "Ney-York",
+              dest_address: "Near Central Park"
+            })
+            .then(res => {
+              expect(res.status).to.equal(201);
+              expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);
+
+              return agent.get('/api/v1/users/1/parcels')
+                .then(res => {
+                  expect(res.status).to.equal(200);
+                  expect(JSON.parse(res.text).parcels.length).to.be.above(0);
+                })
+                .then(() => {
+                  done();
+                  agent.close();
+                });
+            });
         });
     });
 
     // test 2
     it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
       chai.request(app)
-        .get('/api/v1/users/0011/parcels')
+        .get('/api/v1/users/11/parcels')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
           done();
         });
     });
-  }); // end of GET /api/v1/users/:id/parcels
+  }); // end of GET /api/v1/users/:userId/parcels
 
   describe('GET /api/v1/users/:id/parcels/pending', () => {
     // test 1

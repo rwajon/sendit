@@ -19,7 +19,7 @@ try {
 }
 
 describe('Parcel', () => {
-  describe('GET /api/v1/parcels', () => {
+  /*describe('GET /api/v1/parcels', () => {
     it('should return all parcel delivery orders', (done) => {
       chai.request(app)
         .get('/api/v1/parcels')
@@ -30,7 +30,7 @@ describe('Parcel', () => {
         });
     });
   }); // end of GET /api/v1/parcels
-
+*/
   describe('POST /api/v1/parcels', () => {
     // test 1
     it('should create a parcel delivery order', (done) => {
