@@ -249,7 +249,6 @@ describe('User', () => {
       chai.request(app)
         .get('/api/v1/users/1/parcels/in-transit')
         .end((err, res) => {
-          console.log(res.text);
           expect(res.status).to.equal(200);
           expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
           done();
@@ -283,7 +282,6 @@ describe('User', () => {
       chai.request(app)
         .get('/api/v1/users/1/parcels/delivered')
         .end((err, res) => {
-          console.log(res.text);
           expect(res.status).to.equal(200);
           expect(JSON.parse(res.text).delivered.length).to.be.above(0);
           done();
