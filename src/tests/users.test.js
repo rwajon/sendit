@@ -304,4 +304,19 @@ describe('User', () => {
         });
     });
   }); // end of PUT /api/v1/users/:id/parcels/:pId/change
+
+  /******************Clear all records in table orders********************/
+
+  describe('GET /api/v1/users/:userId/parcels', () => {
+    it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
+      db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      chai.request(app)
+        .get('/api/v1/users/1/parcels')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
+          done();
+        });
+    });
+  }); // end of GET /api/v1/parcels
 });
