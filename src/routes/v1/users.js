@@ -1,17 +1,10 @@
 import fs from 'fs';
 import express from 'express';
-import session from 'express-session';
 import User from '../../controllers/User';
 import Parcel from '../../controllers/Parcel';
 
 let ssn;
 const router = express.Router();
-
-router.use(session({
-  secret: 'rwajon@sendit',
-  resave: true,
-  saveUninitialized: true,
-}));
 
 /* -------------------static users-----------------------------*/
 const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));

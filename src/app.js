@@ -4,6 +4,8 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import dotenv from 'dotenv';
+import session from 'express-session';
 
 import indexRouterV1 from './routes/v1/index';
 import usersRouterV1 from './routes/v1/users';
@@ -11,6 +13,14 @@ import adminsRouterV1 from './routes/v1/admins';
 import parcelsRouterV1 from './routes/v1/parcels';
 
 const app = express();
+
+dotenv.config();
+
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: true,
+  saveUninitialized: true,
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -41,8 +51,8 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.send({
-  	'message': err.message,
-  	'error': err.status
+    'message': err.message,
+    'error': err.status
   });
   next();
 });
