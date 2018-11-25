@@ -220,17 +220,20 @@ describe('User', () => {
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
           done();
         });
+      // update orders to in - transit for the next test
+      db.query('UPDATE orders SET status=\'in transit\';');
     });
   }); // end of GET /api/v1/users/:userId/parcels/pending
 
-  describe('GET /api/v1/users/:id/parcels/in-transit', () => {
+  describe('GET /api/v1/users/:userId/parcels/in-transit', () => {
     // test 1
-    it('should return all parcels in transit of the user 001', (done) => {
+    it('should return all parcels in transit of the user 1', (done) => {
       chai.request(app)
-        .get('/api/v1/users/001/parcels/in-transit')
+        .get('/api/v1/users/1/parcels/in-transit')
         .end((err, res) => {
+          console.log(res.text);
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).inTransit).length).to.be.above(0);
+          expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
           done();
         });
     });
@@ -238,14 +241,14 @@ describe('User', () => {
     // test 2
     it('should display \'Sorry, there are no parcels in transit\'', (done) => {
       chai.request(app)
-        .get('/api/v1/users/0011/parcels/in-transit')
+        .get('/api/v1/users/000/parcels/in-transit')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
           done();
         });
     });
-  }); // end of GET /api/v1/users/:id/parcels/in-transit
+  }); // end of GET /api/v1/users/:userId/parcels/in-transit
 
   describe('GET /api/v1/users/:id/parcels/delivered', () => {
     // test 1

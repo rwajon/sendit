@@ -91,15 +91,15 @@ router.get('/:userId/parcels/pending', async (req, res) => {
 });
 
 // Fetch all parcels in transit of a specific user
-router.get('/:id/parcels/in-transit', (req, res) => {
+router.get('/:userId/parcels/in-transit', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const inTransit = parcel.getInTransit(req.params.id);
+  ssn.user = ssn.user || {};
+  const parcel = new Parcel();
+  const inTransit = await parcel.getInTransit(req.params.userId);
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       inTransit,
     });
   }
