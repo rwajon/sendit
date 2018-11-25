@@ -19,18 +19,6 @@ try {
 }
 
 describe('Parcel', () => {
-  /*describe('GET /api/v1/parcels', () => {
-    it('should return all parcel delivery orders', (done) => {
-      chai.request(app)
-        .get('/api/v1/parcels')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).parcels).length).to.be.above(0);
-          done();
-        });
-    });
-  }); // end of GET /api/v1/parcels
-*/
   describe('POST /api/v1/parcels', () => {
     // test 1
     it('should create a parcel delivery order', (done) => {
@@ -135,6 +123,18 @@ describe('Parcel', () => {
         });
     });
   }); // end of POST /api/v1/users/:id/parcels
+
+  describe('GET /api/v1/parcels', () => {
+    it('should return all parcel delivery orders', (done) => {
+      chai.request(app)
+        .get('/api/v1/parcels')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).parcels.length).to.be.above(0);
+          done();
+        });
+    });
+  }); // end of GET /api/v1/parcels
 
   describe('GET /api/v1/parcels/pending', () => {
     it('should return all pending parcel delivery orders', (done) => {
@@ -253,4 +253,20 @@ describe('Parcel', () => {
         });
     });
   }); // end of PUT /api/v1/parcels/:pId/cancel
+
+  
+  /******************Clear all records in table orders********************/
+
+  describe('GET /api/v1/parcels', () => {
+    it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
+      db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      chai.request(app)
+        .get('/api/v1/parcels')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
+          done();
+        });
+    });
+  }); // end of GET /api/v1/parcels
 });

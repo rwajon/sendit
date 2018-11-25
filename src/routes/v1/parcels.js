@@ -12,24 +12,6 @@ const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
 const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
 /* --------------------------------------------------------------*/
 
-// Fetch all parcel delivery orders
-router.get('/', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  ssn.parcels = parcel.getAll();
-
-  if (!parcel.error) {
-    return res.status(200).json({
-      status: 'Successfull',
-      parcels: ssn.parcels,
-    });
-  }
-  return res.json({
-    error: parcel.error,
-  });
-});
-
 // Create a parcel delivery order
 router.post('/', async (req, res) => {
   ssn = req.session;
@@ -45,6 +27,23 @@ router.post('/', async (req, res) => {
     });
   }
   return res.status(200).json({
+    error: parcel.error,
+  });
+});
+
+// Fetch all parcel delivery orders
+router.get('/', async (req, res) => {
+  ssn = req.session;
+  const parcel = new Parcel();
+  const parcels = await parcel.getAll();
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      parcels,
+    });
+  }
+  return res.json({
     error: parcel.error,
   });
 });
