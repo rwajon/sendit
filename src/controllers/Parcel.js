@@ -1,3 +1,5 @@
+import db from '../models/index';
+
 class Parcel {
   constructor(parcels) {
     this.parcel = {};
@@ -186,42 +188,40 @@ class Parcel {
     return this.parcel;
   } // end of changeOrder method
 
-  createOrder(form, user) {
+  async createOrder(form, user) {
     if (Object.keys(user).length > 0) {
       if (form.rname && form.rphone && form.dest_country && form.product && form.quantity) {
-        const orderId = Math.random().toString().substr(2, 3);
-        const price = Math.ceil(Math.random() * 100);
 
-        this.parcels[`order${orderId}`] = {
-          orderId,
-          sender: {
-            id: user.id,
-            name: `${user.fname} ${user.lname}`,
-            phone: user.phone,
-            email: user.email,
-            country: form.sender_country,
-            city: form.sender_city,
-            address: form.sender_address,
-          },
-          receiver: {
-            name: form.rname,
-            phone: form.rphone,
-            email: form.remail,
-            country: form.dest_country,
-            city: form.dest_city,
-            address: form.dest_address,
-          },
-          product: form.product,
-          weight: form.weight,
-          quantity: Math.abs(form.quantity),
-          price: `USD ${price}`,
-          status: 'Pending',
-          presentLocation: `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`,
-        };
+        const text = `INSERT INTO
+              orders(sender_id, receiver_name, receiver_phone, receiver_email, receiver_country, receiver_city, receiver_address, product, weight, qty, price, status, presentLocation) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
 
-        if (Object.keys(this.parcels[`order${orderId}`]).length > 0) {
-          return this.parcels[`order${orderId}`];
+        const values = [
+          user.id,
+          form.rname,
+          form.rphone,
+          form.remail,
+          form.dest_country,
+          form.dest_city,
+          form.dest_address,
+          form.product,
+          form.weight,
+          Math.abs(form.quantity),
+          Math.ceil(Math.random() * 100),
+          'Pending',
+          `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`
+        ];
+
+        try {
+          const { rows } = await db.query(text, values);
+
+          if (rows.length > 0) {
+            this.parcel = rows[0];
+          }
+        } catch (error) {
+          console.log(error);
         }
+
+        return this.parcel;
       }
 
       this.error = 'Please enter the required information to create an order!';
