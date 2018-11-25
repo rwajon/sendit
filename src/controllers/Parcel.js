@@ -48,7 +48,7 @@ class Parcel {
     } catch (error) {
       console.log(error);
     }
-  } // end fo getAll method
+  } // end of getAll method
 
   async getPending(userId) {
     try {
@@ -72,7 +72,7 @@ class Parcel {
     } catch (error) {
       console.log(error);
     }
-  } // end fo getPending method
+  } // end of getPending method
 
   async getInTransit(userId) {
     try {
@@ -98,34 +98,28 @@ class Parcel {
     }
   } // end of getInTransit method
 
-  getDelivered(userId) {
-    if (userId) {
-      Object.keys(this.parcels).forEach((key) => {
-        if (this.parcels[key].status === 'Delivered' && this.parcels[key].sender.id === userId) {
-          this.parcelsDelivered[key] = this.parcels[key];
+  async getDelivered(userId) {
+    try {
+      if (userId) {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' AND sender_id=$1', [userId]);
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no delivered parcels';
+          return {};
         }
-      });
-
-      if (Object.keys(this.parcelsDelivered).length > 0) {
-        return this.parcelsDelivered;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\'');
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no delivered parcels';
+          return {};
+        }
       }
-
-      this.error = 'Sorry, no parcel has been delivered';
-      return {};
+    } catch (error) {
+      console.log(error);
     }
-
-    Object.keys(this.parcels).forEach((key) => {
-      if (this.parcels[key].status === 'Delivered') {
-        this.parcelsDelivered[key] = this.parcels[key];
-      }
-    });
-
-    if (Object.keys(this.parcelsDelivered).length > 0) {
-      return this.parcelsDelivered;
-    }
-
-    this.error = 'Sorry, no parcel has been delivered';
-    return {};
   } // end of getDelivered method
 
   changeOrder(pId, form, userId) {
