@@ -31,18 +31,16 @@ router.get('/', (req, res) => {
 });
 
 // Create a parcel delivery order
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  ssn.user = ssn.user || staticUsers.user6781;
+  ssn.user = ssn.user || {};
 
-  const parcel = new Parcel(ssn.parcels);
-  const order = parcel.createOrder(req.body, ssn.user);
+  const parcel = new Parcel();
+  const order = await parcel.createOrder(req.body, ssn.user);
 
   if (!parcel.error) {
-    ssn.parcels[`order${order.orderId}`] = order;
-    return res.status(200).json({
-      status: 'Successfull',
+    return res.status(201).json({
+      status: 'Successful',
       order,
     });
   }
