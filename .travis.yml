@@ -1,5 +1,6 @@
 env:
   global:
+    - SECRET_KEY=rwajon@sendit
     - NODE_ENV=test
     - DB_HOST_test=localhost
     - DB_USER_test=postgres
