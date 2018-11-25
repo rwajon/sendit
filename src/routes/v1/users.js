@@ -109,15 +109,15 @@ router.get('/:userId/parcels/in-transit', async (req, res) => {
 });
 
 // Fetch all delivered parcel orders of a specific user
-router.get('/:id/parcels/delivered', (req, res) => {
+router.get('/:userId/parcels/delivered', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const delivered = parcel.getDelivered(req.params.id);
+  ssn.user = ssn.user || {};
+  const parcel = new Parcel();
+  const delivered = await parcel.getDelivered(req.params.userId);
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       delivered,
     });
   }

@@ -162,7 +162,7 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels/in-transit
 
-  describe('GET /api/v1/parcels/delivered', () => {
+ /* describe('GET /api/v1/parcels/delivered', () => {
     it('should return all delivered parcels', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/delivered')
@@ -172,7 +172,7 @@ describe('Parcel', () => {
           done();
         });
     });
-  }); // end of GET /api/v1/parcels/delivered
+  });*/ // end of GET /api/v1/parcels/delivered
 
   describe('GET /api/v1/parcels/:pId', () => {
     it('should return details of a specific parcel delivery order with the id: 002', (done) => {
