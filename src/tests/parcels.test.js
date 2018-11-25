@@ -202,9 +202,9 @@ describe('Parcel', () => {
   }); // end of GET /api/v1/parcels/delivered
 
   describe('GET /api/v1/parcels/:pId', () => {
-    it('should return details of a specific parcel delivery order with the id: 002', (done) => {
+    it('should return details of a specific parcel delivery order with id: 1', (done) => {
       chai.request(app)
-        .get('/api/v1/parcels/002')
+        .get('/api/v1/parcels/1')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);

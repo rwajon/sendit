@@ -100,11 +100,10 @@ router.get('/delivered', async (req, res) => {
 });
 
 // Fetch a specific parcel delivery oder
-router.get('/:pId', (req, res) => {
+router.get('/:pId', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const order = parcel.getOrder(req.params.pId);
+  const parcel = new Parcel();
+  const order = await parcel.getOrder(req.params.pId);
 
   if (!parcel.error) {
     return res.status(200).json({
