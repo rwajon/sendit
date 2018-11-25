@@ -73,15 +73,15 @@ router.get('/:userId/parcels', async (req, res) => {
 });
 
 // Fetch all pending parcel delivery orders of a specific user
-router.get('/:id/parcels/pending', (req, res) => {
+router.get('/:userId/parcels/pending', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const pending = parcel.getPending(req.params.id);
+  ssn.user = ssn.user || {};
+  const parcel = new Parcel();
+  const pending = await parcel.getPending(req.params.userId);
 
   if (!parcel.error) {
     return res.status(200).json({
-      status: 'Successfull',
+      status: 'Successful',
       pending,
     });
   }

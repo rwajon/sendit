@@ -199,14 +199,14 @@ describe('User', () => {
     });
   }); // end of GET /api/v1/users/:userId/parcels
 
-  describe('GET /api/v1/users/:id/parcels/pending', () => {
+  describe('GET /api/v1/users/:userId/parcels/pending', () => {
     // test 1
-    it('should return all pending parcel delivery orders of the user 001', (done) => {
+    it('should return all pending parcel delivery orders of user 1', (done) => {
       chai.request(app)
-        .get('/api/v1/users/001/parcels/pending')
+        .get('/api/v1/users/1/parcels/pending')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).pending).length).to.be.above(0);
+          expect(JSON.parse(res.text).pending.length).to.be.above(0);
           done();
         });
     });
@@ -214,14 +214,14 @@ describe('User', () => {
     // test 2
     it('should display \'Sorry, there are no pending parcel delivery orders\'', (done) => {
       chai.request(app)
-        .get('/api/v1/users/0001/parcels/pending')
+        .get('/api/v1/users/11/parcels/pending')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
           done();
         });
     });
-  }); // end of GET /api/v1/users/:id/parcels/pending
+  }); // end of GET /api/v1/users/:userId/parcels/pending
 
   describe('GET /api/v1/users/:id/parcels/in-transit', () => {
     // test 1
@@ -304,19 +304,4 @@ describe('User', () => {
         });
     });
   }); // end of PUT /api/v1/users/:id/parcels/:pId/change
-
-  /******************Clear all records in table orders********************/
-
-  describe('GET /api/v1/users/:userId/parcels', () => {
-    it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
-      db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
-      chai.request(app)
-        .get('/api/v1/users/1/parcels')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
-          done();
-        });
-    });
-  }); // end of GET /api/v1/parcels
 });

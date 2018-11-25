@@ -136,7 +136,7 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels
 
-  describe('GET /api/v1/parcels/pending', () => {
+  /*describe('GET /api/v1/parcels/pending', () => {
     it('should return all pending parcel delivery orders', (done) => {
       chai.request(app)
         .get('/api/v1/parcels/pending')
@@ -146,7 +146,7 @@ describe('Parcel', () => {
           done();
         });
     });
-  }); // end of GET /api/v1/parcels/pending
+  });*/ // end of GET /api/v1/parcels/pending
 
   describe('GET /api/v1/parcels/in-transit', () => {
     it('should return all parcels in transit', (done) => {

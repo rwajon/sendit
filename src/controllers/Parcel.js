@@ -50,35 +50,29 @@ class Parcel {
     }
   } // end fo getAll method
 
-  getPending(userId) {
-    if (userId) {
-      Object.keys(this.parcels).forEach((key) => {
-        if (this.parcels[key].status === 'Pending' && this.parcels[key].sender.id === userId) {
-          this.pendingParcels[key] = this.parcels[key];
+  async getPending(userId) {
+    try {
+      if (userId) {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' AND sender_id=$1', [userId]);
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no pending parcel delivery orders';
+          return {};
         }
-      });
-
-      if (Object.keys(this.pendingParcels).length > 0) {
-        return this.pendingParcels;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\'');
+        if (rows.length > 0) {
+          return rows;
+        } else {
+          this.error = 'Sorry, there are no pending parcel delivery orders';
+          return {};
+        }
       }
-
-      this.error = 'Sorry, there are no pending parcel delivery orders';
-      return {};
+    } catch (error) {
+      console.log(error);
     }
-
-    Object.keys(this.parcels).forEach((key) => {
-      if (this.parcels[key].status === 'Pending') {
-        this.pendingParcels[key] = this.parcels[key];
-      }
-    });
-
-    if (Object.keys(this.pendingParcels).length > 0) {
-      return this.pendingParcels;
-    }
-
-    this.error = 'Sorry, there are no pending parcel delivery orders';
-    return {};
-  } // end of getPending method
+  } // end fo getPending method
 
   getInTransit(userId) {
     if (userId) {
@@ -207,7 +201,7 @@ class Parcel {
           form.weight,
           Math.abs(form.quantity),
           Math.ceil(Math.random() * 100),
-          'Pending',
+          'pending',
           `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`
         ];
 
