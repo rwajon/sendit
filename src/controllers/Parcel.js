@@ -209,7 +209,7 @@ class Parcel {
             if (!form.new_country || form.new_country === order.rows[0].receiver_country) {
               form.new_country = order.rows[0].receiver_country;
             }
-            
+
             if (!form.new_city || form.new_city === order.rows[0].receiver_city) {
               form.new_city = order.rows[0].receiver_city;
             }
@@ -257,6 +257,56 @@ class Parcel {
       return {};
     }
   } // end of changeDestination method
+
+  async changeStatus(pId, form) {
+    if (form.new_status) {
+      try {
+        const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
+
+        if (order.rows.length <= 0) {
+          this.error = 'Sorry, you can not change this order';
+          return {};
+
+        } else {
+          if (form.new_status === order.rows[0].status) {
+            form.new_status = order.rows[0].status;
+          }
+
+          const text = `UPDATE orders SET status=$1 WHERE id=${order.rows[0].id}`;
+          const values = [form.new_status];
+
+          const changed = await db.query(text, values);
+
+          if (changed.rowCount > 0) {
+            return {
+              orderId: order.rows[0].id,
+              senderId: order.rows[0].sender_id,
+              receiver: {
+                name: order.rows[0].receiver_name,
+                phone: order.rows[0].receiver_phone,
+                email: order.rows[0].receiver_email,
+                country: order.rows[0].receiver_country,
+                city: order.rows[0].receiver_city,
+                address: order.rows[0].receiver_address,
+              },
+              product: order.rows[0].product,
+              weight: order.rows[0].weight,
+              quantity: order.rows[0].qty,
+              price: `USD ${order.rows[0].price}`,
+              status: form.new_status,
+              presentLocation: order.rows[0].presentlocation,
+              created_date: order.rows[0].created_date,
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.error = 'Sorry, this order was not changed';
+      return {};
+    }
+  } // end of changeStatus method
 
   cancelOrder(pId) {
     Object.keys(this.parcels).forEach((key) => {
