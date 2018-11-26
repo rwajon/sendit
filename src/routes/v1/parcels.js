@@ -170,12 +170,12 @@ router.put('/:pId/presentLocation', async (req, res) => {
   });
 });
 
-// Cancel a specific parcel delivery order of a specific user
-router.put('/:pId/cancel', (req, res) => {
+// Cancel a specific parcel delivery order
+router.put('/:pId/cancel', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const cancelled = parcel.cancelOrder(req.params.pId);
+  ssn.user = ssn.user || {};
+  const parcel = new Parcel();
+  const cancelled = await parcel.cancelOrder(req.params.pId, ssn.user.id);
 
   if (!parcel.error) {
     return res.status(200).json({

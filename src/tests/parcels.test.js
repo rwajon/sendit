@@ -516,24 +516,72 @@ describe('Parcel', () => {
   }); // end of PUT /api/v1/parcels/:pId/presentLocation
 
   describe('PUT /api/v1/parcels/:pId/cancel', () => {
-    // test 1
-    it('cancel a specific parcel delivery order with the id: 003', (done) => {
-      chai.request(app)
-        .put('/api/v1/parcels/003/cancel')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).cancelled.status).to.be.equal('Cancelled');
-          done();
+    // test1
+    it('should cancel a specific parcel delivery order with the id: 1', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/1/cancel')
+            .send({
+              new_status: 'cancelled',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(Object.keys(JSON.parse(res.text).cancelled).length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
 
-    // test 2
-    it('should display \'Sorry, this order was not cancelled\'', (done) => {
+    // test2
+    it('should display \'Sorry, you can not cancel this order\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/111/cancel')
+            .send({
+              new_status: 'cancelled',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not cancel this order');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 3
+    it('should display \'Sorry, you can not cancel this order\'', (done) => {
       chai.request(app)
-        .put('/api/v1/parcels/0033/cancel')
+        .put('/api/v1/parcels/1/cancel')
+        .send({
+          new_status: 'cancelled',
+        })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not cancelled');
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not cancel this order');
           done();
         });
     });
