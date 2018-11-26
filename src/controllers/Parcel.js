@@ -364,21 +364,48 @@ class Parcel {
     }
   } // end of changePresentLocation method
 
-  cancelOrder(pId) {
-    Object.keys(this.parcels).forEach((key) => {
-      if (this.parcels[key].orderId === pId) {
-        this.parcel = this.parcels[key];
-        this.parcel.status = 'Cancelled';
+  async cancelOrder(pId, userId) {
+    if (userId) {
+      try {
+        const order = await db.query('SELECT * FROM orders WHERE id=$1 AND sender_id=$2', [pId, userId]);
+
+        if (order.rows.length <= 0) {
+          this.error = 'Sorry, you can not cancel this order';
+          return {};
+
+        } else {
+          const cancelled = await db.query(`UPDATE orders SET status='cancelled' WHERE id=${order.rows[0].id}`);
+
+          if (cancelled.rowCount > 0) {
+            return {
+              orderId: order.rows[0].id,
+              senderId: order.rows[0].sender_id,
+              receiver: {
+                name: order.rows[0].receiver_name,
+                phone: order.rows[0].receiver_phone,
+                email: order.rows[0].receiver_email,
+                country: order.rows[0].receiver_country,
+                city: order.rows[0].receiver_city,
+                address: order.rows[0].receiver_address,
+              },
+              product: order.rows[0].product,
+              weight: order.rows[0].weight,
+              quantity: order.rows[0].qty,
+              price: `USD ${order.rows[0].price}`,
+              status: 'cancelled',
+              presentLocation: order.rows[0].present_location,
+              created_date: order.rows[0].created_date,
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
       }
-    });
-
-    if (Object.keys(this.parcel).length > 0) {
-      return this.parcel;
+    } else {
+      this.error = 'Sorry, you can not cancel this order';
+      return {};
     }
-
-    this.error = 'Sorry, this order was not cancelled';
-    return {};
-  }
+  } // end of cancelOrder method
 }
 
 export default Parcel;
