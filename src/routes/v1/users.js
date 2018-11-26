@@ -126,22 +126,4 @@ router.get('/:userId/parcels/delivered', async (req, res) => {
   });
 });
 
-// Change a specific parcel delivery order of a specific user
-router.put('/:id/parcels/:pId/change', (req, res) => {
-  ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const changed = parcel.changeOrder(req.params.pId, req.body, req.params.id);
-
-  if (!parcel.error) {
-    return res.status(200).json({
-      status: 'Successfull',
-      changed,
-    });
-  }
-  return res.json({
-    error: parcel.error,
-  });
-});
-
 export default router;

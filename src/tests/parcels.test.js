@@ -223,41 +223,203 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels/:pId
 
-  describe('PUT /api/v1/parcels/:pId/change', () => {
+  describe('PUT /api/v1/parcels/:pId/destination', () => {
     // test 1
-    it('should change the status and present location of a specific parcel delivery order with the id: 001', (done) => {
-      chai.request(app)
-        .put('/api/v1/parcels/001/change')
+    it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
         .send({
-          new_status: 'In transit',
-          new_country: 'Uganda',
-          new_city: 'Kampala',
-          new_address: 'Downtown',
+          uname: 'rwajon',
+          password: '12345',
         })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
-          done();
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/1/destination')
+            .send({
+              new_country: 'Uganda',
+              new_city: 'Kampala',
+              new_address: 'Downtown',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
 
     // test 2
-    it('should display \'Sorry, this order was not changed\'', (done) => {
-      chai.request(app)
-        .put('/api/v1/parcels/001/change')
+    it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
         .send({
-          new_status: '',
-          new_country: '',
-          new_city: '',
-          new_address: '',
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/1/destination')
+            .send({
+              new_country: '',
+              new_city: 'Kampala',
+              new_address: 'Downtown',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 3
+    it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/1/destination')
+            .send({
+              new_country: 'Uganda',
+              new_city: '',
+              new_address: 'Downtown',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 4
+    it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/1/destination')
+            .send({
+              new_country: 'Uganda',
+              new_city: 'Kampala',
+              new_address: '',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 5
+    it('should display \'Sorry, this order was not changed\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/1/destination')
+            .send({
+              new_country: '',
+              new_city: '',
+              new_address: '',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 6
+    it('should display \'Sorry, you can not change this order\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/users/signin')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.put('/api/v1/parcels/111/destination')
+            .send({
+              new_country: 'Uganda',
+              new_city: 'Kampala',
+              new_address: 'Downtown',
+            })
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not change this order');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 7
+    it('should display \'Sorry, you can not change this order\'', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/1/destination')
+        .send({
+          new_country: 'Rwanda',
+          new_city: 'Gisenyi',
+          new_address: 'Mbugangari',
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not change this order');
           done();
         });
     });
-  }); // end of PUT /api/v1/parcels/:pId/change
+  }); // end of PUT /api/v1/parcels/:pId/destination
 
   describe('PUT /api/v1/parcels/:pId/cancel', () => {
     // test 1

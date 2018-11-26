@@ -117,12 +117,11 @@ router.get('/:pId', async (req, res) => {
 });
 
 // Change a specific parcel delivery order of a specific user
-router.put('/:pId/change', (req, res) => {
+router.put('/:pId/destination', async (req, res) => {
   ssn = req.session;
-  ssn.parcels = ssn.parcels || staticOrders;
-  const parcel = new Parcel(ssn.parcels);
-  const changed = parcel.changeOrder(req.params.pId, req.body);
-
+  ssn.user = ssn.user || {};
+  const parcel = new Parcel();
+  const changed = await parcel.changeDestination(req.params.pId, req.body, ssn.user.id);
 
   if (!parcel.error) {
     return res.status(200).json({
