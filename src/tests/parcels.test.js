@@ -421,6 +421,50 @@ describe('Parcel', () => {
     });
   }); // end of PUT /api/v1/parcels/:pId/destination
 
+  describe('PUT /api/v1/parcels/:pId/status', () => {
+    // test 1
+    it('should change the status of a specific parcel delivery order with the id: 1', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/1/status')
+        .send({
+          new_status: 'delivered',
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
+          done();
+        });
+    });
+
+    // test 2
+    it('should display \'Sorry, this order was not changed\'', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/1/status')
+        .send({
+          new_status: '',
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
+          done();
+        });
+    });
+
+    // test 3
+    it('should display \'Sorry, no order with id 111 was found\'', (done) => {
+      chai.request(app)
+        .put('/api/v1/parcels/111/status')
+        .send({
+          new_status: 'delivered',
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(JSON.parse(res.text).error).to.be.equal('Sorry, no order with id 111 was found');
+          done();
+        });
+    });
+  }); // end of PUT /api/v1/parcels/:pId/status
+
   describe('PUT /api/v1/parcels/:pId/presentLocation', () => {
     // test 1
     it('should change the present location of a specific parcel delivery order with the id: 1', (done) => {
