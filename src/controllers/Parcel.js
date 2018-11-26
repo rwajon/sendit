@@ -16,7 +16,7 @@ class Parcel {
       if (form.rname && form.rphone && form.dest_country && form.product && form.quantity) {
 
         const text = `INSERT INTO
-              orders(sender_id, receiver_name, receiver_phone, receiver_email, receiver_country, receiver_city, receiver_address, product, weight, qty, price, status, presentLocation) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
+              orders(sender_id, receiver_name, receiver_phone, receiver_email, receiver_country, receiver_city, receiver_address, product, weight, qty, price, status, present_location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
 
         const values = [
           user.id,
@@ -87,7 +87,7 @@ class Parcel {
           quantity: order.rows[0].qty,
           price: `USD ${order.rows[0].price}`,
           status: order.rows[0].status,
-          presentLocation: order.rows[0].presentlocation,
+          presentLocation: order.rows[0].present_location,
           created_date: order.rows[0].created_date,
         }
       } else {
@@ -240,7 +240,7 @@ class Parcel {
                 quantity: order.rows[0].qty,
                 price: `USD ${order.rows[0].price}`,
                 status: order.rows[0].status,
-                presentLocation: order.rows[0].presentlocation,
+                presentLocation: order.rows[0].present_location,
                 created_date: order.rows[0].created_date,
               }
             }
@@ -264,7 +264,7 @@ class Parcel {
         const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
 
         if (order.rows.length <= 0) {
-          this.error = 'Sorry, you can not change this order';
+          this.error = `Sorry, no order with id ${pId} was found`;
           return {};
 
         } else {
@@ -294,7 +294,7 @@ class Parcel {
               quantity: order.rows[0].qty,
               price: `USD ${order.rows[0].price}`,
               status: form.new_status,
-              presentLocation: order.rows[0].presentlocation,
+              presentLocation: order.rows[0].present_location,
               created_date: order.rows[0].created_date,
             }
           }
@@ -307,6 +307,62 @@ class Parcel {
       return {};
     }
   } // end of changeStatus method
+
+  async changePresentLocation(pId, form) {
+    if (form.new_country || form.new_city || form.new_address) {
+      try {
+        const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
+
+        if (order.rows.length <= 0) {
+          this.error = `Sorry, no order with id ${pId} was found`;
+          return {};
+
+        } else {
+          if (form.new_country) {
+            order.rows[0].present_location = form.new_country;
+          }
+          if (form.new_city) {
+            order.rows[0].present_location += `, ${form.new_city}`;
+          }
+          if (form.new_address) {
+            order.rows[0].present_location += ` - ${form.new_address}`;
+          }
+
+          const text = `UPDATE orders SET present_location=$1 WHERE id=${order.rows[0].id}`;
+          const values = [order.rows[0].present_location];
+
+          const changed = await db.query(text, values);
+
+          if (changed.rowCount > 0) {
+            return {
+              orderId: order.rows[0].id,
+              senderId: order.rows[0].sender_id,
+              receiver: {
+                name: order.rows[0].receiver_name,
+                phone: order.rows[0].receiver_phone,
+                email: order.rows[0].receiver_email,
+                country: order.rows[0].receiver_country,
+                city: order.rows[0].receiver_city,
+                address: order.rows[0].receiver_address,
+              },
+              product: order.rows[0].product,
+              weight: order.rows[0].weight,
+              quantity: order.rows[0].qty,
+              price: `USD ${order.rows[0].price}`,
+              status: order.rows[0].status,
+              presentLocation: order.rows[0].present_location,
+              created_date: order.rows[0].created_date,
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.error = 'Sorry, this order was not changed';
+      return {};
+    }
+  } // end of changePresentLocation method
 
   cancelOrder(pId) {
     Object.keys(this.parcels).forEach((key) => {

@@ -152,6 +152,24 @@ router.put('/:pId/status', async (req, res) => {
   });
 });
 
+// Change the presen lLocation a specific parcel delivery order
+router.put('/:pId/presentLocation', async (req, res) => {
+  ssn = req.session;
+  ssn.admin = ssn.admin || {};
+  const parcel = new Parcel();
+  const changed = await parcel.changePresentLocation(req.params.pId, req.body);
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      changed,
+    });
+  }
+  return res.json({
+    error: parcel.error,
+  });
+});
+
 // Cancel a specific parcel delivery order of a specific user
 router.put('/:pId/cancel', (req, res) => {
   ssn = req.session;

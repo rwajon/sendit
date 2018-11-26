@@ -89,7 +89,7 @@ const createTables = () => {
         qty INT NOT NULL,
         price DECIMAL(12,3) NOT NULL,
         status VARCHAR(20) NULL,
-        presentLocation TEXT NULL,
+        present_location TEXT NULL,
         created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
