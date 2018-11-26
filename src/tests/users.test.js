@@ -299,38 +299,4 @@ describe('User', () => {
         });
     });
   }); // end of GET /api/v1/users/:userId/parcels/delivered
-
-  describe('PUT /api/v1/users/:id/parcels/:pId/change', () => {
-    // test 1
-    it('change the destination of a specific parcel delivery order with the id: 002 of the user 001', (done) => {
-      chai.request(app)
-        .put('/api/v1/users/001/parcels/001/change')
-        .send({
-          new_country: 'England',
-          new_city: 'London',
-          new_address: 'Downtown',
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
-          done();
-        });
-    });
-
-    // test 2
-    it('should display \'Sorry, this order was not changed\'', (done) => {
-      chai.request(app)
-        .put('/api/v1/users/001/parcels/001/change')
-        .send({
-          new_country: '',
-          new_city: '',
-          new_address: '',
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
-          done();
-        });
-    });
-  }); // end of PUT /api/v1/users/:id/parcels/:pId/change
 });
