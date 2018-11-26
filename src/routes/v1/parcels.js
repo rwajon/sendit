@@ -116,12 +116,30 @@ router.get('/:pId', async (req, res) => {
   });
 });
 
-// Change a specific parcel delivery order of a specific user
+// Change the destination a specific parcel delivery order
 router.put('/:pId/destination', async (req, res) => {
   ssn = req.session;
   ssn.user = ssn.user || {};
   const parcel = new Parcel();
   const changed = await parcel.changeDestination(req.params.pId, req.body, ssn.user.id);
+
+  if (!parcel.error) {
+    return res.status(200).json({
+      status: 'Successfull',
+      changed,
+    });
+  }
+  return res.json({
+    error: parcel.error,
+  });
+});
+
+// Change the status a specific parcel delivery order
+router.put('/:pId/status', async (req, res) => {
+  ssn = req.session;
+  ssn.admin = ssn.admin || {};
+  const parcel = new Parcel();
+  const changed = await parcel.changeStatus(req.params.pId, req.body);
 
   if (!parcel.error) {
     return res.status(200).json({
