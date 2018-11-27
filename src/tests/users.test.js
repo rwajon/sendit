@@ -23,11 +23,11 @@ describe('User', () => {
 
   /* Sign-up */
   describe('Sign-up', () => {
-    describe('POST /api/v1/users/signup', () => {
+    describe('POST /api/v1/auth/signup', () => {
       // test 1
       it('should return the user information if the registration has succeeded', (done) => {
         chai.request(app)
-          .post('/api/v1/users/signup')
+          .post('/api/v1/auth/signup')
           .send({
             fname: 'Jonathan',
             lname: 'Rwabahizi',
@@ -49,7 +49,7 @@ describe('User', () => {
       // test 2
       it('should display \'Please, enter the required information to sign-up!\'', (done) => {
         chai.request(app)
-          .post('/api/v1/users/signup')
+          .post('/api/v1/auth/signup')
           .send({
             fname: 'Jonathan',
             lname: '',
@@ -71,7 +71,7 @@ describe('User', () => {
       // test 3
       it('should display \'Sorry, this account already exists\'', (done) => {
         chai.request(app)
-          .post('/api/v1/users/signup')
+          .post('/api/v1/auth/signup')
           .send({
             fname: 'Jonathan',
             lname: 'Rwabahizi',
@@ -94,11 +94,11 @@ describe('User', () => {
 
   /* Sign-in */
   describe('Sign-in', () => {
-    describe('POST /api/v1/users/signin', () => {
+    describe('POST /api/v1/auth/signin', () => {
       // test 1
       it('should return the user information if the account exists', (done) => {
         chai.request(app)
-          .post('/api/v1/users/signin')
+          .post('/api/v1/auth/signin')
           .send({
             uname: 'rwajon',
             password: '12345',
@@ -114,7 +114,7 @@ describe('User', () => {
       // test 2
       it('should display \'Sorry, your username or password is incorrect\'', (done) => {
         chai.request(app)
-          .post('/api/v1/users/signin')
+          .post('/api/v1/auth/signin')
           .send({
             uname: 'rwajon',
             password: '1234',
@@ -129,7 +129,7 @@ describe('User', () => {
       // test 3
       it('should display \'Please, enter your username and your password!\'', (done) => {
         chai.request(app)
-          .post('/api/v1/users/signin')
+          .post('/api/v1/auth/signin')
           .send({
             uname: '',
             password: '',
@@ -148,7 +148,7 @@ describe('User', () => {
     it('should return all parcel delivery orders of the user 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',

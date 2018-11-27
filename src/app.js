@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 
 import indexRouterV1 from './routes/v1/index';
+import authRouterV1 from './routes/v1/auth';
 import usersRouterV1 from './routes/v1/users';
 import adminsRouterV1 from './routes/v1/admins';
 import parcelsRouterV1 from './routes/v1/parcels';
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, '../UI')));
 
 // api version 1
 app.use('/api/v1', indexRouterV1);
+app.use('/api/v1/auth', authRouterV1);
 app.use('/api/v1/users', usersRouterV1);
 app.use('/api/v1/admins', adminsRouterV1);
 app.use('/api/v1/parcels', parcelsRouterV1);
