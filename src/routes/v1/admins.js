@@ -25,24 +25,22 @@ router.post('/signup', async (req, res) => {
 
 });
 
-// signin
-router.post('/signin', (req, res) => {
+// sign-in
+router.post('/signin', async (req, res) => {
   ssn = req.session;
-  ssn.admins = JSON.parse(fs.readFileSync('src/models/admins.json'));
-  const admin = new Admin(ssn.admins);
-  const account = admin.signin(req.body);
-
+  const admin = new Admin();
+  const account = await admin.signin(req.body);
 
   if (!admin.error) {
     ssn.admin = account;
-    return res.status(200).json({
+    return res.status(202).json({
       status: 'Successfull',
-      message: `Welcome ${ssn.admin.uname}`,
+      message: `Welcome ${ssn.admin.fname} ${ssn.admin.lname}`,
       admin: ssn.admin,
     });
   }
-
-  return res.json({
+  
+  return res.status(200).json({
     error: admin.error,
   });
 });

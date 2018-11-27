@@ -90,6 +90,7 @@ describe('Admin', () => {
       });
     });
   }); // end of Sign-up
+
   /* Sign-in */
   describe('Sign-in', () => {
     describe('POST /api/v1/admins/signin', () => {
@@ -102,7 +103,8 @@ describe('Admin', () => {
             password: '12345',
           })
           .end((err, res) => {
-            expect(res.status).to.equal(200);
+            expect(res.status).to.equal(202);
+            console.log(res.text);
             expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
             done();
           });

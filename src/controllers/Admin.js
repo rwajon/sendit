@@ -65,27 +65,43 @@ class Admin {
     return {};
   } // end of signup method
 
-  signin(form) {
+  async signin(form) {
     if (form.uname !== '' && form.password !== '') {
-      Object.keys(this.admins).forEach((key) => {
-        if (this.admins[key].uname === form.uname && this.admins[key].password === form.password) {
-          this.admin = {
-            id: this.admins[key].id,
-            uname: this.admins[key].uname,
-          };
+      try {
+        const checkAdmin = await db.query('SELECT * FROM admins WHERE uname=$1', [form.uname]);
+
+        if (checkAdmin.rows.length > 0) {
+          for (let i = 0; i < checkAdmin.rows.length; i++) {
+            if (bcrypt.compareSync(form.password, checkAdmin.rows[i].password)) {
+              this.admin = {
+                id: checkAdmin.rows[i].id,
+                fname: checkAdmin.rows[i].fname,
+                lname: checkAdmin.rows[i].lname,
+                uname: checkAdmin.rows[i].uname,
+                phone: checkAdmin.rows[i].phone,
+                email: checkAdmin.rows[i].email,
+                country: checkAdmin.rows[i].country,
+                city: checkAdmin.rows[i].city,
+                address: checkAdmin.rows[i].address,
+              }
+
+              return this.admin;
+            }
+          }
         }
-      });
 
-      if (Object.keys(this.admin).length > 0) {
-        return this.admin;
+        if (Object.keys(this.admin).length <= 0) {
+          this.error = 'Sorry, your username or password is incorrect';
+          return {};
+        }
+
+      } catch (error) {
+        console.log(error);
       }
-
-      this.error = 'Sorry, your username or password is incorrect';
-      return this.error;
+    } else {
+      this.error = 'Please, enter your username and your password!';
+      return {};
     }
-
-    this.error = 'Please, enter your username and your password!';
-    return this.error;
   } // end of signin method
 } // end of Admin class
 
