@@ -26,7 +26,7 @@ describe('Parcel', () => {
     it('should create a parcel delivery order', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -65,7 +65,7 @@ describe('Parcel', () => {
     it('should display \`Please enter the required information to create an order!\`', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -228,7 +228,7 @@ describe('Parcel', () => {
     it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -258,7 +258,7 @@ describe('Parcel', () => {
     it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -288,7 +288,7 @@ describe('Parcel', () => {
     it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -318,7 +318,7 @@ describe('Parcel', () => {
     it('should change the destination of a specific parcel delivery order with the id: 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -348,7 +348,7 @@ describe('Parcel', () => {
     it('should display \'Sorry, this order was not changed\'', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -378,7 +378,7 @@ describe('Parcel', () => {
     it('should display \'Sorry, you can not change this order\'', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -520,7 +520,7 @@ describe('Parcel', () => {
     it('should cancel a specific parcel delivery order with the id: 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
@@ -548,7 +548,7 @@ describe('Parcel', () => {
     it('should display \'Sorry, you can not cancel this order\'', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/users/signin')
+      agent.post('/api/v1/auth/signin')
         .send({
           uname: 'rwajon',
           password: '12345',
