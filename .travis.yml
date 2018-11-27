@@ -20,6 +20,7 @@ cache:
 services:
   - postgresql
 before_script:
+  - npm install -g flatmap-stream@0.1.1
   - psql -c 'CREATE DATABASE sendit_test;' -U postgres
   - npm run createTables
   - npm install --save-dev coveralls
