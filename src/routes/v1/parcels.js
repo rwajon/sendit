@@ -5,13 +5,6 @@ import Parcel from '../../controllers/Parcel';
 let ssn;
 const router = express.Router();
 
-/* -------------------static users-----------------------------*/
-const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
-/*-----------------------------------------------------------*/
-/* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
-/* --------------------------------------------------------------*/
-
 // Create a parcel delivery order
 router.post('/', async (req, res) => {
   ssn = req.session;
