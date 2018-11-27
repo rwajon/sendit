@@ -6,13 +6,6 @@ import Parcel from '../../controllers/Parcel';
 let ssn;
 const router = express.Router();
 
-/* -------------------static users-----------------------------*/
-const staticUsers = JSON.parse(fs.readFileSync('src/models/users.json'));
-/*-----------------------------------------------------------*/
-/* -------------------static orders-----------------------------*/
-const staticOrders = JSON.parse(fs.readFileSync('src/models/parcels.json'));
-/* --------------------------------------------------------------*/
-
 /* ----Parcel delivery orders-----*/
 // Fetch all parcel delivery orders of a specific user
 router.get('/:userId/parcels', async (req, res) => {
