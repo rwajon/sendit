@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const env = process.env.NODE_ENV ? `_${process.env.NODE_ENV}` : '';
+const env = process.env.NODE_ENV === 'test' ? `_${process.env.NODE_ENV}` : '';
 
 const pool = new pg.Pool({
   connectionString: process.env[`DATABASE_URL${env}`]
