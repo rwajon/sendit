@@ -14,7 +14,7 @@ class Admin {
       const text = `INSERT INTO
             admins(fname, lname, uname, password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            returning id, fname, uname, phone, email, country, city, address`;
+            returning id, fname, lname, uname, phone, email, country, city, address`;
 
       const values = [
         form.fname,
@@ -42,23 +42,11 @@ class Admin {
 
         const { rows } = await db.query(text, values);
 
-        this.admin = {
-          id: rows[0].id,
-          fname: rows[0].fname,
-          lname: rows[0].lname,
-          uname: rows[0].uname,
-          phone: rows[0].phone,
-          email: rows[0].email,
-          country: rows[0].country,
-          city: rows[0].city,
-          address: rows[0].address,
-        };
+        return rows[0];
 
       } catch (error) {
         console.log(error);
       }
-
-      return this.admin;
     }
 
     this.error = 'Please, enter the required information to sign-up!';
