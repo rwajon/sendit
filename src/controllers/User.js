@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs';
 import db from '../models/index';
 
 class User {
-  constructor(users) {
+  constructor() {
     this.user = {};
-    this.users = users || {};
+    this.users = [];
     this.error = '';
   }
 
@@ -42,30 +42,27 @@ class User {
 
         const { rows } = await db.query(text, values);
 
-        this.user = {
+        return {
           id: rows[0].id,
-          fname: rows[0].fname,
-          lname: rows[0].lname,
-          uname: rows[0].uname,
-          phone: rows[0].phone,
-          email: rows[0].email,
-          country: rows[0].country,
-          city: rows[0].city,
-          address: rows[0].address,
+          fname: form.fname,
+          lname: form.lname,
+          uname: form.uname,
+          phone: form.phone,
+          email: form.email,
+          country: form.country,
+          city: form.city,
+          address: form.address,
         };
-
       } catch (error) {
         console.log(error);
       }
-
-      return this.user;
     }
 
     this.error = 'Please, enter the required information to sign-up!';
     return {};
   } // end of signup method
 
-  async signin(form) {
+  async login(form) {
     if (form.uname !== '' && form.password !== '') {
       try {
         const checkUser = await db.query('SELECT * FROM users WHERE uname=$1', [form.uname]);
@@ -102,7 +99,7 @@ class User {
       this.error = 'Please, enter your username and your password!';
       return {};
     }
-  } // end of signin method
+  } // end of login method
 } // end of User class
 
 

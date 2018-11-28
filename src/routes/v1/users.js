@@ -1,5 +1,5 @@
-import fs from 'fs';
 import express from 'express';
+import verifyToken from '../../middlewares/verifyToken';
 import User from '../../controllers/User';
 import Parcel from '../../controllers/Parcel';
 
@@ -8,9 +8,19 @@ const router = express.Router();
 
 /* ----Parcel delivery orders-----*/
 // Fetch all parcel delivery orders of a specific user
-router.get('/:userId/parcels', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.get('/:userId/parcels', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
+  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+    return res.status(401).json({
+      error: 'Sorry, you can not view these orders',
+    });
+  }
+
   const parcel = new Parcel();
   const parcels = await parcel.getAll(req.params.userId);
 
@@ -26,9 +36,19 @@ router.get('/:userId/parcels', async (req, res) => {
 });
 
 // Fetch all pending parcel delivery orders of a specific user
-router.get('/:userId/parcels/pending', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.get('/:userId/parcels/pending', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
+  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+    return res.status(401).json({
+      error: 'Sorry, you can not view these orders',
+    });
+  }
+
   const parcel = new Parcel();
   const pending = await parcel.getPending(req.params.userId);
 
@@ -44,9 +64,19 @@ router.get('/:userId/parcels/pending', async (req, res) => {
 });
 
 // Fetch all parcels in transit of a specific user
-router.get('/:userId/parcels/in-transit', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.get('/:userId/parcels/in-transit', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
+  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+    return res.status(401).json({
+      error: 'Sorry, you can not view these orders',
+    });
+  }
+
   const parcel = new Parcel();
   const inTransit = await parcel.getInTransit(req.params.userId);
 
@@ -62,9 +92,19 @@ router.get('/:userId/parcels/in-transit', async (req, res) => {
 });
 
 // Fetch all delivered parcel orders of a specific user
-router.get('/:userId/parcels/delivered', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.get('/:userId/parcels/delivered', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
+  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+    return res.status(401).json({
+      error: 'Sorry, you can not view these orders',
+    });
+  }
+  
   const parcel = new Parcel();
   const delivered = await parcel.getDelivered(req.params.userId);
 

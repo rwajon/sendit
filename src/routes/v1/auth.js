@@ -1,21 +1,27 @@
-import fs from 'fs';
 import express from 'express';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 import User from '../../controllers/User';
 
-let ssn;
 const router = express.Router();
+
+dotenv.config();
 
 // sign-up
 router.post('/signup', async (req, res) => {
-  ssn = req.session;
   const user = new User();
   const newUser = await user.signup(req.body);
 
   if (!user.error) {
-    ssn.user = newUser;
+    const token = jwt.sign({ userId: newUser.id }, process.env.SECRET_KEY, {
+      expiresIn: 1440 // expires in 24 hours
+    });
+
     return res.status(201).json({
       status: 'Successful',
+      message: `Welcome ${newUser.fname} ${newUser.lname}`,
       newUser,
+      token,
     });
   }
 
@@ -25,21 +31,24 @@ router.post('/signup', async (req, res) => {
 
 });
 
-// sign-in
-router.post('/signin', async (req, res) => {
-  ssn = req.session;
+// login
+router.post('/login', async (req, res) => {
   const user = new User();
-  const account = await user.signin(req.body);
+  const account = await user.login(req.body);
 
   if (!user.error) {
-    ssn.user = account;
+    const token = jwt.sign({ userId: account.id }, process.env.SECRET_KEY, {
+      expiresIn: 1440 // expires in 24 hours
+    });
+
     return res.status(202).json({
       status: 'Successfull',
-      message: `Welcome ${ssn.user.fname} ${ssn.user.lname}`,
-      user: ssn.user,
+      message: `Welcome ${account.fname} ${account.lname}`,
+      user: account,
+      token,
     });
   }
-  
+
   return res.status(200).json({
     error: user.error,
   });

@@ -1,17 +1,19 @@
-import fs from 'fs';
 import express from 'express';
+import verifyToken from '../../middlewares/verifyToken';
 import Parcel from '../../controllers/Parcel';
 
-let ssn;
 const router = express.Router();
 
 // Create a parcel delivery order
-router.post('/', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.post('/', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
 
   const parcel = new Parcel();
-  const order = await parcel.createOrder(req.body, ssn.user);
+  const order = await parcel.createOrder(req.body, req.userId);
 
   if (!parcel.error) {
     return res.status(201).json({
@@ -22,11 +24,17 @@ router.post('/', async (req, res) => {
   return res.status(200).json({
     error: parcel.error,
   });
+
 });
 
 // Fetch all parcel delivery orders
-router.get('/', async (req, res) => {
-  ssn = req.session;
+router.get('/', verifyToken, async (req, res) => {
+  if (!req.adminId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+  
   const parcel = new Parcel();
   const parcels = await parcel.getAll();
 
@@ -42,8 +50,13 @@ router.get('/', async (req, res) => {
 });
 
 // Fetch all pending parcel delivery orders
-router.get('/pending', async (req, res) => {
-  ssn = req.session;
+router.get('/pending', verifyToken, async (req, res) => {
+  if (!req.adminId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
   const parcel = new Parcel();
   const pending = await parcel.getPending();
 
@@ -59,8 +72,13 @@ router.get('/pending', async (req, res) => {
 });
 
 // Fetch all parcels in transit
-router.get('/in-transit', async (req, res) => {
-  ssn = req.session;
+router.get('/in-transit', verifyToken, async (req, res) => {
+  if (!req.adminId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+  
   const parcel = new Parcel();
   const inTransit = await parcel.getInTransit();
 
@@ -76,8 +94,13 @@ router.get('/in-transit', async (req, res) => {
 });
 
 // Fetch all delivered parcel
-router.get('/delivered', async (req, res) => {
-  ssn = req.session;
+router.get('/delivered', verifyToken, async (req, res) => {
+  if (!req.adminId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
   const parcel = new Parcel();
   const delivered = await parcel.getDelivered();
 
@@ -93,10 +116,10 @@ router.get('/delivered', async (req, res) => {
 });
 
 // Fetch a specific parcel delivery oder
-router.get('/:pId', async (req, res) => {
-  ssn = req.session;
+router.get('/:pId', verifyToken, async (req, res) => {
+
   const parcel = new Parcel();
-  const order = await parcel.getOrder(req.params.pId);
+  const order = req.userId ? await parcel.getOrder(req.params.pId, req.userId) : await parcel.getOrder(req.params.pId);
 
   if (!parcel.error) {
     return res.status(200).json({
@@ -110,11 +133,15 @@ router.get('/:pId', async (req, res) => {
 });
 
 // Change the destination a specific parcel delivery order
-router.put('/:pId/destination', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.put('/:pId/destination', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
   const parcel = new Parcel();
-  const changed = await parcel.changeDestination(req.params.pId, req.body, ssn.user.id);
+  const changed = await parcel.changeDestination(req.params.pId, req.body, req.userId);
 
   if (!parcel.error) {
     return res.status(200).json({
@@ -128,9 +155,13 @@ router.put('/:pId/destination', async (req, res) => {
 });
 
 // Change the status a specific parcel delivery order
-router.put('/:pId/status', async (req, res) => {
-  ssn = req.session;
-  ssn.admin = ssn.admin || {};
+router.put('/:pId/status', verifyToken, async (req, res) => {
+  if (!req.adminId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
   const parcel = new Parcel();
   const changed = await parcel.changeStatus(req.params.pId, req.body);
 
@@ -145,10 +176,14 @@ router.put('/:pId/status', async (req, res) => {
   });
 });
 
-// Change the presen lLocation a specific parcel delivery order
-router.put('/:pId/presentLocation', async (req, res) => {
-  ssn = req.session;
-  ssn.admin = ssn.admin || {};
+// Change the present location a specific parcel delivery order
+router.put('/:pId/presentLocation', verifyToken, async (req, res) => {
+  if (!req.adminId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
   const parcel = new Parcel();
   const changed = await parcel.changePresentLocation(req.params.pId, req.body);
 
@@ -164,11 +199,15 @@ router.put('/:pId/presentLocation', async (req, res) => {
 });
 
 // Cancel a specific parcel delivery order
-router.put('/:pId/cancel', async (req, res) => {
-  ssn = req.session;
-  ssn.user = ssn.user || {};
+router.put('/:pId/cancel', verifyToken, async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({
+      error: 'Sorry, you don\'t have access to this route',
+    });
+  }
+
   const parcel = new Parcel();
-  const cancelled = await parcel.cancelOrder(req.params.pId, ssn.user.id);
+  const cancelled = await parcel.cancelOrder(req.params.pId, req.userId);
 
   if (!parcel.error) {
     return res.status(200).json({

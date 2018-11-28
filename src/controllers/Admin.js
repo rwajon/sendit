@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs';
 import db from '../models/index';
 
 class Admin {
-  constructor(admins) {
+  constructor() {
     this.admin = {};
-    this.admins = admins || {};
+    this.admins = [];
     this.error = '';
   }
 
@@ -65,7 +65,7 @@ class Admin {
     return {};
   } // end of signup method
 
-  async signin(form) {
+  async login(form) {
     if (form.uname !== '' && form.password !== '') {
       try {
         const checkAdmin = await db.query('SELECT * FROM admins WHERE uname=$1', [form.uname]);
@@ -102,7 +102,7 @@ class Admin {
       this.error = 'Please, enter your username and your password!';
       return {};
     }
-  } // end of signin method
+  } // end of login method
 } // end of Admin class
 
 
