@@ -14,7 +14,7 @@ class User {
       const text = `INSERT INTO
             users(fname, lname, uname, password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            returning id, fname, uname, phone, email, country, city, address`;
+            returning id, fname, lname, uname, phone, email, country, city, address`;
 
       const values = [
         form.fname,
