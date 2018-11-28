@@ -42,17 +42,8 @@ class User {
 
         const { rows } = await db.query(text, values);
 
-        return {
-          id: rows[0].id,
-          fname: form.fname,
-          lname: form.lname,
-          uname: form.uname,
-          phone: form.phone,
-          email: form.email,
-          country: form.country,
-          city: form.city,
-          address: form.address,
-        };
+        return rows[0];
+        
       } catch (error) {
         console.log(error);
       }
