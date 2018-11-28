@@ -7,6 +7,7 @@ env:
     - DB_NAME_test=sendit_test
     - DB_PASSWORD_test=
     - DB_PORT_test=5432
+    - DATABASE_URL_test=postgres://postgres@localhost:5432/sendit_test
     - CC_TEST_REPORTER_ID=35bc56bf57f25bfcdb400793331b23f7a927b95e437d0d36b26ffe95b6f689fe
 language: node_js
 node_js:
