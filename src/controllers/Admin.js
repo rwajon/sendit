@@ -42,23 +42,21 @@ class Admin {
 
         const { rows } = await db.query(text, values);
 
-        this.admin = {
+        return {
           id: rows[0].id,
-          fname: rows[0].fname,
-          lname: rows[0].lname,
-          uname: rows[0].uname,
-          phone: rows[0].phone,
-          email: rows[0].email,
-          country: rows[0].country,
-          city: rows[0].city,
-          address: rows[0].address,
+          fname: form.fname,
+          lname: form.lname,
+          uname: form.uname,
+          phone: form.phone,
+          email: form.email,
+          country: form.country,
+          city: form.city,
+          address: form.address,
         };
 
       } catch (error) {
         console.log(error);
       }
-
-      return this.admin;
     }
 
     this.error = 'Please, enter the required information to sign-up!';
