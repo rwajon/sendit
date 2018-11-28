@@ -1,57 +1,48 @@
 import db from '../models/index';
 
 class Parcel {
-  constructor(parcels) {
+  constructor() {
     this.parcel = {};
-    this.parcels = parcels || {};
-    this.userParcels = {};
-    this.pendingParcels = {};
-    this.parcelsInTransit = {};
-    this.parcelsDelivered = {};
+    this.parcels = [];
     this.error = '';
   }
 
-  async createOrder(form, user) {
-    if (Object.keys(user).length > 0) {
-      if (form.rname && form.rphone && form.dest_country && form.product && form.quantity) {
+  async createOrder(form, userId) {
+    if (form.rname && form.rphone && form.dest_country && form.product && form.quantity) {
 
-        const text = `INSERT INTO
+      const text = `INSERT INTO
               orders(sender_id, receiver_name, receiver_phone, receiver_email, receiver_country, receiver_city, receiver_address, product, weight, qty, price, status, present_location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
 
-        const values = [
-          user.id,
-          form.rname,
-          form.rphone,
-          form.remail,
-          form.dest_country,
-          form.dest_city,
-          form.dest_address,
-          form.product,
-          form.weight,
-          Math.abs(form.quantity),
-          Math.ceil(Math.random() * 100),
-          'pending',
-          `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`
-        ];
+      const values = [
+        userId,
+        form.rname,
+        form.rphone,
+        form.remail,
+        form.dest_country,
+        form.dest_city,
+        form.dest_address,
+        form.product,
+        form.weight,
+        Math.abs(form.quantity),
+        Math.ceil(Math.random() * 100),
+        'pending',
+        `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`
+      ];
 
-        try {
-          const { rows } = await db.query(text, values);
+      try {
+        const { rows } = await db.query(text, values);
 
-          if (rows.length > 0) {
-            this.parcel = rows[0];
-          }
-        } catch (error) {
-          console.log(error);
+        if (rows.length > 0) {
+          this.parcel = rows[0];
         }
-
-        return this.parcel;
+      } catch (error) {
+        console.log(error);
       }
 
-      this.error = 'Please enter the required information to create an order!';
-      return {};
+      return this.parcel;
     }
 
-    this.error = this.error || 'Please, sign-in to create an order!';
+    this.error = 'Please enter the required information to create an order!';
     return {};
   } // end of createOrder method
 
@@ -196,64 +187,59 @@ class Parcel {
   } // end of getDelivered method
 
   async changeDestination(pId, form, userId) {
-    if (userId) {
-      if (form.new_country || form.new_city || form.new_address) {
-        try {
-          const order = await db.query('SELECT * FROM orders WHERE id=$1 AND sender_id=$2', [pId, userId]);
+    if (form.new_country || form.new_city || form.new_address) {
+      try {
+        const order = await db.query('SELECT * FROM orders WHERE id=$1 AND sender_id=$2', [pId, userId]);
 
-          if (order.rows.length <= 0) {
-            this.error = 'Sorry, you can not change this order';
-            return {};
+        if (order.rows.length <= 0) {
+          this.error = 'Sorry, you can not change this order';
+          return {};
 
-          } else {
-            if (!form.new_country || form.new_country === order.rows[0].receiver_country) {
-              form.new_country = order.rows[0].receiver_country;
-            }
+        } else {
+          if (!form.new_country || form.new_country === order.rows[0].receiver_country) {
+            form.new_country = order.rows[0].receiver_country;
+          }
 
-            if (!form.new_city || form.new_city === order.rows[0].receiver_city) {
-              form.new_city = order.rows[0].receiver_city;
-            }
+          if (!form.new_city || form.new_city === order.rows[0].receiver_city) {
+            form.new_city = order.rows[0].receiver_city;
+          }
 
-            if (!form.new_address || form.new_address === order.rows[0].receiver_address) {
-              form.new_address = order.rows[0].receiver_address;
-            }
+          if (!form.new_address || form.new_address === order.rows[0].receiver_address) {
+            form.new_address = order.rows[0].receiver_address;
+          }
 
-            const text = `UPDATE orders SET receiver_country=$1, receiver_city=$2, receiver_address=$3 WHERE id=${order.rows[0].id}`;
-            const values = [form.new_country, form.new_city, form.new_address];
+          const text = `UPDATE orders SET receiver_country=$1, receiver_city=$2, receiver_address=$3 WHERE id=${order.rows[0].id}`;
+          const values = [form.new_country, form.new_city, form.new_address];
 
-            const changed = await db.query(text, values);
+          const changed = await db.query(text, values);
 
-            if (changed.rowCount > 0) {
-              return {
-                orderId: order.rows[0].id,
-                senderId: order.rows[0].sender_id,
-                receiver: {
-                  name: order.rows[0].receiver_name,
-                  phone: order.rows[0].receiver_phone,
-                  email: order.rows[0].receiver_email,
-                  country: form.new_country,
-                  city: form.new_city,
-                  address: form.new_address,
-                },
-                product: order.rows[0].product,
-                weight: order.rows[0].weight,
-                quantity: order.rows[0].qty,
-                price: `USD ${order.rows[0].price}`,
-                status: order.rows[0].status,
-                presentLocation: order.rows[0].present_location,
-                created_date: order.rows[0].created_date,
-              }
+          if (changed.rowCount > 0) {
+            return {
+              orderId: order.rows[0].id,
+              senderId: order.rows[0].sender_id,
+              receiver: {
+                name: order.rows[0].receiver_name,
+                phone: order.rows[0].receiver_phone,
+                email: order.rows[0].receiver_email,
+                country: form.new_country,
+                city: form.new_city,
+                address: form.new_address,
+              },
+              product: order.rows[0].product,
+              weight: order.rows[0].weight,
+              quantity: order.rows[0].qty,
+              price: `USD ${order.rows[0].price}`,
+              status: order.rows[0].status,
+              presentLocation: order.rows[0].present_location,
+              created_date: order.rows[0].created_date,
             }
           }
-        } catch (error) {
-          console.log(error);
         }
-      } else {
-        this.error = 'Sorry, this order was not changed';
-        return {};
+      } catch (error) {
+        console.log(error);
       }
     } else {
-      this.error = 'Sorry, you can not change this order';
+      this.error = 'Sorry, this order was not changed';
       return {};
     }
   } // end of changeDestination method
@@ -365,45 +351,40 @@ class Parcel {
   } // end of changePresentLocation method
 
   async cancelOrder(pId, userId) {
-    if (userId) {
-      try {
-        const order = await db.query('SELECT * FROM orders WHERE id=$1 AND sender_id=$2', [pId, userId]);
+    try {
+      const order = await db.query('SELECT * FROM orders WHERE id=$1 AND sender_id=$2', [pId, userId]);
 
-        if (order.rows.length <= 0) {
-          this.error = 'Sorry, you can not cancel this order';
-          return {};
+      if (order.rows.length <= 0) {
+        this.error = 'Sorry, you can not cancel this order';
+        return {};
 
-        } else {
-          const cancelled = await db.query(`UPDATE orders SET status='cancelled' WHERE id=${order.rows[0].id}`);
+      } else {
+        const cancelled = await db.query(`UPDATE orders SET status='cancelled' WHERE id=${order.rows[0].id}`);
 
-          if (cancelled.rowCount > 0) {
-            return {
-              orderId: order.rows[0].id,
-              senderId: order.rows[0].sender_id,
-              receiver: {
-                name: order.rows[0].receiver_name,
-                phone: order.rows[0].receiver_phone,
-                email: order.rows[0].receiver_email,
-                country: order.rows[0].receiver_country,
-                city: order.rows[0].receiver_city,
-                address: order.rows[0].receiver_address,
-              },
-              product: order.rows[0].product,
-              weight: order.rows[0].weight,
-              quantity: order.rows[0].qty,
-              price: `USD ${order.rows[0].price}`,
-              status: 'cancelled',
-              presentLocation: order.rows[0].present_location,
-              created_date: order.rows[0].created_date,
-            }
+        if (cancelled.rowCount > 0) {
+          return {
+            orderId: order.rows[0].id,
+            senderId: order.rows[0].sender_id,
+            receiver: {
+              name: order.rows[0].receiver_name,
+              phone: order.rows[0].receiver_phone,
+              email: order.rows[0].receiver_email,
+              country: order.rows[0].receiver_country,
+              city: order.rows[0].receiver_city,
+              address: order.rows[0].receiver_address,
+            },
+            product: order.rows[0].product,
+            weight: order.rows[0].weight,
+            quantity: order.rows[0].qty,
+            price: `USD ${order.rows[0].price}`,
+            status: 'cancelled',
+            presentLocation: order.rows[0].present_location,
+            created_date: order.rows[0].created_date,
           }
         }
-      } catch (error) {
-        console.log(error);
       }
-    } else {
-      this.error = 'Sorry, you can not cancel this order';
-      return {};
+    } catch (error) {
+      console.log(error);
     }
   } // end of cancelOrder method
 }

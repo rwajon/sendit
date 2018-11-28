@@ -1,4 +1,3 @@
-import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import db from '../models/index';
@@ -14,9 +13,9 @@ describe('User', () => {
   before(async () => {
     try {
       await db.query('TRUNCATE users CASCADE; ALTER SEQUENCE users_id_seq RESTART WITH 1;');
+      await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
     } catch (error) {
       console.log(error);
-      exit();
     }
   });
 
@@ -93,18 +92,17 @@ describe('User', () => {
 
   /* Sign-in */
   describe('Sign-in', () => {
-    describe('POST /api/v1/auth/signin', () => {
+    describe('POST /api/v1/auth/login', () => {
       // test 1
       it('should return the user information if the account exists', (done) => {
         chai.request(app)
-          .post('/api/v1/auth/signin')
+          .post('/api/v1/auth/login')
           .send({
             uname: 'rwajon',
             password: '12345',
           })
           .end((err, res) => {
             expect(res.status).to.equal(202);
-            console.log(res.text);
             expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
             done();
           });
@@ -113,7 +111,7 @@ describe('User', () => {
       // test 2
       it('should display \'Sorry, your username or password is incorrect\'', (done) => {
         chai.request(app)
-          .post('/api/v1/auth/signin')
+          .post('/api/v1/auth/login')
           .send({
             uname: 'rwajon',
             password: '1234',
@@ -128,7 +126,7 @@ describe('User', () => {
       // test 3
       it('should display \'Please, enter your username and your password!\'', (done) => {
         chai.request(app)
-          .post('/api/v1/auth/signin')
+          .post('/api/v1/auth/login')
           .send({
             uname: '',
             password: '',
@@ -142,60 +140,95 @@ describe('User', () => {
     });
   }); // end of Sign-in
 
+  /*****************TESTS WITH POPULATED TABLES*************************/
+  // Get all parcels
   describe('GET /api/v1/users/:userId/parcels', () => {
     // test 1
+    before(async () => {
+      try {
+        await db.query(`INSERT INTO orders VALUES(DEFAULT, 1,'John Smith', '+123456789', 'johnsmith@gmail.com', 'USA', 'Ney-York', 'Near Central Park', 'Sandals', '1.5 Kg', 2, 111, 'pending', 'USA, Ney-York - Central Park Av', DEFAULT)`);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     it('should return all parcel delivery orders of the user 1', (done) => {
       const agent = chai.request.agent(app);
 
-      agent.post('/api/v1/auth/signin')
+      agent.post('/api/v1/auth/login')
         .send({
           uname: 'rwajon',
           password: '12345',
         })
         .then(res => {
+          const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
-          agent.post('/api/v1/parcels')
-            .send({
-              rname: "John Smith",
-              rphone: "+123456789",
-              remail: "johnsmith@gmail.com",
-              product: "Sandals",
-              weight: "1.5 Kg",
-              quantity: "2",
-              sender_country: "Rwanda",
-              sender_city: "Gisenyi",
-              sender_address: "Mbugangari",
-              dest_country: "USA",
-              dest_city: "Ney-York",
-              dest_address: "Near Central Park"
-            })
+          return agent.get('/api/v1/users/1/parcels')
+            .set('x-access-token', token)
             .then(res => {
-              expect(res.status).to.equal(201);
-              expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);
-
-              return agent.get('/api/v1/users/1/parcels')
-                .then(res => {
-                  expect(res.status).to.equal(200);
-                  expect(JSON.parse(res.text).parcels.length).to.be.above(0);
-                })
-                .then(() => {
-                  done();
-                  agent.close();
-                });
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).parcels.length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
             });
         });
     });
 
-    // test 2
-    it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/11/parcels')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
-          done();
+   // test 2
+    it('should display \'Sorry, you can not view these orders\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/2/parcels')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 3
+    it('should display \'Sorry, you don\'t have access to this route\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/admins/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
   }); // end of GET /api/v1/users/:userId/parcels
@@ -206,32 +239,89 @@ describe('User', () => {
         await db.query('UPDATE orders SET status=\'pending\';');
       } catch (error) {
         console.log(error);
-        exit();
       }
     });
 
-    // test 1
     it('should return all pending parcel delivery orders of user 1', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/1/parcels/pending')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).pending.length).to.be.above(0);
-          done();
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/pending')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).pending.length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
 
     // test 2
-    it('should display \'Sorry, there are no pending parcel delivery orders\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/11/parcels/pending')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
-          done();
+    it('should display \'Sorry, you can not view these orders\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/2/parcels/pending')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
-  }); // end of GET /api/v1/users/:userId/parcels/pending
+
+    // test 3
+    it('should display \'Sorry, you don\'t have access to this route\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/admins/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/pending')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+  });
 
   describe('GET /api/v1/users/:userId/parcels/in-transit', () => {
     before(async () => {
@@ -239,29 +329,87 @@ describe('User', () => {
         await db.query('UPDATE orders SET status=\'in transit\';');
       } catch (error) {
         console.log(error);
-        exit();
       }
     });
 
     // test 1
     it('should return all parcels in transit of the user 1', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/1/parcels/in-transit')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
-          done();
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/in-transit')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
 
     // test 2
-    it('should display \'Sorry, there are no parcels in transit\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/000/parcels/in-transit')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
-          done();
+    it('should display \'Sorry, you can not view these orders\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/2/parcels/in-transit')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 3
+    it('should display \'Sorry, you don\'t have access to this route\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/admins/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/in-transit')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
   }); // end of GET /api/v1/users/:userId/parcels/in-transit
@@ -272,29 +420,236 @@ describe('User', () => {
         await db.query('UPDATE orders SET status=\'delivered\';');
       } catch (error) {
         console.log(error);
-        exit();
       }
     });
 
     // test 1
     it('should return all delivered parcels of the user 1', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/1/parcels/delivered')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).delivered.length).to.be.above(0);
-          done();
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/delivered')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).delivered.length).to.be.above(0);
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
 
     // test 2
+    it('should display \'Sorry, you can not view these orders\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/2/parcels/delivered')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+
+    // test 3
+    it('should display \'Sorry, you don\'t have access to this route\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/admins/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/delivered')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(401);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+  }); // end of GET /api/v1/users/:userId/parcels/delivered
+
+  /*****************TESTS WITH EMPTY TABLES*************************/
+  // Get all parcels
+  describe('GET /api/v1/users/:userId/parcels', () => {
+    // test 1
+    before(async () => {
+      try {
+        await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it('should display \'Sorry, there are no parcel delivery orders\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+  }); // end of GET /api/v1/users/:userId/parcels
+
+  describe('GET /api/v1/users/:userId/parcels/pending', () => {
+    before(async () => {
+      try {
+        await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it('should display \'Sorry, there are no pending parcel delivery orders\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/pending')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+  });
+
+  describe('GET /api/v1/users/:userId/parcels/in-transit', () => {
+    before(async () => {
+      try {
+        await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // test 1
+    it('should display \'Sorry, there are no parcels in transit\'', (done) => {
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/in-transit')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
+        });
+    });
+  }); // end of GET /api/v1/users/:userId/parcels/in-transit
+
+  describe('GET /api/v1/users/:userId/parcels/delivered', () => {
+    before(async () => {
+      try {
+        await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // test 1
     it('should display \'Sorry, there are no delivered parcels\'', (done) => {
-      chai.request(app)
-        .get('/api/v1/users/000/parcels/delivered')
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no delivered parcels');
-          done();
+      const agent = chai.request.agent(app);
+
+      agent.post('/api/v1/auth/login')
+        .send({
+          uname: 'rwajon',
+          password: '12345',
+        })
+        .then(res => {
+          const token = JSON.parse(res.text).token;
+          expect(res.status).to.equal(202);
+          expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
+
+          return agent.get('/api/v1/users/1/parcels/delivered')
+            .set('x-access-token', token)
+            .then(res => {
+              expect(res.status).to.equal(200);
+              expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no delivered parcels');
+            })
+            .then(() => {
+              done();
+              agent.close();
+            });
         });
     });
   }); // end of GET /api/v1/users/:userId/parcels/delivered

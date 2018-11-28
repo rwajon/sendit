@@ -1,4 +1,3 @@
-import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import db from '../models/index';
@@ -92,18 +91,17 @@ describe('Admin', () => {
 
   /* Sign-in */
   describe('Sign-in', () => {
-    describe('POST /api/v1/admins/signin', () => {
+    describe('POST /api/v1/admins/login', () => {
       // test 1
       it('should return the admin information if the account exists', (done) => {
         chai.request(app)
-          .post('/api/v1/admins/signin')
+          .post('/api/v1/admins/login')
           .send({
             uname: 'rwajon',
             password: '12345',
           })
           .end((err, res) => {
             expect(res.status).to.equal(202);
-            console.log(res.text);
             expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
             done();
           });
@@ -112,7 +110,7 @@ describe('Admin', () => {
       // test 2
       it('should display \'Sorry, your username or password is incorrect\'', (done) => {
         chai.request(app)
-          .post('/api/v1/admins/signin')
+          .post('/api/v1/admins/login')
           .send({
             uname: 'rwajon',
             password: '1234',
@@ -127,7 +125,7 @@ describe('Admin', () => {
       // test 3
       it('should display \'Please, enter your username and your password!\'', (done) => {
         chai.request(app)
-          .post('/api/v1/admins/signin')
+          .post('/api/v1/admins/login')
           .send({
             uname: '',
             password: '',
