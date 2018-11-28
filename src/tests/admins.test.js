@@ -13,6 +13,7 @@ describe('Admin', () => {
   before(async () => {
     try {
       await db.query('TRUNCATE admins CASCADE; ALTER SEQUENCE admins_id_seq RESTART WITH 1;');
+      await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
     } catch (error) {
       console.log(error);
     }
