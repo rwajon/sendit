@@ -6,9 +6,14 @@ class Parcel {
     this.parcels = [];
     this.error = '';
   }
-  
+
+  validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   async createOrder(form, userId) {
-    if (form.rname && form.rphone && form.dest_country && form.product && form.quantity && form.price) {
+    if (form.rname && form.rphone && this.validateEmail(form.remail) && form.dest_country && form.product && form.quantity && form.price) {
 
       const text = `INSERT INTO
               orders(sender_id, receiver_name, receiver_phone, receiver_email, receiver_country, receiver_city, receiver_address, product, weight, qty, price, status, present_location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
