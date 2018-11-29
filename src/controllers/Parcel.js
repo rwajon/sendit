@@ -8,7 +8,7 @@ class Parcel {
   }
 
   async createOrder(form, userId) {
-    if (form.rname && form.rphone && form.dest_country && form.product && form.quantity) {
+    if (form.rname && form.rphone && form.dest_country && form.product && form.quantity && form.price) {
 
       const text = `INSERT INTO
               orders(sender_id, receiver_name, receiver_phone, receiver_email, receiver_country, receiver_city, receiver_address, product, weight, qty, price, status, present_location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
@@ -24,7 +24,7 @@ class Parcel {
         form.product,
         form.weight,
         Math.abs(form.quantity),
-        Math.ceil(Math.random() * 100),
+        Math.abs(form.price),
         'pending',
         `${form.sender_country}, ${form.sender_city} - ${form.sender_address}`
       ];
