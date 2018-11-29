@@ -8,8 +8,13 @@ class Admin {
     this.error = '';
   }
 
+  validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   async signup(form) {
-    if (form.fname && form.lname && form.uname && form.password && form.phone && form.country) {
+    if (form.fname && form.lname && form.uname && this.validateEmail(form.email) && form.password && form.phone && form.country) {
 
       const text = `INSERT INTO
             admins(fname, lname, uname, password, phone, email, country, city, address)
@@ -29,7 +34,7 @@ class Admin {
       ];
 
       try {
-        const checkAdmin = await db.query('SELECT * FROM admins WHERE uname=$1', [form.uname]);
+        const checkAdmin = await db.query('SELECT * FROM admins WHERE uname=$1 OR email=$2', [form.uname, form.email]);
 
         if (checkAdmin.rows.length) {
           for (let i = 0; i < checkAdmin.rows.length; i++) {
