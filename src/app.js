@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import session from 'express-session';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './api-docs-swagger.json';
 
 import indexRouterV1 from './routes/v1/index';
 import authRouterV1 from './routes/v1/auth';
@@ -33,6 +35,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../UI')));
 
 // api version 1
+
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v1', indexRouterV1);
 app.use('/api/v1/auth', authRouterV1);
 app.use('/api/v1/users', usersRouterV1);
