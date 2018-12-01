@@ -1,6 +1,77 @@
-window.document.addEventListener('DOMContentLoaded', main);
+function include(el, path, done, async) {
+  const request = new XMLHttpRequest();
+  if (async) {
+    request.open('GET', path, true);
+    request.send(null);
 
-function main() {
+    request.onreadystatechange = () => {
+      if (request.status === 200) {
+        done(el, request);
+      }
+    };
+  } else {
+    request.open('GET', path, false);
+    request.send(null);
+
+    if (request.status === 200) {
+      done(el, request);
+    }
+  }
+}
+
+function displayLoad(el, req) {
+  this.el = el;
+  this.el.innerHTML = req.responseText;
+}
+
+function appendLoad(el, req) {
+  this.el = el;
+  this.el.innerHTML = req.responseText;
+}
+
+function menuAsideToggle() {
+  const button = document.getElementById('menu-aside-toggle-btn');
+  const menu = document.querySelector('aside'); // document.getElementById('user-menu-aside');
+  const section = document.getElementsByTagName('section')[0];
+
+  if (!document.querySelector('aside').innerHTML || window.outerWidth < 768) {
+    menu.style.display = 'none';
+    section.style.margin = '0';
+    section.style.width = '100%';
+  }
+
+  if (document.querySelector('aside').innerHTML && window.outerWidth > 768) {
+    menu.style.display = 'block';
+    section.style.marginLeft = '20%';
+    section.style.width = '80%';
+  }
+
+  button.addEventListener('click', () => {
+    if (window.outerWidth > 768) {
+      if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+        section.style.marginLeft = '20%';
+        section.style.width = '80%';
+      } else {
+        menu.style.display = 'none';
+        section.style.margin = '0';
+        section.style.width = '100%';
+      }
+    } else if (window.outerWidth < 768) {
+      if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'block';
+        section.style.margin = '0';
+        section.style.width = '100%';
+      } else {
+        menu.style.display = 'none';
+        section.style.margin = '0';
+        section.style.width = '100%';
+      }
+    }
+  });
+}
+
+window.document.addEventListener('DOMContentLoaded', () => {
   // include header
   if (document.querySelector('header')) {
     include(document.querySelector('header'), 'includes/header.html', displayLoad, false);
@@ -40,76 +111,4 @@ function main() {
     document.querySelector('section').style.width = '100%';
     document.querySelector('section').style.margin = '0%';
   }
-}
-
-function include(el, path, done, async) {
-  if (async) {
-    var request = new XMLHttpRequest();
-    request.open('GET', path, true);
-    request.send(null);
-
-    request.onreadystatechange = () => {
-      if (request.status == 200) {
-        done(el, request);
-      }
-    };
-  } else {
-    var request = new XMLHttpRequest();
-    request.open('GET', path, false);
-    request.send(null);
-
-    if (request.status === 200) {
-      done(el, request);
-    }
-  }
-}
-
-function displayLoad(el, req) {
-  el.innerHTML = req.responseText;
-}
-
-function appendLoad(el, req) {
-  el.innerHTML += req.responseText;
-}
-
-function menuAsideToggle() {
-  const button = document.getElementById('menu-aside-toggle-btn');
-  const menu = document.querySelector('aside'); //document.getElementById('user-menu-aside');
-  const section = document.getElementsByTagName('section')[0];
-
-  if (!document.querySelector('aside').innerHTML || window.outerWidth < 768) {
-    menu.style.display = 'none';
-    section.style.margin = '0';
-    section.style.width = '100%';
-  }
-
-  if (document.querySelector('aside').innerHTML && window.outerWidth > 768) {
-    menu.style.display = 'block';
-    section.style.marginLeft = '20%';
-    section.style.width = '80%';
-  }
-
-  button.addEventListener('click', () => {
-    if (window.outerWidth > 768) {
-      if (menu.style.display === 'none') {
-        menu.style.display = 'block';
-        section.style.marginLeft = '20%';
-        section.style.width = '80%';
-      } else {
-        menu.style.display = 'none';
-        section.style.margin = '0';
-        section.style.width = '100%';
-      }
-    } else if (window.outerWidth < 768) {
-      if (menu.style.display === 'none' || menu.style.display === '') {
-        menu.style.display = 'block';
-        section.style.margin = '0';
-        section.style.width = '100%';
-      } else {
-        menu.style.display = 'none';
-        section.style.margin = '0';
-        section.style.width = '100%';
-      }
-    }
-  });
-}
+});

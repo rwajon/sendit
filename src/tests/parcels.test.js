@@ -28,7 +28,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -36,21 +36,21 @@ describe('Parcel', () => {
           return agent.post('/api/v1/parcels')
             .set('x-access-token', token)
             .send({
-              rname: "John Smith",
-              rphone: "+123456789",
-              remail: "johnsmith@gmail.com",
-              product: "Sandals",
-              weight: "1.5 Kg",
-              quantity: "2",
+              rname: 'John Smith',
+              rphone: '+123456789',
+              remail: 'johnsmith@gmail.com',
+              product: 'Sandals',
+              weight: '1.5 Kg',
+              quantity: '2',
               price: 100,
-              sender_country: "Rwanda",
-              sender_city: "Gisenyi",
-              sender_address: "Mbugangari",
-              dest_country: "USA",
-              dest_city: "Ney-York",
-              dest_address: "Near Central Park"
+              sender_country: 'Rwanda',
+              sender_city: 'Gisenyi',
+              sender_address: 'Mbugangari',
+              dest_country: 'USA',
+              dest_city: 'Ney-York',
+              dest_address: 'Near Central Park',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(201);
               expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);
             })
@@ -70,7 +70,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -78,21 +78,21 @@ describe('Parcel', () => {
           return agent.post('/api/v1/parcels')
             .set('x-access-token', token)
             .send({
-              rname: "",
-              rphone: "",
-              remail: "johnsmith@gmail.com",
-              product: "",
-              weight: "1.5 Kg",
-              quantity: "",
+              rname: '',
+              rphone: '',
+              remail: 'johnsmith@gmail.com',
+              product: '',
+              weight: '1.5 Kg',
+              quantity: '',
               price: 100,
-              sender_country: "Rwanda",
-              sender_city: "Gisenyi",
-              sender_address: "Mbugangari",
-              dest_country: "",
-              dest_city: "Ney-York",
-              dest_address: "Near Central Park"
+              sender_country: 'Rwanda',
+              sender_city: 'Gisenyi',
+              sender_address: 'Mbugangari',
+              dest_country: '',
+              dest_city: 'Ney-York',
+              dest_address: 'Near Central Park',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Please enter the required information to create an order!');
             })
@@ -112,7 +112,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -120,7 +120,7 @@ describe('Parcel', () => {
           return agent.post('/api/v1/parcels')
             .set('x-access-token', token)
             .send({})
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -141,14 +141,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).parcels.length).to.be.above(0);
             })
@@ -168,14 +168,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -204,14 +204,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).pending.length).to.be.above(0);
             })
@@ -231,14 +231,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -268,14 +268,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
             })
@@ -295,14 +295,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -332,14 +332,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).delivered.length).to.be.above(0);
             })
@@ -359,14 +359,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -387,14 +387,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/1')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).order).length).to.be.above(0);
             })
@@ -413,14 +413,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/000')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there is no parcel delivery order with this id: 000');
             })
@@ -442,7 +442,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -454,7 +454,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
             })
@@ -474,7 +474,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -486,7 +486,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -506,7 +506,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -518,7 +518,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
             })
@@ -538,7 +538,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -550,7 +550,7 @@ describe('Parcel', () => {
               new_city: '',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
             })
@@ -570,7 +570,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -582,7 +582,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: '',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
             })
@@ -602,7 +602,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -614,7 +614,7 @@ describe('Parcel', () => {
               new_city: '',
               new_address: '',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
             })
@@ -634,7 +634,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -646,7 +646,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not change this order');
             })
@@ -668,7 +668,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -678,7 +678,7 @@ describe('Parcel', () => {
             .send({
               new_status: 'delivered',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
             })
@@ -687,7 +687,6 @@ describe('Parcel', () => {
               agent.close();
             });
         });
-
     });
 
     // test 2
@@ -699,7 +698,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -709,7 +708,7 @@ describe('Parcel', () => {
             .send({
               new_status: 'delivered',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -729,7 +728,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -739,7 +738,7 @@ describe('Parcel', () => {
             .send({
               new_status: '',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
             })
@@ -759,7 +758,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -769,7 +768,7 @@ describe('Parcel', () => {
             .send({
               new_status: 'delivered',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, no order with id 000 was found');
             })
@@ -791,7 +790,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -803,7 +802,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).changed).length).to.be.above(0);
             })
@@ -823,7 +822,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -835,7 +834,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -855,7 +854,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -867,7 +866,7 @@ describe('Parcel', () => {
               new_city: '',
               new_address: '',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, this order was not changed');
             })
@@ -887,7 +886,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -899,7 +898,7 @@ describe('Parcel', () => {
               new_city: 'Kampala',
               new_address: 'Downtown',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, no order with id 000 was found');
             })
@@ -921,7 +920,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -931,7 +930,7 @@ describe('Parcel', () => {
             .send({
               new_status: 'cancelled',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(Object.keys(JSON.parse(res.text).cancelled).length).to.be.above(0);
             })
@@ -951,7 +950,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
@@ -961,7 +960,7 @@ describe('Parcel', () => {
             .send({
               new_status: 'cancelled',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -981,7 +980,7 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
@@ -991,7 +990,7 @@ describe('Parcel', () => {
             .send({
               new_status: 'cancelled',
             })
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not cancel this order');
             })
@@ -1004,7 +1003,7 @@ describe('Parcel', () => {
   }); // end of PUT /api/v1/parcels/:pId/cancel
 
 
-  /*****************TESTS WITH EMPTY TABLES*************************/
+  /** ***************TESTS WITH EMPTY TABLES************************ */
   // Get all parcels
   describe('GET /api/v1/parcels', () => {
     // test 1
@@ -1024,14 +1023,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
             })
@@ -1060,14 +1059,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
             })
@@ -1097,14 +1096,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
             })
@@ -1134,14 +1133,14 @@ describe('Parcel', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no delivered parcels');
             })

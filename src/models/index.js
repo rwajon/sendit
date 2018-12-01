@@ -6,7 +6,7 @@ dotenv.config();
 const env = process.env.NODE_ENV === 'test' ? `_${process.env.NODE_ENV}` : '';
 
 const pool = new pg.Pool({
-  connectionString: process.env[`DATABASE_URL${env}`]
+  connectionString: process.env[`DATABASE_URL${env}`],
 });
 
 pool.on('connect', () => {
@@ -15,15 +15,15 @@ pool.on('connect', () => {
 
 // https://www.codementor.io/olawalealadeusi896
 export default {
-  query(text, params){
+  query(text, params) {
     return new Promise((resolve, reject) => {
       pool.query(text, params)
-      .then((res) => {
-        resolve(res);
-      })
-      .catch((err) => {
-        reject(err);
-      })
-    })
-  }
-}
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+};
