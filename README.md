@@ -38,9 +38,6 @@ After cloning this repo, cd into it and an type  `npm run test` in the CLI
 ## Deployment
 To deploy this project on heroku use the following commands:
 ```
-git remote rm origin
-```
-```
 git remote set-url heroku <repo git>
 ```
 ```
@@ -60,7 +57,7 @@ For the versions available, see the [tags on this repository](https://github.com
 This project is licensed under the MIT License.
 
 ## Acknowledgments
-* Thanks to Olawale Aladeusi for his his post on using PostgreSQL with NodeJS
+* Thanks to Olawale Aladeusi for his post on using PostgreSQL with NodeJS
 * Olivier Esuka Muselemu
 * Jean Luc Abayo
 
