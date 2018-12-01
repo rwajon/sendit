@@ -140,13 +140,13 @@ describe('User', () => {
     });
   }); // end of Sign-in
 
-  /*****************TESTS WITH POPULATED TABLES*************************/
+  /** ***************TESTS WITH POPULATED TABLES************************ */
   // Get all parcels
   describe('GET /api/v1/users/:userId/parcels', () => {
     // test 1
     before(async () => {
       try {
-        await db.query(`INSERT INTO orders VALUES(DEFAULT, 1,'John Smith', '+123456789', 'johnsmith@gmail.com', 'USA', 'Ney-York', 'Near Central Park', 'Sandals', '1.5 Kg', 2, 111, 'pending', 'USA, Ney-York - Central Park Av', DEFAULT)`);
+        await db.query('INSERT INTO orders VALUES(DEFAULT, 1,\'John Smith\', \'+123456789\', \'johnsmith@gmail.com\', \'USA\', \'Ney-York\', \'Near Central Park\', \'Sandals\', \'1.5 Kg\', 2, 111, \'pending\', \'USA, Ney-York - Central Park Av\', DEFAULT)');
       } catch (error) {
         console.log(error);
       }
@@ -160,14 +160,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).parcels.length).to.be.above(0);
             })
@@ -178,7 +178,7 @@ describe('User', () => {
         });
     });
 
-   // test 2
+    // test 2
     it('should display \'Sorry, you can not view these orders\'', (done) => {
       const agent = chai.request.agent(app);
 
@@ -187,14 +187,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/2/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
             })
@@ -214,14 +214,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -250,14 +250,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).pending.length).to.be.above(0);
             })
@@ -277,14 +277,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/2/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
             })
@@ -304,14 +304,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -341,14 +341,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
             })
@@ -368,14 +368,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/2/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
             })
@@ -395,14 +395,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -432,14 +432,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).delivered.length).to.be.above(0);
             })
@@ -459,14 +459,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/2/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you can not view these orders');
             })
@@ -486,14 +486,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(401);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, you don\'t have access to this route');
             })
@@ -505,7 +505,7 @@ describe('User', () => {
     });
   }); // end of GET /api/v1/users/:userId/parcels/delivered
 
-  /*****************TESTS WITH EMPTY TABLES*************************/
+  /** ***************TESTS WITH EMPTY TABLES************************ */
   // Get all parcels
   describe('GET /api/v1/users/:userId/parcels', () => {
     // test 1
@@ -525,14 +525,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcel delivery orders');
             })
@@ -561,14 +561,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/pending')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no pending parcel delivery orders');
             })
@@ -598,14 +598,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/in-transit')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no parcels in transit');
             })
@@ -635,14 +635,14 @@ describe('User', () => {
           uname: 'rwajon',
           password: '12345',
         })
-        .then(res => {
+        .then((res) => {
           const token = JSON.parse(res.text).token;
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
           return agent.get('/api/v1/users/1/parcels/delivered')
             .set('x-access-token', token)
-            .then(res => {
+            .then((res) => {
               expect(res.status).to.equal(200);
               expect(JSON.parse(res.text).error).to.be.equal('Sorry, there are no delivered parcels');
             })

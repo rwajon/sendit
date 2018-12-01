@@ -1,14 +1,12 @@
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
 const verifyToken = (req, res, next) => {
-
   const token = req.headers['x-access-token'] || req.body['x-access-token'] || null;
 
   if (!token) {
     return res.status(401).json({
       auth: false,
-      error: 'Please, sign-in!'
+      error: 'Please, sign-in!',
     });
   }
 
@@ -16,14 +14,15 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(500).json({
         auth: false,
-        error: 'Failed to authenticate token'
+        error: 'Failed to authenticate token',
       });
-    } else {
-      req.userId = decoded['userId'] || null;
-      req.adminId = decoded['adminId'] || null;
-      next();
     }
+    req.userId = decoded.userId || null;
+    req.adminId = decoded.adminId || null;
+    next();
+    return true;
   });
-}
+  return true;
+};
 
 export default verifyToken;

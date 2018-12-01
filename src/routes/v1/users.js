@@ -1,9 +1,7 @@
 import express from 'express';
 import verifyToken from '../../middlewares/verifyToken';
-import User from '../../controllers/User';
 import Parcel from '../../controllers/Parcel';
 
-let ssn;
 const router = express.Router();
 
 /* ----Parcel delivery orders-----*/
@@ -15,7 +13,7 @@ router.get('/:userId/parcels', verifyToken, async (req, res) => {
     });
   }
 
-  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+  if (parseInt(req.userId, 10) !== parseInt(req.params.userId, 10)) {
     return res.status(401).json({
       error: 'Sorry, you can not view these orders',
     });
@@ -43,7 +41,7 @@ router.get('/:userId/parcels/pending', verifyToken, async (req, res) => {
     });
   }
 
-  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+  if (parseInt(req.userId, 10) !== parseInt(req.params.userId, 10)) {
     return res.status(401).json({
       error: 'Sorry, you can not view these orders',
     });
@@ -71,7 +69,7 @@ router.get('/:userId/parcels/in-transit', verifyToken, async (req, res) => {
     });
   }
 
-  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+  if (parseInt(req.userId, 10) !== parseInt(req.params.userId, 10)) {
     return res.status(401).json({
       error: 'Sorry, you can not view these orders',
     });
@@ -99,12 +97,12 @@ router.get('/:userId/parcels/delivered', verifyToken, async (req, res) => {
     });
   }
 
-  if (parseInt(req.userId) !== parseInt(req.params.userId)) {
+  if (parseInt(req.userId, 10) !== parseInt(req.params.userId, 10)) {
     return res.status(401).json({
       error: 'Sorry, you can not view these orders',
     });
   }
-  
+
   const parcel = new Parcel();
   const delivered = await parcel.getDelivered(req.params.userId);
 

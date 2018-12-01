@@ -20,13 +20,13 @@ pool.on('connect', () => {
 });
 
 const dropTables = () => {
-  const ordersTable = `DROP TABLE IF EXISTS orders`;
-  
-  const usersTable = `DROP TABLE IF EXISTS users`;
+  const ordersTable = 'DROP TABLE IF EXISTS orders';
 
-  const adminsTable = `DROP TABLE IF EXISTS admins`;
+  const usersTable = 'DROP TABLE IF EXISTS users';
 
-  const dropTablesQueries = `${ordersTable}; ${usersTable}; ${adminsTable}`;   
+  const adminsTable = 'DROP TABLE IF EXISTS admins';
+
+  const dropTablesQueries = `${ordersTable}; ${usersTable}; ${adminsTable}`;
 
   pool.query(dropTablesQueries)
     .then((res) => {
@@ -93,7 +93,7 @@ const createTables = () => {
         created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
-  const createTablesQueries = `${usersTable}; ${adminsTable}; ${ordersTable}`;   
+  const createTablesQueries = `${usersTable}; ${adminsTable}; ${ordersTable}`;
 
   pool.query(createTablesQueries)
     .then((res) => {

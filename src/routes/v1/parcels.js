@@ -24,7 +24,6 @@ router.post('/', verifyToken, async (req, res) => {
   return res.status(200).json({
     error: parcel.error,
   });
-
 });
 
 // Fetch all parcel delivery orders
@@ -34,7 +33,7 @@ router.get('/', verifyToken, async (req, res) => {
       error: 'Sorry, you don\'t have access to this route',
     });
   }
-  
+
   const parcel = new Parcel();
   const parcels = await parcel.getAll();
 
@@ -78,7 +77,7 @@ router.get('/in-transit', verifyToken, async (req, res) => {
       error: 'Sorry, you don\'t have access to this route',
     });
   }
-  
+
   const parcel = new Parcel();
   const inTransit = await parcel.getInTransit();
 
@@ -117,9 +116,8 @@ router.get('/delivered', verifyToken, async (req, res) => {
 
 // Fetch a specific parcel delivery oder
 router.get('/:pId', verifyToken, async (req, res) => {
-
   const parcel = new Parcel();
-  const order = req.userId ? await parcel.getOrder(req.params.pId, req.userId) : await parcel.getOrder(req.params.pId);
+  const order = await parcel.getOrder(req.params.pId, req.userId);
 
   if (!parcel.error) {
     return res.status(200).json({
