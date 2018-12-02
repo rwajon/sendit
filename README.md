@@ -48,7 +48,9 @@ git push -u origin master
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
 ## Versioning
-For the versions available, see the [tags on this repository](https://github.com/rwajon/sendit/releases/tag/v1.0). 
+For the versions available, see the [tags on this repository](https://github.com/rwajon/sendit/releases/tag/v1.0).
+## Documentation
+For the documentation, find it [here](https://rwajon-sendit.herokuapp.com/api/v1/docs)
 
 ## Authors
 * **Rwabahizi Jonathan** - *Initial work* - [rwajon](https://github.com/rwajon)
