@@ -56,7 +56,7 @@ const createTables = () => {
         country VARCHAR(50) NOT NULL,
         city VARCHAR(50) NULL,
         address VARCHAR(100) NULL,
-        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        createdDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const adminsTable = `CREATE TABLE IF NOT EXISTS
@@ -71,26 +71,26 @@ const createTables = () => {
         country VARCHAR(50) NOT NULL,
         city VARCHAR(50) NULL,
         address VARCHAR(100) NULL,
-        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        createdDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const ordersTable = `CREATE TABLE IF NOT EXISTS
       orders(
         id SERIAL PRIMARY KEY,
-        sender_id INT NOT NULL REFERENCES users(id),
-        receiver_name VARCHAR(100) NOT NULL,
-        receiver_phone VARCHAR(15) NOT NULL,
-        receiver_email VARCHAR(100) NULL,
-        receiver_country VARCHAR(50) NOT NULL,
-        receiver_city VARCHAR(50) NULL,
-        receiver_address VARCHAR(100) NULL,
+        uid INT NOT NULL REFERENCES users(id),
+        rname VARCHAR(100) NOT NULL,
+        rphone VARCHAR(15) NOT NULL,
+        remail VARCHAR(100) NULL,
+        rcountry VARCHAR(50) NOT NULL,
+        rcity VARCHAR(50) NULL,
+        raddress VARCHAR(100) NULL,
         product VARCHAR(100) NOT NULL,
         weight VARCHAR(10) NULL,
         qty INT NOT NULL,
         price DECIMAL(12,3) NOT NULL,
         status VARCHAR(20) NULL,
-        present_location TEXT NULL,
-        created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        location TEXT NULL,
+        createdDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const createTablesQueries = `${usersTable}; ${adminsTable}; ${ordersTable}`;

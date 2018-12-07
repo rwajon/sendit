@@ -43,12 +43,12 @@ describe('Parcel', () => {
               weight: '1.5 Kg',
               quantity: '2',
               price: 100,
-              sender_country: 'Rwanda',
-              sender_city: 'Gisenyi',
-              sender_address: 'Mbugangari',
-              dest_country: 'USA',
-              dest_city: 'Ney-York',
-              dest_address: 'Near Central Park',
+              scountry: 'Rwanda',
+              scity: 'Gisenyi',
+              saddress: 'Mbugangari',
+              rcountry: 'USA',
+              rcity: 'Ney-York',
+              raddress: 'Near Central Park',
             })
             .then((res) => {
               expect(res.status).to.equal(201);
@@ -85,12 +85,12 @@ describe('Parcel', () => {
               weight: '1.5 Kg',
               quantity: '',
               price: 100,
-              sender_country: 'Rwanda',
-              sender_city: 'Gisenyi',
-              sender_address: 'Mbugangari',
-              dest_country: '',
-              dest_city: 'Ney-York',
-              dest_address: 'Near Central Park',
+              scountry: 'Rwanda',
+              scity: 'Gisenyi',
+              saddress: 'Mbugangari',
+              rcountry: '',
+              rcity: 'Ney-York',
+              raddress: 'Near Central Park',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -450,9 +450,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/destination')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -482,9 +482,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/destination')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -514,9 +514,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/destination')
             .set('x-access-token', token)
             .send({
-              new_country: '',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: '',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -546,9 +546,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/destination')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: '',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: '',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -578,9 +578,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/destination')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: '',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: '',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -610,9 +610,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/destination')
             .set('x-access-token', token)
             .send({
-              new_country: '',
-              new_city: '',
-              new_address: '',
+              country: '',
+              city: '',
+              address: '',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -642,9 +642,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/111/destination')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -676,7 +676,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/status')
             .set('x-access-token', token)
             .send({
-              new_status: 'delivered',
+              status: 'delivered',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -706,7 +706,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/status')
             .set('x-access-token', token)
             .send({
-              new_status: 'delivered',
+              status: 'delivered',
             })
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -736,7 +736,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/status')
             .set('x-access-token', token)
             .send({
-              new_status: '',
+              status: '',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -766,7 +766,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/000/status')
             .set('x-access-token', token)
             .send({
-              new_status: 'delivered',
+              status: 'delivered',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -798,9 +798,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/presentLocation')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -830,9 +830,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/presentLocation')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -862,9 +862,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/presentLocation')
             .set('x-access-token', token)
             .send({
-              new_country: '',
-              new_city: '',
-              new_address: '',
+              country: '',
+              city: '',
+              address: '',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -894,9 +894,9 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/000/presentLocation')
             .set('x-access-token', token)
             .send({
-              new_country: 'Uganda',
-              new_city: 'Kampala',
-              new_address: 'Downtown',
+              country: 'Uganda',
+              city: 'Kampala',
+              address: 'Downtown',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -928,7 +928,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/cancel')
             .set('x-access-token', token)
             .send({
-              new_status: 'cancelled',
+              status: 'cancelled',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -958,7 +958,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/1/cancel')
             .set('x-access-token', token)
             .send({
-              new_status: 'cancelled',
+              status: 'cancelled',
             })
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -988,7 +988,7 @@ describe('Parcel', () => {
           return agent.put('/api/v1/parcels/000/cancel')
             .set('x-access-token', token)
             .send({
-              new_status: 'cancelled',
+              status: 'cancelled',
             })
             .then((res) => {
               expect(res.status).to.equal(200);

@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
 
   if (!user.error) {
     const token = jwt.sign({ userId: newUser.id }, process.env.SECRET_KEY, {
-      expiresIn: 1440, // expires in 24 hours
+      expiresIn: 86400, // expires in 24 hours
     });
 
     return res.status(201).json({
@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
 
   if (!user.error) {
     const token = jwt.sign({ userId: account.id }, process.env.SECRET_KEY, {
-      expiresIn: 1440, // expires in 24 hours
+      expiresIn: 86400, // expires in 24 hours
     });
 
     return res.status(202).json({
