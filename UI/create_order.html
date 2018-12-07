@@ -6,6 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="shortout icon" type="" href="assets/images/sendit_icon.png">
 </head>
 
 <body>
@@ -24,10 +25,10 @@
 					<form role="form" method="post" action="#{path}users/#{user.id}/parcels/create">
 						<fieldset>
 							<legend>Receiver Info</legend>
-							<label for="rname">Name</label>
+							<label for="rname">Name <span style="color: red">*</span></label>
 							<input type="text" class="form-control name="rname" required="required">
 							<br>
-							<label for="rphone">Phone</label>
+							<label for="rphone">Phone <span style="color: red">*</span></label>
 							<input type="text" class="form-control name="rphone" required="required">
 							<br>
 							<label for="remail">Email</label>
@@ -36,17 +37,17 @@
 						<br>
 						<fieldset>
 							<legend>Parcel details</legend>
-							<label for="product">Product</label>
+							<label for="product">Product <span style="color: red">*</span></label>
 							<input type="text" class="form-control name="product" required="required">
 							<br>
-							<label for="weight">Weight (kg)</label>
+							<label for="weight">Weight (kg) <span style="color: red">*</span></label>
 							<input type="text" class="form-control name="weight">
 							<br>
-							<label for="quantity">Quantity</label>
+							<label for="quantity">Quantity <span style="color: red">*</span></label>
 							<input type="number" class="form-control name="quantity" required="required">
 						</fieldset>
 						<br>
-						<fieldset>
+						<fieldset class="hidden">
 							<legend>Confirm your location</legend>
 							<label for="sender_country">Country</label>
 							<select name="sender_country" class="form-control no-bg" required="required">
@@ -79,7 +80,7 @@
 						<br>
 						<fieldset>
 							<legend>Specify the destination</legend>
-							<label for="dest_country">Country</label>
+							<label for="dest_country">Country <span style="color: red">*</span></label>
 							<select name="dest_country" class="form-control no-bg" required="required">
 								<option></option>
 								<optgroup label="Africa">

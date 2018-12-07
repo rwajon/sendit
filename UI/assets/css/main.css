@@ -32,6 +32,10 @@ label {
 	font-weight: bold;
 }
 
+input, select{
+	background-color: #fafafa!important;
+}
+
 /*padding*/
 .no-padding {
 	padding: 0px !important;
@@ -272,13 +276,12 @@ label {
 	position: absolute;
 	min-height: 500px;
 	background-color: #fff;
-	box-shadow: 2px -1px 7px #aaa;
 }
 
 #user-menu-aside>div,
 #admin-menu-aside>div {
 	min-height: 500px;
-	background-color: rgba(0, 0, 0, .01);
+	background-color: rgba(0, 0, 0, .02);
 }
 
 #user-menu-aside>div>a,
