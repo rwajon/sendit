@@ -687,7 +687,7 @@
     }
   },
   "securityDefinitions": {
-    "user_jsonwetoken": {
+    "userJWT": {
       "type": "apiKey",
       "name": "x-access-token",
       "in": "header"
@@ -724,22 +724,22 @@
         "price": {
           "type": "number"
         },
-        "sender_country": {
+        "scountry": {
           "type": "string"
         },
-        "sender_city": {
+        "scity": {
           "type": "string"
         },
-        "sender_address": {
+        "saddress": {
           "type": "string"
         },
-        "dest_country": {
+        "rcountry": {
           "type": "string"
         },
-        "dest_city": {
+        "rcity": {
           "type": "string"
         },
-        "dest_address": {
+        "raddress": {
           "type": "string"
         }
       }
@@ -747,13 +747,13 @@
     "OrderDestination": {
       "type": "object",
       "properties": {
-        "new_country": {
+        "country": {
           "type": "string"
         },
-        "new_city": {
+        "city": {
           "type": "string"
         },
-        "new_address": {
+        "address": {
           "type": "string"
         }
       }
@@ -761,13 +761,13 @@
     "OrderPresentLocation": {
       "type": "object",
       "properties": {
-        "new_country": {
+        "country": {
           "type": "string"
         },
-        "new_city": {
+        "city": {
           "type": "string"
         },
-        "new_address": {
+        "address": {
           "type": "string"
         }
       }
@@ -775,7 +775,7 @@
     "OrderStatus": {
       "type": "object",
       "properties": {
-        "new_status": {
+        "status": {
           "type": "string"
         }
       }
