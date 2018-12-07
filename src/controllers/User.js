@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import db from '../models/index';
+import Validate from '../helpers/Validate';
 
 class User {
   constructor() {
@@ -8,16 +9,11 @@ class User {
     this.error = '';
   }
 
-  validateEmail(email) {
-    this.re = /\S+@\S+\.\S+/;
-    return this.re.test(email);
-  }
-
   async signup(form) {
     if (form.fname
       && form.lname
       && form.uname
-      && this.validateEmail(form.email)
+      && Validate.email(form.email)
       && form.password
       && form.phone
       && form.country) {
