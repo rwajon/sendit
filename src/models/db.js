@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const env = process.env.NODE_ENV ? `_${process.env.NODE_ENV}` : '';
+const env = (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') ? `_${process.env.NODE_ENV}` : '';
 
 const config = {
   host: process.env[`DB_HOST${env}`],
