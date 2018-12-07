@@ -692,7 +692,7 @@
       "name": "x-access-token",
       "in": "header"
     },
-    "admin_jsonwetoken": {
+    "adminJWT": {
       "type": "apiKey",
       "name": "x-access-token",
       "in": "header"
@@ -702,13 +702,13 @@
     "Order": {
       "type": "object",
       "properties": {
-        "rname": {
+        "receiverName": {
           "type": "string"
         },
-        "rphone": {
+        "receiverPhone": {
           "type": "string"
         },
-        "remail": {
+        "receiverEmail": {
           "type": "string"
         },
         "product": {
@@ -724,22 +724,22 @@
         "price": {
           "type": "number"
         },
-        "scountry": {
+        "senderAountry": {
           "type": "string"
         },
-        "scity": {
+        "senderCity": {
           "type": "string"
         },
-        "saddress": {
+        "senderAddress": {
           "type": "string"
         },
-        "rcountry": {
+        "receiverCountry": {
           "type": "string"
         },
-        "rcity": {
+        "receiverCity": {
           "type": "string"
         },
-        "raddress": {
+        "receiverAddress": {
           "type": "string"
         }
       }
