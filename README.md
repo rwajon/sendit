@@ -53,7 +53,7 @@ For the versions available, see the [tags on this repository](https://github.com
 For the documentation, find it [here](https://rwajon-sendit.herokuapp.com/api/v1/docs)
 
 ## Authors
-* **Rwabahizi Jonathan** - *Initial work* - [rwajon](https://github.com/rwajon)
+* **Rwabahizi Jonathan**
 
 ## License
 This project is licensed under the MIT License.
