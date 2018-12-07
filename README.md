@@ -4,8 +4,11 @@
 <a href="https://codeclimate.com/github/rwajon/sendit/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bb0ad823d32c6fb7e947/test_coverage" /></a>
 
 # SendIT
-SendIT is a courier service that helps users deliver parcels to different destinations.
+[SendIT](https://rwajon.github.io/sendit/UI/) is a courier service that helps users deliver parcels to different destinations.
 SendIT provides courier quotes based on weight categories.
+
+## Website
+[https://rwajon.github.io/sendit/UI/](https://rwajon.github.io/sendit/UI/)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -49,6 +52,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 ## Versioning
 For the versions available, see the [tags on this repository](https://github.com/rwajon/sendit/releases/tag/v1.0).
+
 ## Documentation
 For the documentation, find it [here](https://rwajon-sendit.herokuapp.com/api/v1/docs)
 
