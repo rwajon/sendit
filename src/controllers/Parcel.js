@@ -13,30 +13,30 @@ class Parcel {
   }
 
   async createOrder(form, userId) {
-    if (form.rname && form.rphone
-      && this.validateEmail(form.remail)
-      && form.rcountry
+    if (form.receiverName && form.receiverPhone
+      && this.validateEmail(form.receiverEmail)
+      && form.receiverCountry
       && form.product
       && form.quantity
       && form.price) {
 
       const text = `INSERT INTO
-              orders(uid, rname, rphone, remail, rcountry, rcity, raddress, product, weight, qty, price, status, location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
+              orders("userId", "receiverName", "receiverPhone", "receiverEmail", "receiverCountry", "receiverCity", "receiverAddress", product, weight, qty, price, status, location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
 
       const values = [
         userId,
-        form.rname,
-        form.rphone,
-        form.remail,
-        form.rcountry,
-        form.rcity,
-        form.raddress,
+        form.receiverName,
+        form.receiverPhone,
+        form.receiverEmail,
+        form.receiverCountry,
+        form.receiverCity,
+        form.receiverAddress,
         form.product,
         form.weight,
         Math.abs(form.quantity),
         Math.abs(form.price),
         'pending',
-        `${form.scountry}, ${form.scity} - ${form.saddress}`,
+        `${form.senderCountry}, ${form.senderCity} - ${form.senderAddress}`,
       ];
 
       try {
@@ -60,15 +60,15 @@ class Parcel {
     try {
       const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
       if (order.rows.length > 0) {
-        const sender = await db.query('SELECT * FROM users WHERE id=$1', [order.rows[0].uid]);
+        const sender = await db.query('SELECT * FROM users WHERE id=$1', [order.rows[0].userId]);
 
         this.parcel = {
           orderId: order.rows[0].id,
           sender: {
             id: sender.rows[0].id,
-            fname: sender.rows[0].fname,
-            lname: sender.rows[0].lname,
-            uname: sender.rows[0].uname,
+            firstName: sender.rows[0].firstName,
+            lastName: sender.rows[0].lastName,
+            userName: sender.rows[0].userName,
             phone: sender.rows[0].phone,
             email: sender.rows[0].email,
             country: sender.rows[0].country,
@@ -76,12 +76,12 @@ class Parcel {
             address: sender.rows[0].address,
           },
           receiver: {
-            name: order.rows[0].rname,
-            phone: order.rows[0].rphone,
-            email: order.rows[0].remail,
-            country: order.rows[0].rcountry,
-            city: order.rows[0].rcity,
-            address: order.rows[0].raddress,
+            name: order.rows[0].receiverName,
+            phone: order.rows[0].receiverPhone,
+            email: order.rows[0].receiverEmail,
+            country: order.rows[0].receiverCountry,
+            city: order.rows[0].receiverCity,
+            address: order.rows[0].receiverAddress,
           },
           product: order.rows[0].product,
           weight: order.rows[0].weight,
@@ -109,7 +109,7 @@ class Parcel {
   async getAll(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE uid=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE "userId"=$1', [userId]);
         if (rows.length > 0) {
           return rows;
         }
@@ -128,7 +128,7 @@ class Parcel {
   async getPending(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' AND uid=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' AND "userId"=$1', [userId]);
         if (rows.length > 0) {
           return rows;
         }
@@ -147,7 +147,7 @@ class Parcel {
   async getInTransit(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' AND uid=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' AND "userId"=$1', [userId]);
         if (rows.length > 0) {
           return rows;
         }
@@ -166,7 +166,7 @@ class Parcel {
   async getDelivered(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' AND uid=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' AND "userId"=$1', [userId]);
         if (rows.length > 0) {
           return rows;
         }
@@ -185,22 +185,22 @@ class Parcel {
   async changeDestination(pId, form, userId) {
     if (form.country || form.city || form.address) {
       try {
-        const order = await db.query('SELECT * FROM orders WHERE id=$1 AND uid=$2', [pId, userId]);
+        const order = await db.query('SELECT * FROM orders WHERE id=$1 AND "userId"=$2', [pId, userId]);
 
         if (order.rows.length <= 0) {
           this.error = 'Sorry, you can not change this order';
           return {};
         }
 
-        order.rows[0].rcountry = form.country || order.rows[0].rcountry;
-        order.rows[0].rcity = form.city || order.rows[0].rcity;
-        order.rows[0].raddress = form.address || order.rows[0].raddress;
+        order.rows[0].receiverCountry = form.country || order.rows[0].receiverCountry;
+        order.rows[0].receiverCity = form.city || order.rows[0].receiverCity;
+        order.rows[0].receiverAddress = form.address || order.rows[0].receiverAddress;
 
-        const text = `UPDATE orders SET rcountry=$1, rcity=$2, raddress=$3 WHERE id=${pId} RETURNING *`;
+        const text = `UPDATE orders SET "receiverCountry"=$1, "receiverCity"=$2, "receiverAddress"=$3 WHERE id=${pId} RETURNING *`;
         const values = [
-          order.rows[0].rcountry,
-          order.rows[0].rcity,
-          order.rows[0].raddress,
+          order.rows[0].receiverCountry,
+          order.rows[0].receiverCity,
+          order.rows[0].receiverAddress,
         ];
 
         const changed = await db.query(text, values);
@@ -281,7 +281,7 @@ class Parcel {
 
   async cancelOrder(pId, userId) {
     try {
-      const order = await db.query('SELECT * FROM orders WHERE id=$1 AND uid=$2', [pId, userId]);
+      const order = await db.query('SELECT * FROM orders WHERE id=$1 AND "userId"=$2', [pId, userId]);
 
       if (order.rows.length > 0) {
         const cancelled = await db.query(`UPDATE orders SET status='cancelled' WHERE id=${order.rows[0].id} RETURNING *`);

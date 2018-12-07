@@ -10,22 +10,22 @@ class User {
   }
 
   async signup(form) {
-    if (form.fname
-      && form.lname
-      && form.uname
+    if (form.firstName
+      && form.lastName
+      && form.userName
       && Validate.email(form.email)
       && form.password
       && form.phone
       && form.country) {
       const text = `INSERT INTO
-            users(fname, lname, uname, password, phone, email, country, city, address)
+            users("firstName", "lastName", "userName", password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            returning id, fname, lname, uname, phone, email, country, city, address`;
+            returning id, "firstName", "lastName", "userName", phone, email, country, city, address`;
 
       const values = [
-        form.fname,
-        form.lname,
-        form.uname,
+        form.firstName,
+        form.lastName,
+        form.userName,
         bcrypt.hashSync(form.password, 8),
         form.phone,
         form.email,
@@ -35,7 +35,7 @@ class User {
       ];
 
       try {
-        const checkUser = await db.query('SELECT * FROM users WHERE uname=$1 OR email=$2', [form.uname, form.email]);
+        const checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1 OR email=$2', [form.userName, form.email]);
 
         if (checkUser.rows.length) {
           for (let i = 0; i < checkUser.rows.length; i += 1) {
@@ -59,18 +59,18 @@ class User {
   } // end of signup method
 
   async login(form) {
-    if (form.uname !== '' && form.password !== '') {
+    if (form.userName !== '' && form.password !== '') {
       try {
-        const checkUser = await db.query('SELECT * FROM users WHERE uname=$1', [form.uname]);
+        const checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1', [form.userName]);
 
         if (checkUser.rows.length > 0) {
           for (let i = 0; i < checkUser.rows.length; i += 1) {
             if (bcrypt.compareSync(form.password, checkUser.rows[i].password)) {
               this.user = {
                 id: checkUser.rows[i].id,
-                fname: checkUser.rows[i].fname,
-                lname: checkUser.rows[i].lname,
-                uname: checkUser.rows[i].uname,
+                firstName: checkUser.rows[i].firstName,
+                lastName: checkUser.rows[i].lastName,
+                userName: checkUser.rows[i].userName,
                 phone: checkUser.rows[i].phone,
                 email: checkUser.rows[i].email,
                 country: checkUser.rows[i].country,

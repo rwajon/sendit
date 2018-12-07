@@ -27,9 +27,9 @@ describe('Admin', () => {
         chai.request(app)
           .post('/api/v1/admins/signup')
           .send({
-            fname: 'Jonathan',
-            lname: 'Rwabahizi',
-            uname: 'rwajon',
+            firstName: 'Jonathan',
+            lastName: 'Rwabahizi',
+            userName: 'rwajon',
             password: '12345',
             phone: '+250781146646',
             email: 'jonathanrwabahizi@gmail.com',
@@ -49,9 +49,9 @@ describe('Admin', () => {
         chai.request(app)
           .post('/api/v1/admins/signup')
           .send({
-            fname: 'Jonathan',
-            lname: '',
-            uname: 'rwajon',
+            firstName: 'Jonathan',
+            lastName: '',
+            userName: 'rwajon',
             password: '',
             phone: '+250781146646',
             email: 'jonathanrwabahizi@gmail.com',
@@ -71,9 +71,9 @@ describe('Admin', () => {
         chai.request(app)
           .post('/api/v1/admins/signup')
           .send({
-            fname: 'Jonathan',
-            lname: 'Rwabahizi',
-            uname: 'rwajon',
+            firstName: 'Jonathan',
+            lastName: 'Rwabahizi',
+            userName: 'rwajon',
             password: '12345',
             phone: '+250781146646',
             email: 'jonathanrwabahizi@gmail.com',
@@ -98,7 +98,7 @@ describe('Admin', () => {
         chai.request(app)
           .post('/api/v1/admins/login')
           .send({
-            uname: 'rwajon',
+            userName: 'rwajon',
             password: '12345',
           })
           .end((err, res) => {
@@ -113,7 +113,7 @@ describe('Admin', () => {
         chai.request(app)
           .post('/api/v1/admins/login')
           .send({
-            uname: 'rwajon',
+            userName: 'rwajon',
             password: '1234',
           })
           .end((err, res) => {
@@ -128,7 +128,7 @@ describe('Admin', () => {
         chai.request(app)
           .post('/api/v1/admins/login')
           .send({
-            uname: '',
+            userName: '',
             password: '',
           })
           .end((err, res) => {

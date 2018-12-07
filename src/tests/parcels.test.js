@@ -25,7 +25,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -36,19 +36,19 @@ describe('Parcel', () => {
           return agent.post('/api/v1/parcels')
             .set('x-access-token', token)
             .send({
-              rname: 'John Smith',
-              rphone: '+123456789',
-              remail: 'johnsmith@gmail.com',
+              receiverName: 'John Smith',
+              receiverPhone: '+123456789',
+              receiverEmail: 'johnsmith@gmail.com',
               product: 'Sandals',
               weight: '1.5 Kg',
               quantity: '2',
               price: 100,
-              scountry: 'Rwanda',
-              scity: 'Gisenyi',
-              saddress: 'Mbugangari',
-              rcountry: 'USA',
-              rcity: 'Ney-York',
-              raddress: 'Near Central Park',
+              senderCountry: 'Rwanda',
+              senderCity: 'Gisenyi',
+              senderAddress: 'Mbugangari',
+              receiverCountry: 'USA',
+              receiverCity: 'Ney-York',
+              receiverAddress: 'Near Central Park',
             })
             .then((res) => {
               expect(res.status).to.equal(201);
@@ -67,7 +67,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -78,19 +78,19 @@ describe('Parcel', () => {
           return agent.post('/api/v1/parcels')
             .set('x-access-token', token)
             .send({
-              rname: '',
-              rphone: '',
-              remail: 'johnsmith@gmail.com',
+              receiverName: '',
+              receiverPhone: '',
+              receiverEmail: 'johnsmith@gmail.com',
               product: '',
               weight: '1.5 Kg',
               quantity: '',
               price: 100,
-              scountry: 'Rwanda',
-              scity: 'Gisenyi',
-              saddress: 'Mbugangari',
-              rcountry: '',
-              rcity: 'Ney-York',
-              raddress: 'Near Central Park',
+              senderCountry: 'Rwanda',
+              senderCity: 'Gisenyi',
+              senderAddress: 'Mbugangari',
+              receiverCountry: '',
+              receiverCity: 'Ney-York',
+              receiverAddress: 'Near Central Park',
             })
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -109,7 +109,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -138,7 +138,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -165,7 +165,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -201,7 +201,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -228,7 +228,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -265,7 +265,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -292,7 +292,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -329,7 +329,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -356,7 +356,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -384,7 +384,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -410,7 +410,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -439,7 +439,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -471,7 +471,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -503,7 +503,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -535,7 +535,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -567,7 +567,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -599,7 +599,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -631,7 +631,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -665,7 +665,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -695,7 +695,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -725,7 +725,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -755,7 +755,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -787,7 +787,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -819,7 +819,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -851,7 +851,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -883,7 +883,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -917,7 +917,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -947,7 +947,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -977,7 +977,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/auth/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -1020,7 +1020,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -1056,7 +1056,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -1093,7 +1093,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
@@ -1130,7 +1130,7 @@ describe('Parcel', () => {
 
       agent.post('/api/v1/admins/login')
         .send({
-          uname: 'rwajon',
+          userName: 'rwajon',
           password: '12345',
         })
         .then((res) => {
