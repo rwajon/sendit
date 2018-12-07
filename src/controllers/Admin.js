@@ -10,22 +10,22 @@ class Admin {
   }
 
   async signup(form) {
-    if (form.fname
-      && form.lname
-      && form.uname
+    if (form.firstName
+      && form.lastName
+      && form.userName
       && Validate.email(form.email)
       && form.password
       && form.phone
       && form.country) {
       const text = `INSERT INTO
-            admins(fname, lname, uname, password, phone, email, country, city, address)
+            admins("firstName", "lastName", "userName", password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            returning id, fname, lname, uname, phone, email, country, city, address`;
+            returning id, "firstName", "lastName", "userName", phone, email, country, city, address`;
 
       const values = [
-        form.fname,
-        form.lname,
-        form.uname,
+        form.firstName,
+        form.lastName,
+        form.userName,
         bcrypt.hashSync(form.password, 8),
         form.phone,
         form.email,
@@ -35,7 +35,7 @@ class Admin {
       ];
 
       try {
-        const checkAdmin = await db.query('SELECT * FROM admins WHERE uname=$1 OR email=$2', [form.uname, form.email]);
+        const checkAdmin = await db.query('SELECT * FROM admins WHERE "userName"=$1 OR email=$2', [form.userName, form.email]);
 
         if (checkAdmin.rows.length) {
           for (let i = 0; i < checkAdmin.rows.length; i += 1) {
@@ -59,18 +59,18 @@ class Admin {
   } // end of signup method
 
   async login(form) {
-    if (form.uname !== '' && form.password !== '') {
+    if (form.userName !== '' && form.password !== '') {
       try {
-        const checkAdmin = await db.query('SELECT * FROM admins WHERE uname=$1', [form.uname]);
+        const checkAdmin = await db.query('SELECT * FROM admins WHERE "userName"=$1', [form.userName]);
 
         if (checkAdmin.rows.length > 0) {
           for (let i = 0; i < checkAdmin.rows.length; i += 1) {
             if (bcrypt.compareSync(form.password, checkAdmin.rows[i].password)) {
               this.admin = {
                 id: checkAdmin.rows[i].id,
-                fname: checkAdmin.rows[i].fname,
-                lname: checkAdmin.rows[i].lname,
-                uname: checkAdmin.rows[i].uname,
+                firstName: checkAdmin.rows[i].firstName,
+                lastName: checkAdmin.rows[i].lastName,
+                userName: checkAdmin.rows[i].userName,
                 phone: checkAdmin.rows[i].phone,
                 email: checkAdmin.rows[i].email,
                 country: checkAdmin.rows[i].country,

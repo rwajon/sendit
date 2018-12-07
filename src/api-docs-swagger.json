@@ -724,7 +724,7 @@
         "price": {
           "type": "number"
         },
-        "senderAountry": {
+        "senderCountry": {
           "type": "string"
         },
         "senderCity": {
