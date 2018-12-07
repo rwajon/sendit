@@ -31,7 +31,7 @@ function appendLoad(el, req) {
 
 function menuAsideToggle() {
   const button = document.getElementById('menu-aside-toggle-btn');
-  const menu = document.querySelector('aside'); // document.getElementById('user-menu-aside');
+  const menu = document.querySelector('aside');
   const section = document.getElementsByTagName('section')[0];
 
   if (!document.querySelector('aside').innerHTML || window.outerWidth < 768) {
