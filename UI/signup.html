@@ -1,66 +1,98 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Sign-up | SendIT</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="shortout icon" type="" href="assets/images/sendit_icon.png">
+
+	<script type="text/javascript">
+		function moreInfo(el) {
+			let moreInfo = document.getElementById('moreInfo');
+			
+			if (moreInfo.classList.toString() === 'hidden'){
+				moreInfo.classList = '';
+				el.innerHTML = 'More x'
+			}else{
+				moreInfo.classList = 'hidden';
+				el.innerHTML = 'More +'
+			}
+		}
+	</script>
 </head>
 
 <body>
 	<header>
 	</header>
-
 	<section>
 		<div class="container">
 			<div id="user-signup" class="smooth-shadow atm">
-		    	<fieldset>
-			        <legend><h1>Sign-up</h1></legend>
-			        <form role="form" method="post" action="signup.html">
-			        	<label for="fname">First name <span style="color: red">*</span></label>
-		                <input type="text" class="form-control" name="fname" required="required">
-		                <br>
-			        	<label for="lname">Last name <span style="color: red">*</span></label>
-		                <input type="text" class="form-control" name="lname" required="required">
-		                <br>
-		                <label for="uname">Username <span style="color: red">*</span></label>
-		                <input type="text" class="form-control" name="uname" required="required">
-		                <br>
-		                <label for="password">Password <span style="color: red">*</span></label>
-	                    <input type="password" class="form-control" name="password" required="required">
-	                    <br>
-		                <label for="cpassword">Confirm Password <span style="color: red">*</span></label>
-	                    <input type="password" class="form-control" name="cpassword" required="required">
-		                <br>
-		                <label for="phone">Phone</label>
-		                <input type="text" class="form-control" name="phone" required="">
-		                <br>
-		                <label for="email">Email</label>
-		                <input type="email" class="form-control" name="email">
-		                <br>
-		                <label for="country">Country</label>
-		                <input type="text" class="form-control" name="country" required="">
-		                <br>
-		                <label for="city">City</label>
-		                <input type="text" class="form-control" name="city" required="">
-		                <br>
-		                <label for="address">Address</label>
-		                <input type="text" class="form-control" name="address" required="">
-		                <br>
-		                <div class="text-center">
-		                    <button type="submit" class="submit-btn no-border smooth-shadow alp arp">Sign up</button>
-		                </div>
-			        </form>
-		    	</fieldset>
-		    </div>
+				<fieldset>
+					<legend><h1>Sign-up</h1>
+					</legend>
+					<form role="form" method="post" action="signup.html">
+						<div class="input input-responsive">
+							<label for="fname">First name <span style="color: red">*</span></label>
+							<input type="text" class="form-control" name="fname" required="required">
+						</div>
+						<div class="input input-responsive">
+							<label for="lname">Last name <span style="color: red">*</span></label>
+							<input type="text" class="form-control" name="lname" required="required">
+						</div>
+						<div class="input input-responsive">
+							<label for="uname">Username <span style="color: red">*</span></label>
+							<input type="text" class="form-control" name="uname" required="required">
+						</div>
+						<div class="input input-responsive">
+							<label for="phone">Phone <span style="color: red">*</span></label>
+							<input type="text" class="form-control" name="phone" required="required" placeholder="eg.: +250781122333">
+						</div>
+						<div class="input input-responsive">
+							<label for="password">Password <span style="color: red">*</span></label>
+							<input type="password" class="form-control" name="password" required="required">
+						</div>
+						<div class="input input-responsive">
+							<label for="cpassword">Confirm Password <span style="color: red">*</span></label>
+							<input type="password" class="form-control" name="cpassword" required="required">
+						</div>
+
+						<div class="abm">
+							<button type="button" class="btn no-bg smooth-shadow" onclick="moreInfo(this)">More &plus;</button>
+						</div>
+
+						<div id="moreInfo" class="hidden">
+							<div class="input">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" name="email">
+							</div>
+							<div class="input input-responsive">
+								<label for="country">Country <span style="color: red">*</span></label>
+								<input type="text" class="form-control" name="country">
+							</div>
+							<div class="input input-responsive">
+								<label for="city">City</label>
+								<input type="text" class="form-control" name="city">
+							</div>
+							<div class="input">
+								<label for="address">Address</label>
+								<input type="text" class="form-control" name="address">
+							</div>
+						</div>
+
+						<div class="text-center">
+							<button type="submit" class="submit-btn no-border smooth-shadow alp arp">Sign up</button>
+						</div>
+					</form>
+				</fieldset>
+			</div>
 		</div>
 	</section>
-
 	<footer>
 	</footer>
-
 	<!-- JavaScript -->
 	<script type="text/javascript" src="assets/js/main.js"></script>
 </body>
+
 </html>

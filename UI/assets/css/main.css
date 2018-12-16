@@ -32,8 +32,9 @@ label {
 	font-weight: bold;
 }
 
-input, select{
-	background-color: #fafafa!important;
+input,
+select {
+	background-color: #fafafa !important;
 }
 
 /*padding*/
@@ -130,7 +131,7 @@ input, select{
 	display: none;
 }
 
-.img-responsive{
+.img-responsive {
 	width: 100%;
 }
 
@@ -317,6 +318,7 @@ input, select{
 	text-decoration-line: none;
 	border: solid 1px #ccc;
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 .submit-btn {
@@ -386,6 +388,10 @@ input, select{
 	padding: 15px 5px;
 }
 
+.input {
+	margin-bottom: 15px;
+}
+
 .btn-warning {
 	color: #fff;
 	background-color: #f0ad4e;
@@ -444,6 +450,11 @@ input, select{
 		margin-left: 5%;
 		padding: 0 15px 15px 15px;
 	}
+
+	.input-responsive {
+		display: block;
+		width: 100%;
+	}
 }
 
 
@@ -482,6 +493,11 @@ input, select{
 		width: 70%;
 		margin-left: 15%;
 		padding: 0 15px 15px 15px;
+	}
+
+	.input-responsive {
+		display: inline-block;
+		width: 49%;
 	}
 }
 
