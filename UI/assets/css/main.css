@@ -143,6 +143,14 @@ select {
 	display: inline-block;
 }
 
+.pull-left{
+	float: left;
+}
+
+.pull-right{
+	float: right;
+}
+
 /*text alignment*/
 .text-left {
 	text-align: left;
@@ -392,6 +400,16 @@ select {
 	margin-bottom: 15px;
 }
 
+.border-circle {
+	padding: 7px 10px;
+	border-radius: 50%;
+}
+
+.btn-default {
+	background-color: #fbfbfb;
+	border: solid 1px #aaa;
+}
+
 .btn-warning {
 	color: #fff;
 	background-color: #f0ad4e;
@@ -407,8 +425,9 @@ select {
 	background-color: #a00;
 }
 
-.btn-default {
-	background-color: #fbfbfb;
+.btn-blue {
+	color: #fff;
+	background-color: #337ab7;
 }
 
 /********************** media query **********************/

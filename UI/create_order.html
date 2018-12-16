@@ -7,6 +7,27 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="shortout icon" type="" href="assets/images/sendit_icon.png">
+	<script type="text/javascript">
+	function toggleForm(el) {
+		let submitBtn = document.getElementsByClassName('submit-btn')[0];
+		let inputsGroupOne = document.getElementById('inputsGroupOne');
+		let inputsGroupTwo = document.getElementById('inputsGroupTwo');
+
+		if (inputsGroupTwo.className.indexOf('hidden') >= 0) {
+			inputsGroupOne.classList = 'hidden';
+			inputsGroupTwo.classList = '';
+			el.innerHTML = '<< Prev';
+			el.nextElementSibling.children[1].classList.replace('btn-default', 'btn-blue');
+			submitBtn.classList.replace('hidden', 'show');
+		} else {
+			inputsGroupOne.classList = '';
+			inputsGroupTwo.classList = 'hidden';
+			el.innerHTML = 'Next >>';
+			el.nextElementSibling.children[1].classList.replace('btn-blue', 'btn-default');
+			submitBtn.classList += ' hidden';
+		}
+	}
+	</script>
 </head>
 
 <body>
@@ -20,97 +41,127 @@
 		<div class="container">
 			<div id="create-order" class="smooth-shadow atm">
 				<fieldset>
-					<legend><h1>Create an order</h1>
+					<legend>
+						<h1>Create an order</h1>
 					</legend>
-					<form role="form" method="post" action="#{path}users/#{user.id}/parcels/create">
-						<fieldset>
-							<legend>Receiver Info</legend>
-							<label for="rname">Name <span style="color: red">*</span></label>
-							<input type="text" class="form-control name="rname" required="required">
+					<form role="form" method="post" action="#">
+						<div id="inputsGroupOne" class="">
+							<fieldset>
+								<legend>Parcel details</legend>
+								<div class="input">
+									<label for="product">Product <span style="color: red">*</span></label>
+									<input type="text" class="form-control" name=" product" required="required">
+								</div>
+								<div class="input input-responsive">
+									<label for="weight">Weight (kg) <span style="color: red">*</span></label>
+									<input type="text" class="form-control" name=" weight">
+								</div>
+								<div class="input input-responsive">
+									<label for="quantity">Quantity <span style="color: red">*</span></label>
+									<input type="number" class="form-control" name="quantity" required="required">
+								</div>
+							</fieldset>
 							<br>
-							<label for="rphone">Phone <span style="color: red">*</span></label>
-							<input type="text" class="form-control name="rphone" required="required">
+							<fieldset>
+								<legend>Destination</legend>
+								<div class="input input-responsive">
+									<label for="destCountry">Country <span style="color: red">*</span></label>
+									<select name="destCountry" class="form-control no-bg" required="required">
+										<option></option>
+										<optgroup label="Africa">
+											<option value="Rwanda">Rwanda</option>
+											<option value="Nigeria">Nigeria</option>
+											<option value="Kenya">Kenya</option>
+											<option value="Uganda">Uganda</option>
+										</optgroup>
+										<optgroup label="Europe">
+											<option value="France">France</option>
+											<option value="Belgium">Belgium</option>
+											<option value="England">England</option>
+											<option value="Spani">Spani</option>
+										</optgroup>
+										<optgroup label="Noth-America">
+											<option value="Canada">Canada</option>
+											<option value="USA">USA</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="input input-responsive">
+									<label for="destCity">City</label>
+									<input type="text" class="form-control" name="destCity" required="">
+								</div>
+								<div class="input">
+									<label for="destAddress">Address</label>
+									<input type="text" class="form-control" name="destAddress" required="required">
+								</div>
+							</fieldset>
 							<br>
-							<label for="remail">Email</label>
-							<input type="email" class="form-control name="remail" required="">
-						</fieldset>
-						<br>
-						<fieldset>
-							<legend>Parcel details</legend>
-							<label for="product">Product <span style="color: red">*</span></label>
-							<input type="text" class="form-control name="product" required="required">
+						</div>
+						<div id="inputsGroupTwo" class="hidden">
+							<div class="input">
+								<label for="price">Price</label>
+								<input type="text" class="form-control" name="price" disabled="disabled">
+							</div>
+							<fieldset>
+								<legend>Receiver Info</legend>
+								<div class="input">
+									<label for="rname">Name <span style="color: red">*</span></label>
+									<input type="text" class="form-control" name=" rname" required="required">
+								</div>
+								<div class="input input-responsive">
+									<label for="rphone">Phone <span style="color: red">*</span></label>
+									<input type="text" class="form-control" name=" rphone" required="required">
+								</div>
+								<div class="input input-responsive">
+									<label for="remail">Email</label>
+									<input type="email" class="form-control" name=" remail" required="">
+								</div>
+							</fieldset>
 							<br>
-							<label for="weight">Weight (kg) <span style="color: red">*</span></label>
-							<input type="text" class="form-control name="weight">
+							<fieldset>
+								<legend>Confirm your location</legend>
+								<div class="input input-responsive">
+									<label for="senderCountry">Country</label>
+									<select name="senderCountry" class="form-control no-bg" required="required">
+										<option value="" hidden="hidden"></option>
+										<optgroup label="Africa">
+											<option value="Rwanda">Rwanda</option>
+											<option value="Nigeria">Nigeria</option>
+											<option value="Kenya">Kenya</option>
+											<option value="Uganda">Uganda</option>
+										</optgroup>
+										<optgroup label="Europe">
+											<option value="France">France</option>
+											<option value="Belgium">Belgium</option>
+											<option value="England">England</option>
+											<option value="Spani">Spani</option>
+										</optgroup>
+										<optgroup label="Noth-America">
+											<option value="Canada">Canada</option>
+											<option value="USA">USA</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="input input-responsive">
+									<label for="senderCity">City</label>
+									<input type="text" class="form-control" name="senderCity" value="" required="">
+								</div>
+								<div class="input">
+									<label for="senderAddress">Address</label>
+									<input type="text" class="form-control" name="senderAddress" value="" required="">
+								</div>
+							</fieldset>
 							<br>
-							<label for="quantity">Quantity <span style="color: red">*</span></label>
-							<input type="number" class="form-control name="quantity" required="required">
-						</fieldset>
-						<br>
-						<fieldset class="hidden">
-							<legend>Confirm your location</legend>
-							<label for="sender_country">Country</label>
-							<select name="sender_country" class="form-control no-bg" required="required">
-								<option value="#{user.country}" hidden="hidden">#{user.country}</option>
-								<optgroup label="Africa">
-									<option value="Rwanda">Rwanda</option>
-									<option value="Nigeria">Nigeria</option>
-									<option value="Kenya">Kenya</option>
-									<option value="Uganda">Uganda</option>
-								</optgroup>
-								<optgroup label="Europe">
-									<option value="France">France</option>
-									<option value="Belgium">Belgium</option>
-									<option value="England">England</option>
-									<option value="Spani">Spani</option>
-								</optgroup>
-								<optgroup label="Noth-America">
-									<option value="Canada">Canada</option>
-									<option value="USA">USA</option>
-								</optgroup>
-							</select>
-							<br>
-							<label for="sender_city">City</label>
-							<input type="text" class="form-control" name="sender_city" value="#{user.city}" required="">
-							<br>
-							<label for="sender_address">Address</label>
-							<input type="text" class="form-control" name="sender_address" value="#{user.address}" required="">
-							<br>
-						</fieldset>
-						<br>
-						<fieldset>
-							<legend>Specify the destination</legend>
-							<label for="dest_country">Country <span style="color: red">*</span></label>
-							<select name="dest_country" class="form-control no-bg" required="required">
-								<option></option>
-								<optgroup label="Africa">
-									<option value="Rwanda">Rwanda</option>
-									<option value="Nigeria">Nigeria</option>
-									<option value="Kenya">Kenya</option>
-									<option value="Uganda">Uganda</option>
-								</optgroup>
-								<optgroup label="Europe">
-									<option value="France">France</option>
-									<option value="Belgium">Belgium</option>
-									<option value="England">England</option>
-									<option value="Spani">Spani</option>
-								</optgroup>
-								<optgroup label="Noth-America">
-									<option value="Canada">Canada</option>
-									<option value="USA">USA</option>
-								</optgroup>
-							</select>
-							<br>
-							<label for="dest_city">City</label>
-							<input type="text" class="form-control" name="dest_city" required="">
-							<br>
-							<label for="dest_address">Address</label>
-							<input type="text" class="form-control" name="dest_address" required="required">
-							<br>
-						</fieldset>
-						<br>
-						<div class="text-center">
-							<button type="submit" class="submit-btn no-border smooth-shadow alp arp">Create</button>
+						</div>
+						<div class="abm">
+							<button type="button" class="btn btn-blue smooth-shadow" onclick="toggleForm(this)">Next &gt;&gt;</button>
+							<span class="pull-right">
+								<span class="border-circle btn btn-blue">1</span>
+							<span class="alm border-circle btn btn-default">2</span>
+							</span>
+						</div>
+						<div class="text-center abm">
+							<button type="submit" class="hidden submit-btn no-border smooth-shadow alp arp">Create</button>
 						</div>
 					</form>
 				</fieldset>
