@@ -32,8 +32,9 @@ label {
 	font-weight: bold;
 }
 
-input, select{
-	background-color: #fafafa!important;
+input,
+select {
+	background-color: #fafafa !important;
 }
 
 /*padding*/
@@ -130,7 +131,7 @@ input, select{
 	display: none;
 }
 
-.img-responsive{
+.img-responsive {
 	width: 100%;
 }
 
@@ -140,6 +141,14 @@ input, select{
 
 .inline-block {
 	display: inline-block;
+}
+
+.pull-left{
+	float: left;
+}
+
+.pull-right{
+	float: right;
 }
 
 /*text alignment*/
@@ -317,6 +326,7 @@ input, select{
 	text-decoration-line: none;
 	border: solid 1px #ccc;
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 .submit-btn {
@@ -386,6 +396,20 @@ input, select{
 	padding: 15px 5px;
 }
 
+.input {
+	margin-bottom: 15px;
+}
+
+.border-circle {
+	padding: 7px 10px;
+	border-radius: 50%;
+}
+
+.btn-default {
+	background-color: #fbfbfb;
+	border: solid 1px #aaa;
+}
+
 .btn-warning {
 	color: #fff;
 	background-color: #f0ad4e;
@@ -401,8 +425,9 @@ input, select{
 	background-color: #a00;
 }
 
-.btn-default {
-	background-color: #fbfbfb;
+.btn-blue {
+	color: #fff;
+	background-color: #337ab7;
 }
 
 /********************** media query **********************/
@@ -444,6 +469,11 @@ input, select{
 		margin-left: 5%;
 		padding: 0 15px 15px 15px;
 	}
+
+	.input-responsive {
+		display: block;
+		width: 100%;
+	}
 }
 
 
@@ -482,6 +512,11 @@ input, select{
 		width: 70%;
 		margin-left: 15%;
 		padding: 0 15px 15px 15px;
+	}
+
+	.input-responsive {
+		display: inline-block;
+		width: 49%;
 	}
 }
 
