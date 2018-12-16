@@ -783,13 +783,13 @@
     "User": {
       "type": "object",
       "properties": {
-        "fname": {
+        "firstName": {
           "type": "string"
         },
-        "lname": {
+        "lastName": {
           "type": "string"
         },
-        "uname": {
+        "userName": {
           "type": "string"
         },
         "password": {
@@ -815,7 +815,7 @@
     "Login": {
       "type": "object",
       "properties": {
-        "uname": {
+        "userName": {
           "type": "string"
         },
         "password": {
