@@ -39,57 +39,61 @@ function menuAsideToggle(el) {
     menuAside.style.display = menuAside.style.display === 'none' ? 'block' : 'none';
   }
 
-  document.getElementById('section').addEventListener('click', () => { menuAside.style.display = 'none' });
+  // document.getElementById('section').addEventListener('click', () => { menuAside.style.display = 'none' });
 }
 
 function showIncludedParts() {
-  if (PAGE_PARTS.length === 4) {
-    const header = document.getElementById('header') || null;
-    const nav = document.getElementById('nav') || null;
-    const menuAside = document.getElementById('user-menu-aside') || document.getElementById('admin-menu-aside') || null;
-    const section = document.getElementById('section') || null;
-    const footer = document.getElementById('footer') || null;
+  const header = document.getElementById('header') || null;
+  const nav = document.getElementById('nav') || null;
+  const menuAside = document.getElementById('user-menu-aside') || document.getElementById('admin-menu-aside') || null;
+  const section = document.getElementById('section') || null;
+  const footer = document.getElementById('footer') || null;
 
-    // header
-    if (header) {
-      header.style.position = 'fixed';
-      header.style.top = '0';
-      header.style.display = 'block';
-    }
+  // header
+  if (header && PAGE_PARTS.indexOf('header') >= 0) {
+    header.style.position = 'fixed';
+    header.style.top = '0';
+    header.style.display = 'block';
+  }
 
-    // nav
+  // nav
+  if (nav && PAGE_PARTS.indexOf('header') >= 0 && PAGE_PARTS.indexOf('nav') >= 0) {
+    nav.style.position = 'fixed';
+    nav.style.top = `${header.offsetHeight}px`;
+    nav.style.display = window.outerWidth < 768 ? 'block' : '';
+  }
+
+  // menu-aside
+  if (menuAside && PAGE_PARTS.indexOf('header') >= 0 &&
+    PAGE_PARTS.indexOf('nav') >= 0 && PAGE_PARTS.indexOf('menuAside') >= 0) {
+
+    menuAside.style.position = 'fixed';
+    menuAside.style.top = `${header.outerHeight + nav.outerHeight}px`
+    menuAside.style.minHeight = `${window.innerHeight}px`;
+    menuAside.style.display = window.outerWidth > 768 ? 'block' : 'none';
+  }
+
+  // section
+  if (section && PAGE_PARTS.indexOf('header') >= 0 && PAGE_PARTS.indexOf('nav') >= 0
+    && PAGE_PARTS.indexOf('menuAside') >= 0 && PAGE_PARTS.indexOf('section')) {
+
     if (nav) {
-      nav.style.position = 'fixed';
-      nav.style.top = `${header.offsetHeight}px`;
-      nav.style.display = window.outerWidth < 768 ? 'block' : '';
+      section.style.minHeight = `${window.innerHeight - ((header.offsetHeight + nav.offsetHeight) * 2)}px`;
+    } else {
+      section.style.minHeight = `${window.innerHeight - (header.offsetHeight * 3)}px`;
     }
 
-    // menu-aside
-    if (menuAside) {
-      menuAside.style.position = 'fixed';
-      menuAside.style.top = `${header.outerHeight + nav.outerHeight}px`
-      menuAside.style.minHeight = `${window.innerHeight}px`;
-      menuAside.style.display = window.outerWidth > 768 ? 'block' : 'none';
-    }
+    section.style.marginLeft = (nav && window.outerWidth > 768) ? `${menuAside.offsetWidth}px` : 0;
+    section.style.marginTop = nav ? `${header.offsetHeight + nav.offsetHeight}px` : `${header.offsetHeight}px`;
+    section.style.display = 'block';
+  }
 
-    // section
-    if (section) {
-      if (nav) {
-        section.style.minHeight = `${window.innerHeight - ((header.offsetHeight + nav.offsetHeight) * 2)}px`;
-      } else {
-        section.style.minHeight = `${window.innerHeight - (header.offsetHeight * 3)}px`;
-      }
+  // footer
+  if (footer && PAGE_PARTS.indexOf('header') >= 0 && PAGE_PARTS.indexOf('nav') >= 0
+    && PAGE_PARTS.indexOf('menuAside') >= 0 && PAGE_PARTS.indexOf('section')) {
 
-      section.style.marginLeft = (nav && window.outerWidth > 768) ? `${menuAside.offsetWidth}px` : 0;
-      section.style.marginTop = nav ? `${header.offsetHeight + nav.offsetHeight}px` : `${header.offsetHeight}px`;
-      section.style.display = 'block';
-    }
-
-    // footer
-    if (footer) {
-      footer.style.marginLeft = (nav && window.outerWidth > 768) ? `${menuAside.offsetWidth}px` : 0;
-      footer.style.display = 'block';
-    }
+    footer.style.marginLeft = (nav && window.outerWidth > 768) ? `${menuAside.offsetWidth}px` : 0;
+    footer.style.display = 'block';
   }
 }
 
