@@ -369,13 +369,9 @@ select {
 	margin-bottom: 15px;
 }
 
-.border-circle {
-	padding: 7px 10px !important;
-	border-radius: 50% !important;
-}
-
 .btn {
-	padding: 5px;
+	padding: 7px 10px;
+	margin: 2px;
 	color: #000;
 	text-decoration-line: none;
 	border: solid 1px #ccc;

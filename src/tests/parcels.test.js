@@ -250,7 +250,7 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels/pending
 
-  describe('GET /api/v1/parcels/in-transit', () => {
+  describe('GET /api/v1/parcels/inTransit', () => {
     before(async () => {
       try {
         await db.query('UPDATE orders SET status=\'in transit\';');
@@ -273,7 +273,7 @@ describe('Parcel', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
-          return agent.get('/api/v1/parcels/in-transit')
+          return agent.get('/api/v1/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -300,7 +300,7 @@ describe('Parcel', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
-          return agent.get('/api/v1/parcels/in-transit')
+          return agent.get('/api/v1/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -312,7 +312,7 @@ describe('Parcel', () => {
             });
         });
     });
-  }); // end of GET /api/v1/parcels/in-transit
+  }); // end of GET /api/v1/parcels/inTransit
 
   describe('GET /api/v1/parcels/delivered', () => {
     before(async () => {
@@ -1078,7 +1078,7 @@ describe('Parcel', () => {
     });
   }); // end of GET /api/v1/parcels/pending
 
-  describe('GET /api/v1/parcels/in-transit', () => {
+  describe('GET /api/v1/parcels/inTransit', () => {
     before(async () => {
       try {
         await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
@@ -1101,7 +1101,7 @@ describe('Parcel', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
-          return agent.get('/api/v1/parcels/in-transit')
+          return agent.get('/api/v1/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -1113,7 +1113,7 @@ describe('Parcel', () => {
             });
         });
     });
-  }); // end of GET /api/v1/parcels/in-transit
+  }); // end of GET /api/v1/parcels/inTransit
 
   describe('GET /api/v1/parcels/delivered', () => {
     before(async () => {

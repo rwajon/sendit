@@ -83,14 +83,13 @@ function showHeader(header) {
     header.style.top = '0';
     header.style.width = window.outerWidth < 768 ? `${window.outerWidth}px` : '100%';
 
-    if (!localStorage.getItem('token') && document.querySelector('#user-top')) {
-    }
+    if (!localStorage.getItem('token') && document.querySelector('#user-top')) {}
 
     if (localStorage.getItem('user') && document.querySelector('#user-top')) {
       const user = JSON.parse(localStorage.getItem('user'));
       document.querySelector('#user-top').setAttribute('href', 'user.html')
       document.querySelector('#user-top b').innerHTML = user.userName;
-    
+
     }
     if (localStorage.getItem('admin') && document.querySelector('#user-top')) {
       const admin = JSON.parse(localStorage.getItem('admin'));
@@ -98,7 +97,7 @@ function showHeader(header) {
       document.querySelector('#user-top b').innerHTML = admin.userName;
 
     }
-    
+
     if (!localStorage.getItem('token') && document.querySelector('#user-top')) {
       document.querySelector('#user-top').setAttribute('href', 'signin.html')
     }
@@ -261,6 +260,20 @@ async function loadFooter() {
   }
 }
 
+function showProfile() {
+  if (document.querySelector('#userProfile') && localStorage.getItem('user')) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    document.querySelector('#firstName').innerHTML = user.firstName || '---';
+    document.querySelector('#lastName').innerHTML = user.lastName || '---';
+    document.querySelector('#userName').innerHTML = user.userName || '---';
+    document.querySelector('#phone').innerHTML = user.phone || '---';
+    document.querySelector('#email').innerHTML = user.email || '---';
+    document.querySelector('#country').innerHTML = user.country || '---';
+    document.querySelector('#city').innerHTML = user.city || '---';
+    document.querySelector('#address').innerHTML = user.address || '---';
+  }
+}
+
 function signup(URL) {
   if (document.querySelector('form[action="signup.html"]')) {
     document.querySelector('form[action="signup.html"]').addEventListener('submit', async (e) => {
@@ -366,13 +379,102 @@ function signout(el) {
   window.location.replace('signin.html');
 }
 
+async function userOrders(HOST, type) {
+  if (document.querySelector(`#${type}Orders`) && localStorage.getItem('user') && localStorage.getItem('token')) {
+
+    const token = localStorage.getItem('token');
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    const URL = `${HOST}/api/v1/users/${userId}/parcels/${type === 'all' ? '' : type}`;
+    const result = await getData(URL, resType = 'json', token);
+
+    if (!result.error) {
+      let table = '';
+      let orders = type === 'all' ? result['parcels'] : result[type];
+
+      orders.forEach((order) => {
+        table += `
+        <tr>
+          <td>${order.id}</td>
+          <td>${order.product}</td>
+          <td class="hidden-xs">${order.qty}</td>
+          <td class="hidden-xs">${order.weight}</td>
+          <td class="hidden-xs">USD ${order.price}</td>`;
+
+        if (order.status === 'pending') {
+          table += `
+          <td>
+            <span class="btn btn-default smooth-shadow">${order.status}</span>
+          </td>`;
+        }
+
+        if (order.status === 'in transit') {
+          table += `
+          <td>
+            <span class="btn btn-warning smooth-shadow">${order.status}</span>
+          </td>`;
+        }
+
+        if (order.status === 'delivered') {
+          table += `
+          <td>
+            <span class="btn btn-success smooth-shadow">${order.status}</span>
+          </td>`;
+        }
+
+        table += `
+          <td class='text-left'>
+            <a href="order_details.html" class="btn btn-default smooth-shadow" title="Order details">
+              <i class="fas fa-info-circle"></i>
+            </a>`;
+
+        if (order.status !== 'delivered') {
+          table += `
+            <a href="modify_order.html" class="btn btn-default smooth-shadow" title="Modify order">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a href="#" class="btn btn-danger smooth-shadow" title="Cancel order">
+              <i class="fas fa-trash-alt"></i>
+            </a>`;
+        }
+
+        table += `
+          </td>
+        </tr>`;
+      });
+
+      document.querySelector(`#${type}Orders table`).innerHTML += table;
+
+    } else {
+      document.querySelector(`#${type}Orders table`).innerHTML = '';
+      document.querySelector(`#${type}Orders .message`).innerHTML = result.error;
+      document.querySelector(`#${type}Orders .message`).classList += ' message-error';
+      document.querySelector(`#${type}Orders .message`).classList.replace('hidden', 'show');
+    }
+  }
+  return true;
+}
+
 window.document.addEventListener('DOMContentLoaded', () => {
   PAGE_PARTS = [];
+  let HOST = 'http://localhost:3000';
+
+  if (window.location.href.indexOf('https://rwajon-sendit.herokuapp.com') >= 0) {
+    const HOST = 'https://rwajon-sendit.herokuapp.com';
+  } else if (window.location.href.indexOf('http://192.168.43.20') >= 0) {
+    const HOST = 'http://192.168.43.20:3000';
+  } else {
+    const HOST = 'http://localhost:3000';
+  }
 
   loadHeader();
   loadNav();
   loadMenuAside();
   loadFooter();
-  signup('http://localhost:3000/api/v1/auth/signup');
-  signin('http://localhost:3000/api/v1/auth/login');
+  signup(`${HOST}/api/v1/auth/signup`);
+  signin(`${HOST}/api/v1/auth/login`);
+  showProfile();
+  userOrders(HOST, 'all');
+  userOrders(HOST, 'pending');
+  userOrders(HOST, 'inTransit');
+  userOrders(HOST, 'delivered');
 });
