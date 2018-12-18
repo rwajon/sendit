@@ -12,7 +12,7 @@ describe('index', () => {
     it('it should return a status code of 200 and display \'Welcome!!!\'', (done) => {
       chai.request(app).get('/api/v1').end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.text).to.equal('Welcome!!!');
+        expect(JSON.parse(res.text).message).to.equal('Welcome!!!');
         done();
       });
     });
