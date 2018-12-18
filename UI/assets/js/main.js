@@ -500,7 +500,6 @@ window.document.addEventListener('DOMContentLoaded', () => {
 
   HOSTS.forEach(h => {
     if (window.location.href.indexOf(h) >= 0) {
-      alert(window.location.href)
       HOST = h;
     }
   });
