@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
 
     return res.status(202).json({
       status: 'Successfull',
-      message: `Welcome ${account.fname} ${account.lname}`,
+      message: `Welcome ${account.firstName} ${account.lastName}`,
       user: account,
       token,
     });
