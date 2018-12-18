@@ -30,13 +30,18 @@ async function getData(URL, resType = 'text', token = '') {
 }
 
 function toggleMenuAside(el) {
+  const btn = el || document.getElementById('menu-aside-toggle-btn');
   const menuAside = document.getElementById('user-menu-aside') || document.getElementById('admin-menu-aside');
 
   if (window.outerWidth < 768) {
     menuAside.style.display = menuAside.style.display === 'none' ? 'block' : 'none';
+    btn.innerHTML = menuAside.style.display === 'none' ? '<i class="fas fa-bars"></i>' : '<i class="fas fa-times"></i>';
   }
 
-  document.getElementById('section').addEventListener('click', () => { menuAside.style.display = 'none' });
+  document.getElementById('section').addEventListener('click', () => {
+    btn.innerHTML = '<i class="fas fa-bars"></i>';
+    menuAside.style.display = 'none';
+  });
 }
 
 function showHeader(header) {
@@ -132,7 +137,10 @@ function showIncludedParts() {
 function loadPagePartEnd(part) {
   if (part) { PAGE_PARTS.push(part); }
   showIncludedParts();
-  window.addEventListener("resize", showIncludedParts);
+  window.addEventListener("resize", () => {
+    showIncludedParts();
+    toggleMenuAside();
+  });
 }
 
 async function loadHeader() {
