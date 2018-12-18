@@ -9,7 +9,6 @@ body {
 
 #header {
 	display: none;
-	width: 100%;
 	border-top: solid 2px turquoise;
 	border-bottom: solid 1px turquoise;
 	background-color: #fff;
@@ -17,7 +16,6 @@ body {
 
 #nav{
 	display: none;
-	width: 100%;
 	background-color: #fbfbfb;
 	border-bottom: solid 0.5px turquoise;
 }
@@ -25,7 +23,7 @@ body {
 #user-menu-aside,
 #admin-menu-aside {
 	display: none;
-	background-color: #efefef;
+	background-color: #fbfbfb;
 	box-shadow: 0 3px 3px #222;
 }
 
@@ -319,37 +317,21 @@ select {
 	padding: 0 2px;
 }
 
-.btn {
-	padding: 5px;
-	color: #000;
-	text-decoration-line: none;
-	border: solid 1px #ccc;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.submit-btn {
-	color: #fff;
-	font-weight: bold;
-	background-color: turquoise;
-	border-radius: 10px;
-}
-
-.submit-btn:hover {
-	cursor: pointer;
-}
-
 /*tables*/
 .table {
 	width: 100%;
 	border-collapse: collapse;
 }
 
-.table thead,
-.table tfoot,
-.table th,
-.table tr,
-.table td {
+.table-responsive {
+	overflow-x: auto;
+}
+
+.table-responsive .table thead,
+.table-responsive .table tfoot,
+.table-responsive .table th,
+.table-responsive .table tr,
+.table-responsive .table td {
 	white-space: nowrap;
 }
 
@@ -381,10 +363,6 @@ select {
 	background-color: #eee;
 }
 
-.table-responsive {
-	overflow-x: auto;
-}
-
 .table-head {
 	background-color: #eee;
 	color: #000;
@@ -400,8 +378,17 @@ select {
 }
 
 .border-circle {
-	padding: 7px 10px;
-	border-radius: 50%;
+	padding: 7px 10px!important;
+	border-radius: 50%!important;
+}
+
+.btn {
+	padding: 5px;
+	color: #000;
+	text-decoration-line: none;
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .btn-default {
@@ -411,22 +398,32 @@ select {
 
 .btn-warning {
 	color: #fff;
+	font-weight: bold;
 	background-color: #f0ad4e;
 }
 
 .btn-success {
 	color: #fff;
+	font-weight: bold;
 	background-color: #5cb85c;
 }
 
 .btn-danger {
 	color: #fff;
+	font-weight: bold;
 	background-color: #a00;
 }
 
 .btn-blue {
 	color: #fff;
+	font-weight: bold;
 	background-color: #337ab7;
+}
+
+.btn-turquoise {
+	color: #fff;
+	font-weight: bold;
+	background-color: turquoise;
 }
 
 /********************** media query **********************/
@@ -434,11 +431,14 @@ select {
 
 	form input,
 	form button[type="submit"],
-	form select,
-	.input-group-addon {
+	form select{
 		height: 24px !important;
 		padding-top: 0 !important;
 		padding-bottom: 0 !important;
+	}
+
+	.hidden-xs{
+		display: none;
 	}
 
 	#logo-top {
@@ -448,7 +448,7 @@ select {
 
 	#user-menu-aside,
 	#admin-menu-aside {
-		width: 70%;
+		/*width: 70%;*/
 	}
 
 	.container {
@@ -474,9 +474,12 @@ select {
 
 	form input,
 	form button[type="submit"],
-	form select,
-	.input-group-addon {
+	form select{
 		height: 32px !important
+	}
+
+	.hidden-lg{
+		display: none;
 	}
 
 	#logo-top {
@@ -486,7 +489,7 @@ select {
 
 	#user-menu-aside,
 	#admin-menu-aside {
-		width: 20%;
+		/*width: 20%;*/
 	}
 
 	.container {
