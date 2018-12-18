@@ -6,23 +6,24 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/css/main.css">
-	<link rel="shortout icon" type="" href="assets/images/sendit_icon.png">
+	<link rel="stylesheet" href="assets/css/all.fontawesome.min.css">
+	<link rel="shortout icon" type="" href="assets/icons/sendit_icon.png">
 	<script type="text/javascript">
 	function toggleForm(el) {
-		let submitBtn = document.getElementsByClassName('submit-btn')[0];
+		let submitBtn = document.getElementById('submitBtn');
 		let inputsGroupOne = document.getElementById('inputsGroupOne');
 		let inputsGroupTwo = document.getElementById('inputsGroupTwo');
 
 		if (inputsGroupTwo.className.indexOf('hidden') >= 0) {
 			inputsGroupOne.classList = 'hidden';
 			inputsGroupTwo.classList = '';
-			el.innerHTML = '<< Prev';
+			el.innerHTML = '<i class="fas fa-angle-double-left"></i> Prev';
 			el.nextElementSibling.children[1].classList.replace('btn-default', 'btn-blue');
 			submitBtn.classList.replace('hidden', 'show');
 		} else {
 			inputsGroupOne.classList = '';
 			inputsGroupTwo.classList = 'hidden';
-			el.innerHTML = 'Next >>';
+			el.innerHTML = 'Next <i class="fas fa-angle-double-right"></i>';
 			el.nextElementSibling.children[1].classList.replace('btn-blue', 'btn-default');
 			submitBtn.classList += ' hidden';
 		}
@@ -154,14 +155,16 @@
 							<br>
 						</div>
 						<div class="abm">
-							<button type="button" class="btn btn-blue smooth-shadow" onclick="toggleForm(this)">Next &gt;&gt;</button>
+							<button type="button" class="btn btn-blue smooth-shadow" onclick="toggleForm(this)">
+								Next <i class="fas fa-angle-double-right"></i>
+							</button>
 							<span class="pull-right">
 								<span class="border-circle btn btn-blue">1</span>
 							<span class="alm border-circle btn btn-default">2</span>
 							</span>
 						</div>
 						<div class="text-center abm">
-							<button type="submit" class="hidden submit-btn no-border smooth-shadow alp arp">Create</button>
+							<button id="submitBtn" type="submit" class="hidden btn btn-turquoise smooth-shadow alp arp">Create</button>
 						</div>
 					</form>
 				</fieldset>
