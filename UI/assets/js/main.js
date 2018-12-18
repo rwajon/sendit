@@ -118,6 +118,9 @@ function showNav(header, nav) {
 function showMenuAside(header, nav, menuAside) {
   if (menuAside && PAGE_PARTS.indexOf('header') >= 0 &&
     PAGE_PARTS.indexOf('nav') >= 0 && PAGE_PARTS.indexOf('menuAside') >= 0) {
+    
+    // show number of orders
+    userOrdersCount(HOST);
 
     menuAside.style.position = 'fixed';
     menuAside.style.top = `${header.outerHeight + nav.outerHeight}px`
@@ -381,7 +384,6 @@ function signout(el) {
 
 async function userOrders(HOST, type) {
   if (document.querySelector(`#${type}Orders`) && localStorage.getItem('user') && localStorage.getItem('token')) {
-
     const token = localStorage.getItem('token');
     const userId = JSON.parse(localStorage.getItem('user')).id;
     const URL = `${HOST}/api/v1/users/${userId}/parcels/${type === 'all' ? '' : type}`;
@@ -454,14 +456,47 @@ async function userOrders(HOST, type) {
   return true;
 }
 
+async function userOrdersCount(HOST) {
+  if (localStorage.getItem('user') && localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    const URL = `${HOST}/api/v1/users/${userId}/parcels`;
+    const result = await getData(URL, resType = 'json', token);
+    let pending = inTransit = delivered = 0;
+
+    if (!result.error) {
+      let orders = result['parcels'];
+
+      orders.forEach((order) => {
+        if (order.status === 'pending') {
+          pending += 1;
+        }
+
+        if (order.status === 'in transit') {
+          inTransit += 1;
+        }
+
+        if (order.status === 'delivered') {
+          delivered += 1;
+        }
+      });
+    }
+
+    document.querySelector('#user-menu-aside a[href="pending_orders.html"] .badge').innerHTML = pending;
+    document.querySelector('#user-menu-aside a[href="parcels_in_transit.html"] .badge').innerHTML = inTransit;
+    document.querySelector('#user-menu-aside a[href="delivered_parcels.html"] .badge').innerHTML = delivered;
+  }
+  return true;
+}
+
 window.document.addEventListener('DOMContentLoaded', () => {
   PAGE_PARTS = [];
-  let HOST = 'http://localhost:3000';
-  let HOSTS = [
-  'http://localhost:3000',
-  'http://192.168.43.20:3000',
-  'https://rwajon-sendit.herokuapp.com',
-  'https://rwajon.github.io/sendit/UI',
+  HOST = 'http://localhost:3000';
+  HOSTS = [
+    'http://localhost:3000',
+    'http://192.168.43.20:3000',
+    'https://rwajon-sendit.herokuapp.com',
+    'https://rwajon.github.io/sendit/UI',
   ];
 
   HOSTS.forEach(host => {
@@ -469,6 +504,7 @@ window.document.addEventListener('DOMContentLoaded', () => {
       HOST = host;
     }
   });
+  
 
   loadHeader();
   loadNav();
