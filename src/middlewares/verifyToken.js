@@ -5,7 +5,6 @@ const verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
-      auth: false,
       error: 'Please, sign-in!',
     });
   }
@@ -13,7 +12,6 @@ const verifyToken = (req, res, next) => {
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(500).json({
-        auth: false,
         error: 'Failed to authenticate token',
       });
     }

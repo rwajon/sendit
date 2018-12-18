@@ -13,16 +13,12 @@ async function getData(URL, resType = 'text', token = '') {
     let data = '';
     const response = await fetch(request);
 
-    if (response.ok) {
-      if (resType === 'json') {
-        data = await response.json();
-        return data;
-      } else {
-        data = await response.text();
-        return data;
-      }
+    if (resType === 'json') {
+      data = await response.json();
+      return data;
     } else {
-      throw Error(response.statusText);
+      data = await response.text();
+      return data;
     }
   } catch (e) {
     throw Error(e);

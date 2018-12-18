@@ -53,7 +53,7 @@
     "ignore": [
       "src/tests/*.js",
       "src/models/*.json",
-      "UI/*.js"
+      "UI/assets/js/*.js"
     ]
   }
 }

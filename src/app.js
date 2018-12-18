@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import session from 'express-session';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './api-docs-swagger.json';
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, '../UI')));
 
