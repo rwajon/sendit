@@ -255,7 +255,7 @@
         }
       }
     },
-    "/parcels/in-transit": {
+    "/parcels/inTransit": {
       "get": {
         "tags": [
           "parcels"
@@ -613,7 +613,7 @@
         }
       }
     },
-    "/users/{userId}/parcels/in-transit": {
+    "/users/{userId}/parcels/inTransit": {
       "get": {
         "tags": [
           "users"

@@ -71,7 +71,7 @@ router.get('/pending', verifyToken, async (req, res) => {
 });
 
 // Fetch all parcels in transit
-router.get('/in-transit', verifyToken, async (req, res) => {
+router.get('/inTransit', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
       error: 'Sorry, you don\'t have access to this route',

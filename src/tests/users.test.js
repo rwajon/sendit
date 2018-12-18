@@ -323,7 +323,7 @@ describe('User', () => {
     });
   });
 
-  describe('GET /api/v1/users/:userId/parcels/in-transit', () => {
+  describe('GET /api/v1/users/:userId/parcels/inTransit', () => {
     before(async () => {
       try {
         await db.query('UPDATE orders SET status=\'in transit\';');
@@ -346,7 +346,7 @@ describe('User', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
-          return agent.get('/api/v1/users/1/parcels/in-transit')
+          return agent.get('/api/v1/users/1/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -373,7 +373,7 @@ describe('User', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
-          return agent.get('/api/v1/users/2/parcels/in-transit')
+          return agent.get('/api/v1/users/2/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -400,7 +400,7 @@ describe('User', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).admin).length).to.be.above(0);
 
-          return agent.get('/api/v1/users/1/parcels/in-transit')
+          return agent.get('/api/v1/users/1/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(401);
@@ -412,7 +412,7 @@ describe('User', () => {
             });
         });
     });
-  }); // end of GET /api/v1/users/:userId/parcels/in-transit
+  }); // end of GET /api/v1/users/:userId/parcels/inTransit
 
   describe('GET /api/v1/users/:userId/parcels/delivered', () => {
     before(async () => {
@@ -580,7 +580,7 @@ describe('User', () => {
     });
   });
 
-  describe('GET /api/v1/users/:userId/parcels/in-transit', () => {
+  describe('GET /api/v1/users/:userId/parcels/inTransit', () => {
     before(async () => {
       try {
         await db.query('TRUNCATE orders; ALTER SEQUENCE orders_id_seq RESTART WITH 1;');
@@ -603,7 +603,7 @@ describe('User', () => {
           expect(res.status).to.equal(202);
           expect(Object.keys(JSON.parse(res.text).user).length).to.be.above(0);
 
-          return agent.get('/api/v1/users/1/parcels/in-transit')
+          return agent.get('/api/v1/users/1/parcels/inTransit')
             .set('x-access-token', token)
             .then((res) => {
               expect(res.status).to.equal(200);
@@ -615,7 +615,7 @@ describe('User', () => {
             });
         });
     });
-  }); // end of GET /api/v1/users/:userId/parcels/in-transit
+  }); // end of GET /api/v1/users/:userId/parcels/inTransit
 
   describe('GET /api/v1/users/:userId/parcels/delivered', () => {
     before(async () => {

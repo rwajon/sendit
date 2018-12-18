@@ -9,25 +9,10 @@
 	<link rel="stylesheet" href="assets/css/all.fontawesome.min.css">
 	<link rel="shortout icon" type="" href="assets/icons/sendit_icon.png">
 	<script type="text/javascript">
-	function showProfile() {
-		if (localStorage.getItem('user')) {
-			const user = JSON.parse(localStorage.getItem('user'));
-			document.querySelector('#firstName').innerHTML = user.firstName || '---';
-			document.querySelector('#lastName').innerHTML = user.lastName || '---';
-			document.querySelector('#userName').innerHTML = user.userName || '---';
-			document.querySelector('#phone').innerHTML = user.phone || '---';
-			document.querySelector('#email').innerHTML = user.email || '---';
-			document.querySelector('#country').innerHTML = user.country || '---';
-			document.querySelector('#city').innerHTML = user.city || '---';
-			document.querySelector('#address').innerHTML = user.address || '---';
-		
-		}else{
+	window.document.addEventListener('DOMContentLoaded', () => {
+		if (!localStorage.getItem('user')) {
 			window.location.replace('signin.html');
 		}
-	}
-
-	window.document.addEventListener('DOMContentLoaded', () => {
-		showProfile();
 	});
 	</script>
 </head>
@@ -40,7 +25,7 @@
 	<aside id="user-menu-aside">
 	</aside>
 	<section id="section">
-		<div class="container table-responsive">
+		<div class="container" id="userProfile">
 			<h1 class="add-padding btn">User Profile</h1>
 			<table class="table table-bordered-bottom table-hover smooth-shadow atm abm">
 				<tr>

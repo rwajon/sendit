@@ -62,7 +62,7 @@ router.get('/:userId/parcels/pending', verifyToken, async (req, res) => {
 });
 
 // Fetch all parcels in transit of a specific user
-router.get('/:userId/parcels/in-transit', verifyToken, async (req, res) => {
+router.get('/:userId/parcels/inTransit', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
       error: 'Sorry, you don\'t have access to this route',

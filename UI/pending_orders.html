@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Created order(s) | SendIT</title>
+	<title>Pending order(s) | SendIT</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -18,49 +18,22 @@
 	<aside id="user-menu-aside">
 	</aside>
 	<section id="section">
-		<div class="container table-responsive">
-			<h1 class="add-padding btn">Pending order(s)</h1>
-			<table class="table table-bordered table-hover smooth-shadow atm abm text-center">
-				<thead class="table-head">
-					<th>ID</th>
-					<th>Product</th>
-					<th class="hidden-xs">Quantity</th>
-					<th class="hidden-xs">Weight</th>
-					<th class="hidden-xs">Price</th>
-					<th>Status</th>
-					<th></th>
-				</thead>
-				<tr>
-					<td>001</td>
-					<td>Iphone 6</td>
-					<td class="hidden-xs">4</td>
-					<td class="hidden-xs">1.5 Kg</td>
-					<td class="hidden-xs">USD 12.00</td>
-					<td>
-						<span class="btn btn-default smooth-shadow">Pending</span>
-					</td>
-					<td>
-						<a href="order_details.html" class="border-circle btn smooth-shadow"><i class="fas fa-info-circle"></i></a>
-						<a href="modify_order.html" class="border-circle btn smooth-shadow"><i class="fas fa-edit"></i></a>
-						<a href="#" class="border-circle btn btn-danger smooth-shadow"><i class="fas fa-trash-alt"></i></a>
-					</td>
-				</tr>
-				<tr>
-					<td>004</td>
-					<td>Kettle</td>
-					<td class="hidden-xs">1</td>
-					<td class="hidden-xs">2.5 Kg</td>
-					<td class="hidden-xs">USD 5.00</td>
-					<td>
-						<span class="btn btn-default smooth-shadow">Pending</span>
-					</td>
-					<td>
-						<a href="order_details.html" class="border-circle btn smooth-shadow"><i class="fas fa-info-circle"></i></a>
-						<a href="modify_order.html" class="border-circle btn smooth-shadow"><i class="fas fa-edit"></i></a>
-						<a href="#" class="border-circle btn btn-danger smooth-shadow"><i class="fas fa-trash-alt"></i></a>
-					</td>
-				</tr>
-			</table>
+		<div class="container" id="pendingOrders">
+			<div class="table-responsive">
+				<h1 class="add-padding btn">Pending order(s)</h1>
+				<div class="hidden message add-padding text-center"></div>
+				<table class="table table-bordered table-hover smooth-shadow atm abm text-center">
+					<thead class="table-head">
+						<th>ID</th>
+						<th>Product</th>
+						<th class="hidden-xs">Quantity</th>
+						<th class="hidden-xs">Weight</th>
+						<th class="hidden-xs">Price</th>
+						<th>Status</th>
+						<th></th>
+					</thead>
+				</table>
+			</div>
 		</div>
 	</section>
 	<footer id="footer">
