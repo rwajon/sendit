@@ -457,14 +457,18 @@ async function userOrders(HOST, type) {
 window.document.addEventListener('DOMContentLoaded', () => {
   PAGE_PARTS = [];
   let HOST = 'http://localhost:3000';
+  let HOSTS = [
+  'http://localhost:3000',
+  'http://192.168.43.20:3000',
+  'https://rwajon-sendit.herokuapp.com',
+  'https://rwajon.github.io/sendit/UI',
+  ];
 
-  if (window.location.href.indexOf('https://rwajon-sendit.herokuapp.com') >= 0) {
-    const HOST = 'https://rwajon-sendit.herokuapp.com';
-  } else if (window.location.href.indexOf('http://192.168.43.20') >= 0) {
-    const HOST = 'http://192.168.43.20:3000';
-  } else {
-    const HOST = 'http://localhost:3000';
-  }
+  HOSTS.forEach(host => {
+    if (window.location.href.indexOf(host) >= 0) {
+      HOST = host;
+    }
+  });
 
   loadHeader();
   loadNav();
