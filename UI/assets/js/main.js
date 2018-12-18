@@ -263,14 +263,67 @@ async function loadFooter() {
   }
 }
 
+function signup(URL) {
+  if (document.querySelector('form[action="signup.html"]')) {
+    document.querySelector('form[action="signup.html"]').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.querySelector('button[type="submit"]');
+      let firstName = document.querySelector('#firstName').value;
+      let lastName = document.querySelector('#lastName').value;
+      let userName = document.querySelector('#userName').value;
+      let phone = document.querySelector('#phone').value;
+      let password = document.querySelector('#password').value;
+      let confirmPassword = document.querySelector('#confirmPassword').value;
+      let email = document.querySelector('#email').value || '';
+      let country = document.querySelector('#country').value || '';
+      let city = document.querySelector('#city').value || '';
+      let address = document.querySelector('#address').value || '';
+
+      if (firstName && lastName && userName && password && phone) {
+        btn.children[0].classList = '';
+        const data = {
+          firstName,
+          lastName,
+          userName,
+          phone,
+          password,
+          email,
+          country,
+          city,
+          address,
+        };
+
+        let result = await postData(URL, data, resType = 'json');;
+
+        if (result) {
+          btn.children[0].classList = 'hidden';
+
+          if (result.token) {
+            localStorage.setItem('user', JSON.stringify(result.newUser));
+            localStorage.setItem('token', result.token);
+            window.location.replace('user.html');
+
+          } else if (result.error) {
+            document.querySelector('.message').innerHTML = result.error;
+            document.querySelector('.message').classList += ' message-error';
+            document.querySelector('.message').classList.replace('hidden', 'show');
+          }
+        }
+      }
+    });
+  }
+  return true;
+}
+
 function signin(URL) {
   if (document.querySelector('form[action="signin.html"]')) {
     document.querySelector('form[action="signin.html"]').addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const btn = document.querySelector('button[type="submit"]');
-      const userName = document.getElementById('userName').value;
-      const password = document.getElementById('password').value;
+      let userName = document.getElementById('userName').value;
+      let password = document.getElementById('password').value;
 
       if (checkInput(userName) && checkInput(password)) {
         btn.children[0].classList = '';
@@ -322,5 +375,6 @@ window.document.addEventListener('DOMContentLoaded', () => {
   loadNav();
   loadMenuAside();
   loadFooter();
+  signup('http://localhost:3000/api/v1/auth/signup');
   signin('http://localhost:3000/api/v1/auth/login');
 });
