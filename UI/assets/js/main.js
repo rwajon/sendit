@@ -10,19 +10,56 @@ async function getData(URL, resType = 'text', token = '') {
       }
     });
 
-    let data = '';
+    let result = '';
     const response = await fetch(request);
 
     if (resType === 'json') {
-      data = await response.json();
-      return data;
+      result = await response.json();
+      return result;
     } else {
-      data = await response.text();
-      return data;
+      result = await response.text();
+      return result;
     }
   } catch (e) {
     throw Error(e);
   }
+}
+
+async function postData(URL, data = {}, resType = 'text', token = '') {
+  try {
+    const request = new Request(URL, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        'x-access-token': token
+      },
+      body: JSON.stringify(data),
+    });
+
+    let result = '';
+    const response = await fetch(request);
+
+    if (resType === 'json') {
+      result = await response.json();
+      return result;
+    } else {
+      result = await response.text();
+      return result;
+    }
+  } catch (e) {
+    throw Error(e);
+  }
+}
+
+function checkInput(input) {
+  if (input.match(/[a-z0-9]{2}/i) && !input.match(/[!$%*|}{:><?~`_&#^=]/)) {
+    return true;
+  }
+
+  return false;
 }
 
 function toggleMenuAside(el) {
@@ -47,6 +84,27 @@ function showHeader(header) {
     header.style.position = 'fixed';
     header.style.top = '0';
     header.style.width = window.outerWidth < 768 ? `${window.outerWidth}px` : '100%';
+
+    if (!localStorage.getItem('token') && document.querySelector('#user-top')) {
+    }
+
+    if (localStorage.getItem('user') && document.querySelector('#user-top')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      document.querySelector('#user-top').setAttribute('href', 'user.html')
+      document.querySelector('#user-top b').innerHTML = user.userName;
+    
+    }
+    if (localStorage.getItem('admin') && document.querySelector('#user-top')) {
+      const admin = JSON.parse(localStorage.getItem('admin'));
+      document.querySelector('#user-top').setAttribute('href', 'admin.html')
+      document.querySelector('#user-top b').innerHTML = admin.userName;
+
+    }
+    
+    if (!localStorage.getItem('token') && document.querySelector('#user-top')) {
+      document.querySelector('#user-top').setAttribute('href', 'signin.html')
+    }
+
     header.style.display = 'block';
   }
 }
@@ -134,10 +192,21 @@ function showIncludedParts() {
 
 function loadPagePartEnd(part) {
   if (part) { PAGE_PARTS.push(part); }
+
   showIncludedParts();
+
   window.addEventListener("resize", () => {
     showIncludedParts();
-    toggleMenuAside();
+
+    if (window.outerWidth < 768) {
+      const btn = document.getElementById('menu-aside-toggle-btn') || null;
+      const menuAside = document.getElementById('user-menu-aside') || document.getElementById('admin-menu-aside') || null;
+
+      if (btn && menuAside) {
+        menuAside.style.display = 'none';
+        btn.innerHTML = '<i class="fas fa-bars"></i>';
+      }
+    }
   });
 }
 
@@ -194,6 +263,58 @@ async function loadFooter() {
   }
 }
 
+function signin(URL) {
+  if (document.querySelector('form[action="signin.html"]')) {
+    document.querySelector('form[action="signin.html"]').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.querySelector('button[type="submit"]');
+      const userName = document.getElementById('userName').value;
+      const password = document.getElementById('password').value;
+
+      if (checkInput(userName) && checkInput(password)) {
+        btn.children[0].classList = '';
+        const data = {
+          userName,
+          password,
+        };
+
+        let result = await postData(URL, data, resType = 'json');;
+
+        if (result) {
+          btn.children[0].classList = 'hidden';
+
+          if (result.token) {
+            localStorage.setItem('user', JSON.stringify(result.user));
+            localStorage.setItem('token', result.token);
+            window.location.replace('user.html');
+
+          } else if (result.error) {
+            document.querySelector('.message').innerHTML = result.error;
+            document.querySelector('.message').classList += ' message-error';
+            document.querySelector('.message').classList.replace('hidden', 'show');
+          }
+        }
+      }
+    });
+  }
+  return true;
+}
+
+function signout(el) {
+  if (localStorage.getItem('token')) {
+    localStorage.removeItem('token');
+  }
+  if (localStorage.getItem('user')) {
+    localStorage.removeItem('user');
+  }
+  if (localStorage.getItem('admin')) {
+    localStorage.removeItem('admin');
+  }
+
+  window.location.replace('signin.html');
+}
+
 window.document.addEventListener('DOMContentLoaded', () => {
   PAGE_PARTS = [];
 
@@ -201,4 +322,5 @@ window.document.addEventListener('DOMContentLoaded', () => {
   loadNav();
   loadMenuAside();
   loadFooter();
+  signin('http://localhost:3000/api/v1/auth/login');
 });
