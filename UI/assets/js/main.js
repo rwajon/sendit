@@ -4,7 +4,6 @@ async function getData(URL, resType = 'text', token = '') {
       method: 'GET',
       mode: 'cors',
       cache: 'reload',
-      credentials: 'include',
       headers: {
         'x-access-token': token
       }
@@ -31,7 +30,6 @@ async function postData(URL, data = {}, resType = 'text', token = '') {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
-      credentials: 'include',
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         'x-access-token': token
