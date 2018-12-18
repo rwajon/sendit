@@ -12,12 +12,14 @@ body {
 	border-top: solid 2px turquoise;
 	border-bottom: solid 1px turquoise;
 	background-color: #fff;
+	z-index: 123456;
 }
 
-#nav{
+#nav {
 	display: none;
 	background-color: #fbfbfb;
 	border-bottom: solid 0.5px turquoise;
+	z-index: 123456;
 }
 
 #user-menu-aside,
@@ -25,6 +27,7 @@ body {
 	display: none;
 	background-color: #fbfbfb;
 	box-shadow: 0 3px 3px #222;
+	z-index: 123456;
 }
 
 #section {
@@ -153,11 +156,11 @@ select {
 	display: inline-block;
 }
 
-.pull-left{
+.pull-left {
 	float: left;
 }
 
-.pull-right{
+.pull-right {
 	float: right;
 }
 
@@ -275,19 +278,8 @@ select {
 }
 
 #menu-aside-toggle-btn {
-	padding: 3px 8px;
-	margin: -2px;
-}
-
-#menu-aside-toggle-btn:hover {
-	cursor: pointer;
-}
-
-#menu-aside-toggle-btn>hr {
-	width: 20px;
-	height: 3px;
-	background-color: #000;
-	margin: 3px 0;
+	padding: 2px 8px;
+	font-size: 25px;
 }
 
 #user-menu-aside>div>a,
@@ -378,8 +370,8 @@ select {
 }
 
 .border-circle {
-	padding: 7px 10px!important;
-	border-radius: 50%!important;
+	padding: 7px 10px !important;
+	border-radius: 50% !important;
 }
 
 .btn {
@@ -431,13 +423,13 @@ select {
 
 	form input,
 	form button[type="submit"],
-	form select{
+	form select {
 		height: 24px !important;
 		padding-top: 0 !important;
 		padding-bottom: 0 !important;
 	}
 
-	.hidden-xs{
+	.hidden-xs {
 		display: none;
 	}
 
@@ -474,11 +466,11 @@ select {
 
 	form input,
 	form button[type="submit"],
-	form select{
+	form select {
 		height: 32px !important
 	}
 
-	.hidden-lg{
+	.hidden-lg {
 		display: none;
 	}
 
