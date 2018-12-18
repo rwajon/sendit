@@ -118,10 +118,9 @@ function showNav(header, nav) {
 function showMenuAside(header, nav, menuAside) {
   if (menuAside && PAGE_PARTS.indexOf('header') >= 0 &&
     PAGE_PARTS.indexOf('nav') >= 0 && PAGE_PARTS.indexOf('menuAside') >= 0) {
-    
+
     // show number of orders
     userOrdersCount(HOST);
-
     menuAside.style.position = 'fixed';
     menuAside.style.top = `${header.outerHeight + nav.outerHeight}px`
     menuAside.style.minHeight = `${window.innerHeight}px`;
@@ -491,7 +490,7 @@ async function userOrdersCount(HOST) {
 
 window.document.addEventListener('DOMContentLoaded', () => {
   PAGE_PARTS = [];
-  HOST = 'http://localhost:3000';
+  HOST = '';
   HOSTS = [
     'http://localhost:3000',
     'http://192.168.43.20:3000',
@@ -499,12 +498,12 @@ window.document.addEventListener('DOMContentLoaded', () => {
     'https://rwajon.github.io/sendit/UI',
   ];
 
-  HOSTS.forEach(host => {
-    if (window.location.href.indexOf(host) >= 0) {
-      HOST = host;
+  HOSTS.forEach(h => {
+    if (window.location.href.indexOf(h) >= 0) {
+      alert(window.location.href)
+      HOST = h;
     }
   });
-  
 
   loadHeader();
   loadNav();
