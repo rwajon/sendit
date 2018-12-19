@@ -16,7 +16,6 @@ class User {
       && Validate.email(form.email)
       && form.password
       && form.phone) {
-      
       const text = `INSERT INTO
             users("firstName", "lastName", "userName", password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
