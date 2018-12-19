@@ -19,7 +19,6 @@ class Parcel {
       && form.product
       && form.quantity
       && form.price) {
-
       const text = `INSERT INTO
               orders("userId", "receiverName", "receiverPhone", "receiverEmail", "receiverCountry", "receiverCity", "receiverAddress", product, weight, qty, price, status, location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
 
@@ -113,10 +112,11 @@ class Parcel {
         if (rows.length > 0) {
           return rows;
         }
-      }
-      const { rows } = await db.query('SELECT * FROM orders');
-      if (rows.length > 0) {
-        return rows;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders');
+        if (rows.length > 0) {
+          return rows;
+        }
       }
     } catch (error) {
       console.log(error);
