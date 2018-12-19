@@ -13,6 +13,54 @@ HOSTS.forEach((h) => {
   }
 });
 
+function checkInput(input) {
+  if (input.match(/[a-z0-9]{2}/i) && !input.match(/[!$%*|}{:><?~`_&#^=]/)) {
+    return true;
+  }
+  return false;
+}
+
+// https://www.sitepoint.com/get-url-parameters-with-javascript/
+function urlParams(url) {
+  const obj = {};
+  let queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  if (queryString) {
+    [queryString] = queryString.split('#');
+    const arr = queryString.split('&');
+
+    for (let i = 0; i < arr.length; i += 1) {
+      const a = arr[i].split('=');
+
+      let paramName = a[0];
+      let paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+      paramName = paramName.toLowerCase();
+      if (typeof paramValue === 'string') { paramValue = paramValue.toLowerCase(); }
+
+      if (paramName.match(/\[(\d+)?\]$/)) {
+        const key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) { obj[key] = []; }
+
+        if (paramName.match(/\[\d+\]$/)) {
+          const index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          obj[key].push(paramValue);
+        }
+      } else if (!obj[paramName]) {
+        obj[paramName] = paramValue;
+      } else if (obj[paramName] && typeof obj[paramName] === 'string') {
+        obj[paramName] = [obj[paramName]];
+        obj[paramName].push(paramValue);
+      } else {
+        obj[paramName].push(paramValue);
+      }
+    }
+  }
+  return obj;
+}
+
 async function getData(URL, resType = 'text', token = '') {
   try {
     const request = new Request(URL, {
@@ -63,14 +111,6 @@ async function postData(URL, data = {}, resType = 'text', token = '') {
   } catch (e) {
     throw Error(e);
   }
-}
-
-function checkInput(input) {
-  if (input.match(/[a-z0-9]{2}/i) && !input.match(/[!$%*|}{:><?~`_&#^=]/)) {
-    return true;
-  }
-
-  return false;
 }
 
 function signup(userType) {
@@ -177,12 +217,45 @@ function showProfile(userType) {
   }
 }
 
-async function userCountOrders() {
-  if (localStorage.getItem('user') && localStorage.getItem('userToken')) {
+function signOut(userType) {
+  if (localStorage.getItem(`${userType}Token`)) {
+    localStorage.removeItem(`${userType}Token`);
+  }
+  if (localStorage.getItem(userType)) {
+    localStorage.removeItem(userType);
+  }
+
+  window.location.replace('index.html');
+}
+
+async function getOrders(userType, orderType = 'all') {
+  if (userType === 'user' && localStorage.getItem('user') && localStorage.getItem('userToken')) {
     const token = localStorage.getItem('userToken');
     const userId = JSON.parse(localStorage.getItem('user')).id;
-    const URL = `${HOST}/api/v1/users/${userId}/parcels`;
+    const URL = `${HOST}/api/v1/users/${userId}/parcels/${orderType === 'all' ? '' : orderType}`;
     const result = await getData(URL, 'json', token);
+
+    return result;
+  }
+
+  return false;
+}
+
+async function getOrder(userType, parcelId) {
+  if (userType && parcelId && localStorage.getItem(userType) && localStorage.getItem(`${userType}Token`)) {
+    const token = localStorage.getItem(`${userType}Token`);
+    const URL = `${HOST}/api/v1/parcels/${parcelId}`;
+    const result = await getData(URL, 'json', token);
+
+    return result;
+  }
+
+  return false;
+}
+
+async function showUserOrdersNumber() {
+  if (localStorage.getItem('user') && localStorage.getItem('userToken')) {
+    const result = await getOrders('user');
     let pending = 0;
     let inTransit = 0;
     let delivered = 0;
@@ -212,14 +285,11 @@ async function userCountOrders() {
   return true;
 }
 
-async function userOrders(orderType) {
-  if (document.querySelector(`#${orderType}Orders`) && localStorage.getItem('user') && localStorage.getItem('userToken')) {
-    const token = localStorage.getItem('userToken');
-    const userId = JSON.parse(localStorage.getItem('user')).id;
-    const URL = `${HOST}/api/v1/users/${userId}/parcels/${orderType === 'all' ? '' : orderType}`;
-    const result = await getData(URL, 'json', token);
+async function showOrders(userType, orderType = 'all') {
+  if (document.querySelector(`#${orderType}Orders`)) {
+    const result = await getOrders(userType, orderType);
 
-    if (!result.error) {
+    if (result && !result.error) {
       let table = '';
       const orders = orderType === 'all' ? result.parcels : result[orderType];
 
@@ -255,13 +325,13 @@ async function userOrders(orderType) {
 
         table += `
           <td class='text-left'>
-            <a href="order_details.html" class="btn btn-default smooth-shadow" title="Order details">
+            <a href="order_details.html?id=${order.id}" class="btn btn-default smooth-shadow" title="Order details">
               <i class="fas fa-info-circle"></i>
             </a>`;
 
         if (order.status !== 'delivered') {
           table += `
-            <a href="modify_order.html" class="btn btn-default smooth-shadow" title="Modify order">
+            <a href="modify_order.html?id=${order.id}" class="btn btn-default smooth-shadow" title="Modify order">
               <i class="fas fa-edit"></i>
             </a>
             <a href="#" class="btn btn-danger smooth-shadow" title="Cancel order">
@@ -285,15 +355,50 @@ async function userOrders(orderType) {
   return true;
 }
 
-function signOut(userType) {
-  if (localStorage.getItem(`${userType}Token`)) {
-    localStorage.removeItem(`${userType}Token`);
-  }
-  if (localStorage.getItem(userType)) {
-    localStorage.removeItem(userType);
-  }
+async function parcelDetails(userType, parcelId) {
+  if (document.querySelector('#parcelDetails')) {
+    const result = await getOrder(userType, parcelId);
 
-  window.location.replace('index.html');
+    if (result && !result.error) {
+      const { order } = result;
+      document.querySelector('#orderId').innerHTML = `Order #${order.orderId}`;
+      document.querySelector('#product').firstChild.innerHTML = order.product;
+      document.querySelector('#weight').firstChild.innerHTML = order.weight;
+      document.querySelector('#quantity').firstChild.innerHTML = order.quantity;
+      document.querySelector('#price').firstChild.innerHTML = `USD ${order.price}`;
+      document.querySelector('#status').firstChild.innerHTML = order.status;
+      document.querySelector('#pickupLocation').firstChild.innerHTML = order.sender.country;
+      document.querySelector('#pickupLocation').firstChild.innerHTML += order.sender.city ? `, ${order.sender.city}` : '';
+      document.querySelector('#pickupLocation').firstChild.innerHTML += order.sender.address ? ` - ${order.sender.address}` : '';
+      document.querySelector('#destination').firstChild.innerHTML = order.receiver.country;
+      document.querySelector('#destination').firstChild.innerHTML += order.receiver.city ? `, ${order.receiver.city}` : '';
+      document.querySelector('#destination').firstChild.innerHTML += order.receiver.address ? ` - ${order.receiver.address}` : '';
+      document.querySelector('#presentLocation').firstChild.innerHTML = order.location;
+      document.querySelector('#senderName').firstChild.innerHTML = `${order.sender.firstName} ${order.sender.lastName}`;
+      document.querySelector('#senderPhone').firstChild.innerHTML = order.sender.phone;
+      document.querySelector('#senderEmail').firstChild.innerHTML = order.sender.email;
+      document.querySelector('#senderCountry').firstChild.innerHTML = order.sender.country;
+      document.querySelector('#senderCity').firstChild.innerHTML = order.sender.city;
+      document.querySelector('#senderAddress').firstChild.innerHTML = order.sender.address;
+      document.querySelector('#receiverName').firstChild.innerHTML = order.receiver.name;
+      document.querySelector('#receiverPhone').firstChild.innerHTML = order.receiver.phone;
+      document.querySelector('#receiverEmail').firstChild.innerHTML = order.receiver.email;
+      document.querySelector('#receiverCountry').firstChild.innerHTML = order.receiver.country;
+      document.querySelector('#receiverCity').firstChild.innerHTML = order.receiver.city;
+      document.querySelector('#receiverAddress').firstChild.innerHTML = order.receiver.address;
+    } else if (result) {
+      document.querySelector('#parcelDetails').classList = 'hidden';
+      document.querySelector('.message').innerHTML = result.error;
+      document.querySelector('.message').classList += ' message-error';
+      document.querySelector('.message').classList.replace('hidden', 'show');
+    } else {
+      document.querySelector('#parcelDetails').classList = 'hidden';
+      document.querySelector('.message').innerHTML = 'Order ID not specified';
+      document.querySelector('.message').classList += ' message-error';
+      document.querySelector('.message').classList.replace('hidden', 'show');
+    }
+  }
+  return true;
 }
 
 function toggleMenuAside() {
@@ -354,7 +459,7 @@ function showMenuAside(header, nav, menuAside) {
   if (menuAside && PAGE_PARTS.indexOf('header') >= 0
     && PAGE_PARTS.indexOf('nav') >= 0 && PAGE_PARTS.indexOf('menuAside') >= 0) {
     // show number of orders
-    userCountOrders(HOST);
+    showUserOrdersNumber();
     this.menuAside = menuAside;
     this.menuAside.style.position = 'fixed';
     this.menuAside.style.top = `${header.outerHeight + nav.outerHeight}px`;
@@ -386,10 +491,11 @@ function showSection(header, nav, menuAside, section) {
     signin('admin');
     showProfile('user');
     showProfile('admin');
-    userOrders('all');
-    userOrders('pending');
-    userOrders('inTransit');
-    userOrders('delivered');
+    showOrders('user');
+    showOrders('user', 'pending');
+    showOrders('user', 'inTransit');
+    showOrders('user', 'delivered');
+    parcelDetails('user', urlParams(window.location.href).id);
 
     this.section = section;
 
