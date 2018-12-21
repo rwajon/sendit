@@ -211,7 +211,6 @@ function signup(userType) {
       if (password !== confirmPassword) {
         document.querySelector('form [name="password"]').classList += 'error';
         document.querySelector('form [name="confirmPassword"]').classList += 'error';
-        document.querySelector('form [name="confirmPassword"]').value = 'password doesn\'t match';
         return false;
       }
 
