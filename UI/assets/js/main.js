@@ -546,6 +546,7 @@ function searchOrder(userType = 'user') {
           </div>`;
 
           document.querySelector(`#${userType}Orders table`).innerHTML = table;
+          btn.children[1].classList = 'hidden';
         } else if (result && result.error) {
           btn.children[1].classList = 'hidden';
           document.querySelector('#parcelsModal .modal-body').innerHTML = `
