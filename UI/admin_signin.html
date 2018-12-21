@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Sign-in | SendIT</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/all.fontawesome.min.css">
+	<link rel="shortout icon" type="" href="assets/icons/sendit_icon.png">
+</head>
+
+<body>
+	<header id="header">
+	</header>
+	<section id="section">
+		<div class="container">
+			<div id="admin-signin" class="smooth-shadow atm">
+				<div class="hidden message add-padding text-center"></div>
+				<fieldset>
+					<legend>
+						<h1>Sign-in</h1>
+					</legend>
+					<form role="form" method="post" action="admin_signin.html">
+						<label for="userName">Username</label>
+						<input type="text" class="form-control" name="userName" id="userName" required="required">
+						<br>
+						<label for="password">Password</label>
+						<input type="password" class="form-control" name="password" id="password" required="required">
+						<br>
+						<div class="text-center">
+							<button type="submit" class="btn btn-turquoise smooth-shadow alp arp">
+								Sign in
+								<img class="hidden" src="assets/images/loading.svg" style="height:30px; vertical-align: top; margin-top: -5px">
+							</button>
+						</div>
+					</form>
+				</fieldset>
+			</div>
+		</div>
+	</section>
+	<footer id="footer">
+	</footer>
+	<!-- JavaScript -->
+	<script type="text/javascript" src="assets/js/main.js"></script>
+</body>
+
+</html>

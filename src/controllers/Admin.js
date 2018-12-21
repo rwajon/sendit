@@ -10,13 +10,12 @@ class Admin {
   }
 
   async signup(form) {
-    if (form.firstName
+     if (form.firstName
       && form.lastName
       && form.userName
       && Validate.email(form.email)
       && form.password
-      && form.phone
-      && form.country) {
+      && form.phone) {
       const text = `INSERT INTO
             admins("firstName", "lastName", "userName", password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
