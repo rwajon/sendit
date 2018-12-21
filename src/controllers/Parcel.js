@@ -1,4 +1,5 @@
 import db from '../models/index';
+import Validate from '../helpers/Validate';
 
 class Parcel {
   constructor() {
@@ -7,20 +8,26 @@ class Parcel {
     this.error = '';
   }
 
-  validateEmail(email) {
-    this.re = /\S+@\S+\.\S+/;
-    return this.re.test(email);
-  }
-
   async createOrder(form, userId) {
     if (form.receiverName && form.receiverPhone
-      && this.validateEmail(form.receiverEmail)
+      && Validate.email(form.receiverEmail)
       && form.receiverCountry
       && form.product
       && form.quantity
       && form.price) {
       const text = `INSERT INTO
               orders("userId", "receiverName", "receiverPhone", "receiverEmail", "receiverCountry", "receiverCity", "receiverAddress", product, weight, qty, price, status, location) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
+
+      let location = '';
+      if (form.senderCountry) {
+        location = form.senderCountry;
+      }
+      if (form.senderCity) {
+        location += `, ${form.senderCity}`;
+      }
+      if (form.senderAddress) {
+        location += ` - ${form.senderAddress}`;
+      }
 
       const values = [
         userId,
@@ -35,7 +42,7 @@ class Parcel {
         Math.abs(form.quantity),
         Math.abs(form.price),
         'pending',
-        `${form.senderCountry}, ${form.senderCity} - ${form.senderAddress}`,
+        location,
       ];
 
       try {
@@ -57,7 +64,7 @@ class Parcel {
 
   async getOrder(pId, userId) {
     try {
-      const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
+      const order = await db.query('SELECT * FROM orders WHERE status!=\'cancelled\' AND id=$1', [pId]);
       if (order.rows.length > 0) {
         const sender = await db.query('SELECT * FROM users WHERE id=$1', [order.rows[0].userId]);
 
@@ -108,12 +115,12 @@ class Parcel {
   async getAll(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE "userId"=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status!=\'cancelled\' AND "userId"=$1 ORDER BY id ASC', [userId]);
         if (rows.length > 0) {
           return rows;
         }
       } else {
-        const { rows } = await db.query('SELECT * FROM orders');
+        const { rows } = await db.query('SELECT * FROM orders WHERE status!=\'cancelled\' ORDER BY id ASC');
         if (rows.length > 0) {
           return rows;
         }
@@ -128,12 +135,12 @@ class Parcel {
   async getPending(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' AND "userId"=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' AND "userId"=$1 ORDER BY id ASC', [userId]);
         if (rows.length > 0) {
           return rows;
         }
       }
-      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\'');
+      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' ORDER BY id ASC');
       if (rows.length > 0) {
         return rows;
       }
@@ -147,12 +154,12 @@ class Parcel {
   async getInTransit(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' AND "userId"=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' AND "userId"=$1 ORDER BY id ASC', [userId]);
         if (rows.length > 0) {
           return rows;
         }
       }
-      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\'');
+      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' ORDER BY id ASC');
       if (rows.length > 0) {
         return rows;
       }
@@ -166,12 +173,12 @@ class Parcel {
   async getDelivered(userId) {
     try {
       if (userId) {
-        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' AND "userId"=$1', [userId]);
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' AND "userId"=$1 ORDER BY id ASC', [userId]);
         if (rows.length > 0) {
           return rows;
         }
       }
-      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\'');
+      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' ORDER BY id ASC');
       if (rows.length > 0) {
         return rows;
       }
@@ -185,7 +192,7 @@ class Parcel {
   async changeDestination(pId, form, userId) {
     if (form.country || form.city || form.address) {
       try {
-        const order = await db.query('SELECT * FROM orders WHERE id=$1 AND "userId"=$2', [pId, userId]);
+        const order = await db.query('SELECT * FROM orders WHERE status!=\'cancelled\' AND id=$1 AND "userId"=$2', [pId, userId]);
 
         if (order.rows.length <= 0) {
           this.error = 'Sorry, you can not change this order';
@@ -247,7 +254,7 @@ class Parcel {
   async changePresentLocation(pId, form) {
     if (form.country || form.city || form.address) {
       try {
-        const order = await db.query('SELECT * FROM orders WHERE id=$1', [pId]);
+        const order = await db.query('SELECT * FROM orders WHERE status!=\'cancelled\' AND id=$1', [pId]);
 
         if (order.rows.length <= 0) {
           this.error = `Sorry, no order with id ${pId} was found`;

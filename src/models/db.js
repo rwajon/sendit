@@ -87,7 +87,7 @@ const createTables = () => {
         product VARCHAR(100) NOT NULL,
         weight VARCHAR(10) NULL,
         qty INT NOT NULL,
-        price DECIMAL(12,3) NOT NULL,
+        price DECIMAL(12,2) NOT NULL,
         status VARCHAR(20) NULL,
         location TEXT NULL,
         "createdDate" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

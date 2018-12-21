@@ -2,179 +2,179 @@
 <html>
 
 <head>
-	<title>Create a parcel delivery order | SendIT</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<link rel="stylesheet" href="assets/css/all.fontawesome.min.css">
-	<link rel="shortout icon" type="" href="assets/icons/sendit_icon.png">
-	<script type="text/javascript">
-	function toggleForm(el) {
-		let submitBtn = document.getElementById('submitBtn');
-		let inputsGroupOne = document.getElementById('inputsGroupOne');
-		let inputsGroupTwo = document.getElementById('inputsGroupTwo');
-
-		if (inputsGroupTwo.className.indexOf('hidden') >= 0) {
-			inputsGroupOne.classList = 'hidden';
-			inputsGroupTwo.classList = '';
-			el.innerHTML = '<i class="fas fa-angle-double-left"></i> Prev';
-			el.nextElementSibling.children[1].classList.replace('btn-default', 'btn-blue');
-			submitBtn.classList.replace('hidden', 'show');
-		} else {
-			inputsGroupOne.classList = '';
-			inputsGroupTwo.classList = 'hidden';
-			el.innerHTML = 'Next <i class="fas fa-angle-double-right"></i>';
-			el.nextElementSibling.children[1].classList.replace('btn-blue', 'btn-default');
-			submitBtn.classList += ' hidden';
-		}
-	}
-	</script>
+  <title>Create a parcel delivery order | SendIT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/all.fontawesome.min.css">
+  <link rel="shortout icon" type="" href="assets/icons/sendit_icon.png">
 </head>
 
 <body>
-	<header id="header">
-	</header>
-	<nav id="nav">
-	</nav>
-	<aside id="user-menu-aside">
-	</aside>
-	<section id="section">
-		<div class="container">
-			<div id="create-order" class="smooth-shadow atm">
-				<fieldset>
-					<legend>
-						<h1>Create an order</h1>
-					</legend>
-					<form role="form" method="post" action="#">
-						<div id="inputsGroupOne" class="">
-							<fieldset>
-								<legend>Parcel details</legend>
-								<div class="input">
-									<label for="product">Product <span style="color: red">*</span></label>
-									<input type="text" class="form-control" name=" product" required="required">
-								</div>
-								<div class="input input-responsive">
-									<label for="weight">Weight (kg) <span style="color: red">*</span></label>
-									<input type="text" class="form-control" name=" weight">
-								</div>
-								<div class="input input-responsive">
-									<label for="quantity">Quantity <span style="color: red">*</span></label>
-									<input type="number" class="form-control" name="quantity" required="required">
-								</div>
-							</fieldset>
-							<br>
-							<fieldset>
-								<legend>Destination</legend>
-								<div class="input input-responsive">
-									<label for="destCountry">Country <span style="color: red">*</span></label>
-									<select name="destCountry" class="form-control no-bg" required="required">
-										<option></option>
-										<optgroup label="Africa">
-											<option value="Rwanda">Rwanda</option>
-											<option value="Nigeria">Nigeria</option>
-											<option value="Kenya">Kenya</option>
-											<option value="Uganda">Uganda</option>
-										</optgroup>
-										<optgroup label="Europe">
-											<option value="France">France</option>
-											<option value="Belgium">Belgium</option>
-											<option value="England">England</option>
-											<option value="Spani">Spani</option>
-										</optgroup>
-										<optgroup label="Noth-America">
-											<option value="Canada">Canada</option>
-											<option value="USA">USA</option>
-										</optgroup>
-									</select>
-								</div>
-								<div class="input input-responsive">
-									<label for="destCity">City</label>
-									<input type="text" class="form-control" name="destCity" required="">
-								</div>
-								<div class="input">
-									<label for="destAddress">Address</label>
-									<input type="text" class="form-control" name="destAddress" required="required">
-								</div>
-							</fieldset>
-							<br>
-						</div>
-						<div id="inputsGroupTwo" class="hidden">
-							<div class="input">
-								<label for="price">Price</label>
-								<input type="text" class="form-control" name="price" disabled="disabled">
-							</div>
-							<fieldset>
-								<legend>Receiver Info</legend>
-								<div class="input">
-									<label for="rname">Name <span style="color: red">*</span></label>
-									<input type="text" class="form-control" name=" rname" required="required">
-								</div>
-								<div class="input input-responsive">
-									<label for="rphone">Phone <span style="color: red">*</span></label>
-									<input type="text" class="form-control" name=" rphone" required="required">
-								</div>
-								<div class="input input-responsive">
-									<label for="remail">Email</label>
-									<input type="email" class="form-control" name=" remail" required="">
-								</div>
-							</fieldset>
-							<br>
-							<fieldset>
-								<legend>Confirm your location</legend>
-								<div class="input input-responsive">
-									<label for="senderCountry">Country</label>
-									<select name="senderCountry" class="form-control no-bg" required="required">
-										<option value="" hidden="hidden"></option>
-										<optgroup label="Africa">
-											<option value="Rwanda">Rwanda</option>
-											<option value="Nigeria">Nigeria</option>
-											<option value="Kenya">Kenya</option>
-											<option value="Uganda">Uganda</option>
-										</optgroup>
-										<optgroup label="Europe">
-											<option value="France">France</option>
-											<option value="Belgium">Belgium</option>
-											<option value="England">England</option>
-											<option value="Spani">Spani</option>
-										</optgroup>
-										<optgroup label="Noth-America">
-											<option value="Canada">Canada</option>
-											<option value="USA">USA</option>
-										</optgroup>
-									</select>
-								</div>
-								<div class="input input-responsive">
-									<label for="senderCity">City</label>
-									<input type="text" class="form-control" name="senderCity" value="" required="">
-								</div>
-								<div class="input">
-									<label for="senderAddress">Address</label>
-									<input type="text" class="form-control" name="senderAddress" value="" required="">
-								</div>
-							</fieldset>
-							<br>
-						</div>
-						<div class="abm">
-							<button type="button" class="btn btn-blue smooth-shadow" onclick="toggleForm(this)">
-								Next <i class="fas fa-angle-double-right"></i>
-							</button>
-							<span class="pull-right">
-								<span class="border-circle btn btn-blue">1</span>
-							<span class="alm border-circle btn btn-default">2</span>
-							</span>
-						</div>
-						<div class="text-center abm">
-							<button id="submitBtn" type="submit" class="hidden btn btn-turquoise smooth-shadow alp arp">Create</button>
-						</div>
-					</form>
-				</fieldset>
-			</div>
-		</div>
-	</section>
-	<footer id="footer">
-	</footer>
-	<!-- JavaScript -->
-	<script type="text/javascript" src="assets/js/main.js"></script>
+  <header id="header">
+  </header>
+  <nav id="nav">
+  </nav>
+  <aside id="user-menu-aside">
+  </aside>
+  <section id="section">
+    <div class="container">
+      <div id="createOrder" class="smooth-shadow atm">
+        <div class="hidden message add-padding text-center"></div>
+        <fieldset>
+          <legend>
+            <h1>Create an order</h1>
+          </legend>
+          <form role="form" method="post" action="#">
+            <div id="inputsGroupOne" class="">
+              <fieldset>
+                <legend>Parcel details</legend>
+                <div class="input">
+                  <label for="product">Product <span style="color: red">*</span></label>
+                  <input type="text" class="form-control" name="product" required="required" minlength="2" value="Samsung galaxy s8">
+                </div>
+                <div class="input input-responsive">
+                  <label for="weight">Weight (kg) <span style="color: red">*</span></label>
+                  <input type="text" class="form-control" name="weight" required="required" minlength="1" value="3">
+                </div>
+                <div class="input input-responsive">
+                  <label for="quantity">Quantity <span style="color: red">*</span></label>
+                  <input type="number" class="form-control" name="quantity" required="required" minlength="1" value="1">
+                </div>
+              </fieldset>
+              <br>
+              <fieldset>
+                <legend>Destination</legend>
+                <div class="input input-responsive">
+                  <label for="receiverCountry">Country <span style="color: red">*</span></label>
+                  <select name="receiverCountry" class="form-control no-bg" required="required">
+                    <option value="France">France</option>
+                    <optgroup label="Africa">
+                      <option value="Rwanda">Rwanda</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Uganda">Uganda</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                      <option value="France">France</option>
+                      <option value="Belgium">Belgium</option>
+                      <option value="England">England</option>
+                      <option value="Spani">Spani</option>
+                    </optgroup>
+                    <optgroup label="Noth-America">
+                      <option value="Canada">Canada</option>
+                      <option value="USA">USA</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="input input-responsive">
+                  <label for="receiverCity">City</label>
+                  <input type="text" class="form-control" name="receiverCity" minlength="1" value="Paris">
+                </div>
+                <div class="input">
+                  <label for="receiverAddress">Address</label>
+                  <input type="text" class="form-control" name="receiverAddress" minlength="1" value="Parc des princes">
+                </div>
+              </fieldset>
+              <br>
+            </div>
+            <div id="inputsGroupTwo" class="hidden">
+              <fieldset>
+                <legend>Receiver Info</legend>
+                <div class="input">
+                  <label for="receiverName">Name <span style="color: red">*</span></label>
+                  <input type="text" class="form-control" name="receiverName" required="required" minlength="2" value="Christian Clavier">
+                </div>
+                <div class="input input-responsive">
+                  <label for="receiverPhone">Phone <span style="color: red">*</span></label>
+                  <input type="text" class="form-control" name="receiverPhone" required="required" minlength="6" value="+3311223344">
+                </div>
+                <div class="input input-responsive">
+                  <label for="receiverEmail">Email</label>
+                  <input type="email" class="form-control" name="receiverEmail" minlength="5" value="christian@gmail.com">
+                </div>
+              </fieldset>
+              <br>
+              <fieldset>
+                <legend>Confirm your location</legend>
+                <div class="input input-responsive">
+                  <label for="senderCountry">Country</label>
+                  <select name="senderCountry" class="form-control no-bg" required="required">
+                    <option value="" hidden=""></option>
+                    <optgroup label="Africa">
+                      <option value="Rwanda">Rwanda</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Uganda">Uganda</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                      <option value="France">France</option>
+                      <option value="Belgium">Belgium</option>
+                      <option value="England">England</option>
+                      <option value="Spani">Spani</option>
+                    </optgroup>
+                    <optgroup label="Noth-America">
+                      <option value="Canada">Canada</option>
+                      <option value="USA">USA</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="input input-responsive">
+                  <label for="senderCity">City</label>
+                  <input type="text" class="form-control" name="senderCity" minlength="1">
+                </div>
+                <div class="input">
+                  <label for="senderAddress">Address</label>
+                  <input type="text" class="form-control" name="senderAddress" minlength="1">
+                </div>
+              </fieldset>
+              <br>
+            </div>
+            <div class="abm">
+              <a href="#" class="btn btn-blue smooth-shadow" onclick="toggleForm(this)">
+                Next <i class="fas fa-angle-double-right"></i>
+              </a>
+              <span class="pull-right">
+                <span class="border-circle btn btn-blue">1</span>
+              <span class="alm border-circle btn btn-default">2</span>
+              </span>
+            </div>
+            <div class="text-center">
+              <button id="submitBtn" type="submit" class="hidden btn btn-turquoise smooth-shadow alp arp">
+                Create
+                <img class="hidden" src="assets/images/loading.svg" style="height:30px; vertical-align: top; margin-top: -5px">
+              </button>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+  <footer id="footer">
+  </footer>
+  <!-- JavaScript -->
+  <script type="text/javascript" src="assets/js/main.js"></script>
+  <script type="text/javascript">
+  function toggleForm(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    const inputsGroupOne = document.getElementById('inputsGroupOne');
+    const inputsGroupTwo = document.getElementById('inputsGroupTwo');
+
+    if (inputsGroupTwo.className.indexOf('hidden') >= 0) {
+      inputsGroupOne.classList = 'hidden';
+      inputsGroupTwo.classList = '';
+      e.innerHTML = '<i class="fas fa-angle-double-left"></i> Prev';
+      e.nextElementSibling.children[1].classList.replace('btn-default', 'btn-blue');
+      submitBtn.classList.replace('hidden', 'show');
+    } else {
+      inputsGroupOne.classList = '';
+      inputsGroupTwo.classList = 'hidden';
+      e.innerHTML = 'Next <i class="fas fa-angle-double-right"></i>';
+      e.nextElementSibling.children[1].classList.replace('btn-blue', 'btn-default');
+      submitBtn.classList += ' hidden';
+    }
+  }
+  </script>
 </body>
 
 </html>

@@ -8,13 +8,6 @@
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/css/all.fontawesome.min.css">
 	<link rel="shortout icon" type="" href="assets/icons/sendit_icon.png">
-	<script type="text/javascript">
-	window.document.addEventListener('DOMContentLoaded', () => {
-		if (!localStorage.getItem('user')) {
-			window.location.replace('signin.html');
-		}
-	});
-	</script>
 </head>
 
 <body>
@@ -25,7 +18,7 @@
 	<aside id="user-menu-aside">
 	</aside>
 	<section id="section">
-		<div class="container" id="userProfile">
+		<div class="container hidden" id="userProfile">
 			<h1 class="add-padding btn">User Profile</h1>
 			<table class="table table-bordered-bottom table-hover smooth-shadow atm abm">
 				<tr>
