@@ -51,13 +51,13 @@ select {
 }
 
 label[class="error"] {
-  color: #a00;
-  font-size: 12px;
+	color: #a00;
+	font-size: 12px;
 }
 
 input[class*="error"] {
-  background-color: #f2dede;
-  background-image: linear-gradient(to bottom, #f2dede 0, #e7c3c3 100%);
+	background-color: #f2dede;
+	background-image: linear-gradient(to bottom, #f2dede 0, #e7c3c3 100%);
 }
 
 .no-padding {
@@ -157,11 +157,11 @@ input[class*="error"] {
 }
 
 .block {
-	display: block!important;
+	display: block !important;
 }
 
 .inline-block {
-	display: inline-block!important;
+	display: inline-block !important;
 }
 
 .pull-left {
@@ -338,7 +338,8 @@ input[class*="error"] {
 	padding: 0 2px;
 }
 
-#user-top:hover, #admin-top:hover {
+#user-top:hover,
+#admin-top:hover {
 	background-color: rgba(0, 0, 0, .1);
 }
 
@@ -531,6 +532,12 @@ input[class*="error"] {
 	color: #fff;
 	font-weight: bold;
 	background-color: turquoise;
+}
+
+.btn-loading-img {
+	height: 25px;
+	vertical-align: top;
+	margin-top: -5px
 }
 
 /********************** media query **********************/
