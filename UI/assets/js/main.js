@@ -1,16 +1,8 @@
-let HOST = 'http://192.168.43.20:3000';
-const HOSTS = [
-  'http://localhost:3000',
-  'http://192.168.43.20:3000',
-  'https://rwajon-sendit.herokuapp.com',
-  'https://rwajon.github.io/sendit/UI',
-];
+let HOST = 'https://rwajon-sendit.herokuapp.com';
 
-HOSTS.forEach((h) => {
-  if (window.location.href.indexOf(h) >= 0) {
-    HOST = h;
-  }
-});
+if (window.location.href.indexOf('http://localhost:3000') >= 0) {
+  HOST = 'http://localhost:3000';
+}
 
 function backTop() {
   if (window.location.href.indexOf('#') < 0) {
