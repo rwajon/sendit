@@ -34,9 +34,15 @@ class User {
       ];
 
       try {
-        const checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1 OR email=$2', [form.userName, form.email]);
+        let checkUser = '';
 
-        if (checkUser.rows.length) {
+        if (form.email) {
+          checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1 OR email=$2', [form.userName, form.email]);
+        } else {
+          checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1', [form.userName]);
+        }
+
+        if (checkUser.rows.length > 0) {
           for (let i = 0; i < checkUser.rows.length; i += 1) {
             if (bcrypt.compareSync(form.password, checkUser.rows[i].password)) {
               this.error = 'Sorry, this account already exists';

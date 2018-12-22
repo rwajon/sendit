@@ -188,7 +188,7 @@ function signup(userType) {
     document.querySelector(`#${userType}-signup form`).addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const btn = document.querySelector('button[type="submit"]');
+      const btnLoading = document.querySelector(`#${userType}-signup .btn-loading-img`);
       const firstName = document.querySelector('form [name="firstName"]').value;
       const lastName = document.querySelector('form [name="lastName"]').value;
       const userName = document.querySelector('form [name="userName"]').value;
@@ -207,7 +207,7 @@ function signup(userType) {
       }
 
       if (firstName && lastName && userName && password && phone) {
-        btn.children[0].classList = '';
+        btnLoading.classList.replace('hidden', 'show');
         const data = {
           firstName,
           lastName,
@@ -224,7 +224,7 @@ function signup(userType) {
         const result = await sendData('POST', URL, data, 'json');
 
         if (result) {
-          btn.children[0].classList = 'hidden';
+          btnLoading.classList.replace('show', 'hidden');
 
           if (result.token) {
             localStorage.setItem(`${userType}Token`, result.token);
@@ -249,12 +249,12 @@ function signin(userType) {
     document.querySelector(`#${userType}-signin form`).addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const btn = document.querySelector('button[type="submit"]');
+      const btnLoading = document.querySelector(`#${userType}-signin .btn-loading-img`);
       const userName = document.querySelector('form [name="userName"]').value;
       const password = document.querySelector('form [name="password"]').value;
 
       if (checkInput(userName) && checkInput(password)) {
-        btn.children[0].classList = '';
+        btnLoading.classList.replace('hidden', 'show');
         const data = {
           userName,
           password,
@@ -264,7 +264,7 @@ function signin(userType) {
         const result = await sendData('POST', URL, data, 'json');
 
         if (result) {
-          btn.children[0].classList = 'hidden';
+          btnLoading.classList.replace('show', 'hidden');
 
           if (result.token) {
             localStorage.setItem(`${userType}Token`, result.token);
@@ -332,7 +332,7 @@ function createOrder() {
     document.querySelector('#createOrder form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const btn = document.querySelector('button[type="submit"]');
+      const btnLoading = document.querySelector('#createOrder .btn-loading-img');
       const product = document.querySelector('form [name="product"]').value || null;
       const weight = document.querySelector('form [name="weight"]').value || null;
       const quantity = document.querySelector('form [name="quantity"]').value || null;
@@ -348,7 +348,6 @@ function createOrder() {
 
       if (product && weight && quantity && receiverCountry && receiverName
         && receiverPhone && senderCountry) {
-        btn.children[0].classList = '';
         const price = (quantity * weight) * 1.5;
         const data = {
           product,
@@ -366,12 +365,14 @@ function createOrder() {
           senderAddress,
         };
 
+        btnLoading.classList.replace('hidden', 'show');
+
         const token = localStorage.getItem('userToken') || null;
         const URL = `${HOST}/api/v1/parcels`;
         const result = await sendData('POST', URL, data, 'json', token);
 
         if (result) {
-          btn.children[0].classList = 'hidden';
+          btnLoading.classList.replace('show', 'hidden');
 
           if (result && !result.error) {
             window.location.replace(`order.html?id=${result.order.id}`);
@@ -461,11 +462,11 @@ function searchOrder(userType = 'user') {
     document.querySelector('#searchOrder').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const btn = document.querySelector('#searchOrder button[type="submit"]');
+      const btnLoading = document.querySelector('#searchOrder .btn-loading-img');
       const parcelId = document.querySelector('#searchOrder [name="id"]').value || null;
 
       if (parcelId) {
-        btn.children[1].classList = '';
+        btnLoading.classList.replace('hidden', 'show');
         const result = await getOrder(parcelId, userType);
 
         if (result && !result.error) {
@@ -537,9 +538,9 @@ function searchOrder(userType = 'user') {
           </div>`;
 
           document.querySelector(`#${userType}Orders table`).innerHTML = table;
-          btn.children[1].classList = 'hidden';
+          btnLoading.classList.replace('show', 'hidden');
         } else if (result && result.error) {
-          btn.children[1].classList = 'hidden';
+          btnLoading.classList.replace('show', 'hidden');
           document.querySelector('#parcelsModal .modal-body').innerHTML = `
           <p class="text-center text-danger">
             ${result.error}
@@ -578,7 +579,7 @@ async function showOrders(orderType = '', userType = 'user') {
             <input class="form-inline smooth-shadow" name='id' placeholder="search" autocomplete="off">
             <button type="submit" class="btn btn-turquoise smooth-shadow">
               <i class="fas fa-search"></i>
-              <img class="hidden" src="assets/images/loading.svg" style="height:20px; vertical-align: top; margin-top: -5px">
+              <img class="btn-loading-img hidden" src="assets/images/loading.svg">
             </button>
         </form>
         <table class="table table-bordered table-hover smooth-shadow atm abm text-center">
@@ -666,7 +667,6 @@ async function showOrders(orderType = '', userType = 'user') {
 
 async function parcelDetails(parcelId, userType = 'user') {
   if (document.querySelector(`#${userType}ParcelDetails`)) {
-    console.log(userType)
     const result = await getOrder(parcelId, userType);
 
     if (result && !result.error) {
@@ -736,7 +736,7 @@ async function modifyOrder(parcelId, userType = 'user') {
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
 
-          const btn = document.querySelector(`#${e.target.getAttribute('id')} button[type="submit"]`);
+          const btnLoading = document.querySelector(`#${e.target.getAttribute('id')} .btn-loading-img`);
           const country = (document.querySelector('form [name="country"]') && document.querySelector('form [name="country"]').value) || null;
           const city = (document.querySelector('form [name="city"]') && document.querySelector('form [name="city"]').value) || null;
           const address = (document.querySelector('form [name="address"]') && document.querySelector('form [name="address"]').value) || null;
@@ -751,13 +751,13 @@ async function modifyOrder(parcelId, userType = 'user') {
               status,
             };
 
-            btn.children[0].classList.replace('hidden', 'show');
+            btnLoading.classList.replace('hidden', 'show');
             const token = localStorage.getItem(`${userType}Token`);
             const URL = `${HOST}/api/v1/parcels/${parcelId}/${e.target.getAttribute('id')}`;
             this.result = await sendData('PUT', URL, data, 'json', token);
 
             if (this.result && !this.result.error) {
-              btn.children[0].classList.replace('show', 'hidden');
+              btnLoading.classList.replace('show', 'hidden');
               if (document.querySelector('form [name="currentCountry"]')) {
                 document.querySelector('form [name="currentCountry"]').value = this.result.changed.receiverCountry;
               }
@@ -780,14 +780,14 @@ async function modifyOrder(parcelId, userType = 'user') {
               if (e.target.getAttribute('id') === 'presentLocation') {
                 document.querySelector('.message').innerHTML = 'Location changed';
               }
-              
+
               document.querySelector('.message').classList += ' message-success';
               document.querySelector('.message').classList.replace('hidden', 'show');
               odersNumber('user');
               odersNumber('admin');
               backTop();
             } else if (this.result.error) {
-              btn.children[0].classList.replace('show', 'hidden');
+              btnLoading.classList.replace('show', 'hidden');
               document.querySelector('.message').innerHTML = this.result.error;
               document.querySelector('.message').classList += ' message-error';
               document.querySelector('.message').classList.replace('hidden', 'show');

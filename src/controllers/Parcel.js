@@ -139,10 +139,11 @@ class Parcel {
         if (rows.length > 0) {
           return rows;
         }
-      }
-      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' ORDER BY id ASC');
-      if (rows.length > 0) {
-        return rows;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'pending\' ORDER BY id ASC');
+        if (rows.length > 0) {
+          return rows;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -158,10 +159,11 @@ class Parcel {
         if (rows.length > 0) {
           return rows;
         }
-      }
-      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' ORDER BY id ASC');
-      if (rows.length > 0) {
-        return rows;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'in transit\' ORDER BY id ASC');
+        if (rows.length > 0) {
+          return rows;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -177,10 +179,11 @@ class Parcel {
         if (rows.length > 0) {
           return rows;
         }
-      }
-      const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' ORDER BY id ASC');
-      if (rows.length > 0) {
-        return rows;
+      } else {
+        const { rows } = await db.query('SELECT * FROM orders WHERE status=\'delivered\' ORDER BY id ASC');
+        if (rows.length > 0) {
+          return rows;
+        }
       }
     } catch (error) {
       console.log(error);
