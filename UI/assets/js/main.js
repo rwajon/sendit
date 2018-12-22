@@ -771,7 +771,16 @@ async function modifyOrder(parcelId, userType = 'user') {
                 document.querySelector('form [name="currentStatus"]').value = this.result.changed.status;
               }
 
-              document.querySelector('.message').innerHTML = 'Destination changed';
+              if (e.target.getAttribute('id') === 'destination') {
+                document.querySelector('.message').innerHTML = 'Destination changed';
+              }
+              if (e.target.getAttribute('id') === 'status') {
+                document.querySelector('.message').innerHTML = 'Status changed';
+              }
+              if (e.target.getAttribute('id') === 'presentLocation') {
+                document.querySelector('.message').innerHTML = 'Location changed';
+              }
+              
               document.querySelector('.message').classList += ' message-success';
               document.querySelector('.message').classList.replace('hidden', 'show');
               odersNumber('user');
