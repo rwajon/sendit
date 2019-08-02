@@ -11,19 +11,15 @@ env:
     - CC_TEST_REPORTER_ID=35bc56bf57f25bfcdb400793331b23f7a927b95e437d0d36b26ffe95b6f689fe
 language: node_js
 node_js:
-  - "stable"
-addons:
-  code_climate:
-    repo_token: TweeikAFGpg0c6Ds9lcJCc1z4R9CxgaK8
+  - 'stable'
 cache:
   directories:
-    - "node_modules"
+    - 'node_modules'
 services:
   - postgresql
 before_script:
   - psql -c 'CREATE DATABASE sendit_test;' -U postgres
   - npm run createTables
-  - npm install --save-dev coveralls
   - npm install codeclimate-test-reporter istanbul -g
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
@@ -32,5 +28,4 @@ script:
   - npm run coveralls
 after_script:
   - coveralls < ./coverage/lcov.info
-  - codeclimate-test-reporter < ./coverage/lcov.info
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

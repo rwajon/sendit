@@ -1,9 +1,8 @@
+import 'dotenv/config';
 import pg from 'pg';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const env = (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') ? `_${process.env.NODE_ENV}` : '';
+const { NODE_ENV } = process.env;
+const env = NODE_ENV === 'test' || NODE_ENV === 'dev' ? `_${NODE_ENV}`.toUpperCase() : '';
 
 const pool = new pg.Pool({
   connectionString: process.env[`DATABASE_URL${env}`],
@@ -17,7 +16,8 @@ pool.on('connect', () => {
 export default {
   query(text, params) {
     return new Promise((resolve, reject) => {
-      pool.query(text, params)
+      pool
+        .query(text, params)
         .then((res) => {
           resolve(res);
         })

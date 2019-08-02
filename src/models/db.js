@@ -1,19 +1,12 @@
+import 'dotenv/config';
 import pg from 'pg';
-import dotenv from 'dotenv';
 
-dotenv.config();
+const { NODE_ENV } = process.env;
+const env = NODE_ENV === 'test' || NODE_ENV === 'dev' ? `_${NODE_ENV}`.toUpperCase() : '';
 
-const env = (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') ? `_${process.env.NODE_ENV}` : '';
-
-const config = {
-  host: process.env[`DB_HOST${env}`],
-  user: process.env[`DB_USER${env}`],
-  database: process.env[`DB_NAME${env}`],
-  password: process.env[`DB_PASSWORD${env}`],
-  port: process.env[`PORT${env}`],
-};
-
-const pool = new pg.Pool(config);
+const pool = new pg.Pool({
+  connectionString: process.env[`DATABASE_URL${env}`],
+});
 
 pool.on('connect', () => {
   console.log('connected to the Database');
@@ -28,7 +21,8 @@ const dropTables = () => {
 
   const dropTablesQueries = `${ordersTable}; ${usersTable}; ${adminsTable}`;
 
-  pool.query(dropTablesQueries)
+  pool
+    .query(dropTablesQueries)
     .then((res) => {
       console.log(res);
       pool.end();
@@ -95,7 +89,8 @@ const createTables = () => {
 
   const createTablesQueries = `${usersTable}; ${adminsTable}; ${ordersTable}`;
 
-  pool.query(createTablesQueries)
+  pool
+    .query(createTablesQueries)
     .then((res) => {
       console.log(res);
       pool.end();
