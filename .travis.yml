@@ -1,0 +1,31 @@
+env:
+  global:
+    - SECRET_KEY=rwajon@sendit
+    - NODE_ENV=test
+    - DB_HOST_test=localhost
+    - DB_USER_test=postgres
+    - DB_NAME_test=sendit_test
+    - DB_PASSWORD_test=
+    - DB_PORT_test=5432
+    - DATABASE_URL_test=postgres://postgres@localhost:5432/sendit_test
+    - CC_TEST_REPORTER_ID=35bc56bf57f25bfcdb400793331b23f7a927b95e437d0d36b26ffe95b6f689fe
+language: node_js
+node_js:
+  - 'stable'
+cache:
+  directories:
+    - 'node_modules'
+services:
+  - postgresql
+before_script:
+  - psql -c 'CREATE DATABASE sendit_test;' -U postgres
+  - npm run createTables
+  - npm install codeclimate-test-reporter istanbul -g
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - npm run coveralls
+after_script:
+  - coveralls < ./coverage/lcov.info
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

@@ -1,0 +1,827 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories. You can find out more about  SendIT at [https://rwajon-sendit.herokuapp.com](https://rwajon-sendit.herokuapp.com)",
+    "version": "1.0.0",
+    "title": "SendIT",
+    "contact": {
+      "email": "jonathanrwabahizi@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "rwajon-sendit.herokuapp.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "auth",
+      "description": "User Authentication"
+    },
+    {
+      "name": "admins",
+      "description": "Admin Authentication"
+    },
+    {
+      "name": "users",
+      "description": "Users routes"
+    },
+    {
+      "name": "parcels",
+      "description": "Parcel delivery orders routes"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Create a user account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful"
+          },
+          "400": {
+            "description": "Invalid information supplied"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticate a user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful"
+          },
+          "400": {
+            "description": "Invalid username or password supplied"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/admins/signup": {
+      "post": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "Create an admin account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful"
+          },
+          "400": {
+            "description": "Invalid information supplied"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/admins/login": {
+      "post": {
+        "tags": [
+          "admins"
+        ],
+        "summary": "Authenticate an admin",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful"
+          },
+          "400": {
+            "description": "Invalid username or password supplied"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels": {
+      "post": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Create a new parcel delivery order",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create an Order object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid inputs"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Get a list of all parcel delivery orders",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/pending": {
+      "get": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Get a list of all pending parcel delivery orders",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/inTransit": {
+      "get": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Get a list of all parcels in transit",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/delivered": {
+      "get": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Get a list of all delivered parcels",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/{pId}": {
+      "get": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Get details of a specific parcel delivery order",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pId",
+            "in": "path",
+            "description": "ID of a parcel delivery order",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/{pId}/destination": {
+      "put": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Update the destination of a specific parcel delivery order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pId",
+            "in": "path",
+            "description": "ID of the order that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderDestination"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid inputs"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/{pId}/status": {
+      "put": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Update the status of a specific parcel delivery order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pId",
+            "in": "path",
+            "description": "ID of the order that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/{pId}/presentLocation": {
+      "put": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Update the present location of a specific parcel delivery order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pId",
+            "in": "path",
+            "description": "ID of the order that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderPresentLocation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid inputs"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/parcels/{pId}/cancel": {
+      "put": {
+        "tags": [
+          "parcels"
+        ],
+        "summary": "Cancel a specific parcel delivery order",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pId",
+            "in": "path",
+            "description": "ID of the order that needs to be cancelled",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update status",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/users/{userId}/parcels": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a list of all parcel delivery orders by a specific user",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/users/{userId}/parcels/pending": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a list of all pending parcel delivery orders by a specific user",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/users/{userId}/parcels/inTransit": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a list of all parcels in transit of a specific user",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/users/{userId}/parcels/delivered": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a list of all delivered parcels of a specific user",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "userJWT": {
+      "type": "apiKey",
+      "name": "x-access-token",
+      "in": "header"
+    },
+    "adminJWT": {
+      "type": "apiKey",
+      "name": "x-access-token",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Order": {
+      "type": "object",
+      "properties": {
+        "receiverName": {
+          "type": "string"
+        },
+        "receiverPhone": {
+          "type": "string"
+        },
+        "receiverEmail": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "price": {
+          "type": "number"
+        },
+        "senderCountry": {
+          "type": "string"
+        },
+        "senderCity": {
+          "type": "string"
+        },
+        "senderAddress": {
+          "type": "string"
+        },
+        "receiverCountry": {
+          "type": "string"
+        },
+        "receiverCity": {
+          "type": "string"
+        },
+        "receiverAddress": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderDestination": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderPresentLocation": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
