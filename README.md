@@ -66,4 +66,3 @@ This project is licensed under the MIT License.
 * Thanks to Olawale Aladeusi for his post on using PostgreSQL with NodeJS
 * Olivier Esuka Muselemu
 * Jean Luc Abayo
-
