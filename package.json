@@ -5,13 +5,14 @@
   "scripts": {
     "clean": "rm -rf build && mkdir dist",
     "lint": "./node_modules/eslint/bin/eslint.js",
-    "createTables": "babel-node ./src/models/db dropTables && babel-node ./src/models/db createTables",
+    "dropTables": "babel-node ./src/models/db dropTables",
+    "createTables": "babel-node ./src/models/db createTables",
     "test": "NODE_ENV=test mocha --timeout 15000 --compilers js:babel-register src/tests/tests.js",
     "build": "babel src/ --presets babel-preset-env --out-dir dist/",
     "cover": "NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 src/tests/tests.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
-    "start": "babel-node ./src/server/www.js --presets env",
-    "devstart": "NODE_ENV=dev nodemon ./src/server/www.js --exec babel-node --presets env"
+    "start": "npm run createTables && babel-node ./src/server/www.js --presets env",
+    "start:dev": "npm run createTables && NODE_ENV=dev nodemon ./src/server/www.js --exec babel-node --presets env"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
