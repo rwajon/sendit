@@ -12,7 +12,7 @@
     "cover": "NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register --timeout 15000 src/tests/tests.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "start": "npm run createTables && babel-node ./src/server/www.js --presets env",
-    "start:dev": "npm run createTables && NODE_ENV=dev nodemon ./src/server/www.js --exec babel-node --presets env"
+    "start:dev": "NODE_ENV=dev npm run createTables && NODE_ENV=dev nodemon ./src/server/www.js --exec babel-node --presets env"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
