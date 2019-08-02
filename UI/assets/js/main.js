@@ -1,8 +1,4 @@
-let HOST = 'https://rwajon-sendit.herokuapp.com';
-
-if (window.location.href.indexOf('http://localhost:3000') >= 0) {
-  HOST = 'http://localhost:3000';
-}
+const HOST = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
 function backTop() {
   if (window.location.href.indexOf('#') < 0) {
