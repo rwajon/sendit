@@ -1,1 +1,1 @@
-web: babel-node ./src/server/www.js
+web: npm run createTables && babel-node ./src/server/www.js --presets env
