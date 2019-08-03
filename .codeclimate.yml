@@ -1,0 +1,15 @@
+version: '2'
+plugins:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: true
+exclude_patterns:
+  - 'src/models/'
+  - '**/node_modules/'
+  - 'UI/'
+  - '**/spec/'
+  - '**/test/'
+  - '**/tests/'
+  - '**/vendor/'
+  - '**/*.d.ts'
