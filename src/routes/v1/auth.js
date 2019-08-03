@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
     });
   }
 
-  return res.status(200).json({
+  return res.status(500).json({
     error: user.error,
   });
 });
@@ -41,14 +41,13 @@ router.post('/login', async (req, res) => {
     });
 
     return res.status(202).json({
-      status: 'Successfull',
       message: `Welcome ${account.firstName} ${account.lastName}`,
       user: account,
       token,
     });
   }
 
-  return res.status(200).json({
+  return res.status(500).json({
     error: user.error,
   });
 });
