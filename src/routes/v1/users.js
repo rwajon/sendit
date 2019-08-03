@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/:userId/parcels', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -28,7 +28,7 @@ router.get('/:userId/parcels', verifyToken, async (req, res) => {
       parcels,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -37,7 +37,7 @@ router.get('/:userId/parcels', verifyToken, async (req, res) => {
 router.get('/:userId/parcels/pending', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -56,7 +56,7 @@ router.get('/:userId/parcels/pending', verifyToken, async (req, res) => {
       pending,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -65,7 +65,7 @@ router.get('/:userId/parcels/pending', verifyToken, async (req, res) => {
 router.get('/:userId/parcels/inTransit', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -84,7 +84,7 @@ router.get('/:userId/parcels/inTransit', verifyToken, async (req, res) => {
       inTransit,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -93,7 +93,7 @@ router.get('/:userId/parcels/inTransit', verifyToken, async (req, res) => {
 router.get('/:userId/parcels/delivered', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -112,7 +112,7 @@ router.get('/:userId/parcels/delivered', verifyToken, async (req, res) => {
       delivered,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
