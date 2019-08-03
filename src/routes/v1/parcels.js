@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -21,7 +21,7 @@ router.post('/', verifyToken, async (req, res) => {
       order,
     });
   }
-  return res.status(200).json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -30,7 +30,7 @@ router.post('/', verifyToken, async (req, res) => {
 router.get('/', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -43,7 +43,7 @@ router.get('/', verifyToken, async (req, res) => {
       parcels,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -52,7 +52,7 @@ router.get('/', verifyToken, async (req, res) => {
 router.get('/pending', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -65,7 +65,7 @@ router.get('/pending', verifyToken, async (req, res) => {
       pending,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -74,7 +74,7 @@ router.get('/pending', verifyToken, async (req, res) => {
 router.get('/inTransit', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -87,7 +87,7 @@ router.get('/inTransit', verifyToken, async (req, res) => {
       inTransit,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -96,7 +96,7 @@ router.get('/inTransit', verifyToken, async (req, res) => {
 router.get('/delivered', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -109,7 +109,7 @@ router.get('/delivered', verifyToken, async (req, res) => {
       delivered,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -125,7 +125,7 @@ router.get('/:pId', verifyToken, async (req, res) => {
       order,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -134,7 +134,7 @@ router.get('/:pId', verifyToken, async (req, res) => {
 router.put('/:pId/destination', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -147,7 +147,7 @@ router.put('/:pId/destination', verifyToken, async (req, res) => {
       changed,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -156,7 +156,7 @@ router.put('/:pId/destination', verifyToken, async (req, res) => {
 router.put('/:pId/status', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -169,7 +169,7 @@ router.put('/:pId/status', verifyToken, async (req, res) => {
       changed,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -178,7 +178,7 @@ router.put('/:pId/status', verifyToken, async (req, res) => {
 router.put('/:pId/presentLocation', verifyToken, async (req, res) => {
   if (!req.adminId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -191,7 +191,7 @@ router.put('/:pId/presentLocation', verifyToken, async (req, res) => {
       changed,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
@@ -200,7 +200,7 @@ router.put('/:pId/presentLocation', verifyToken, async (req, res) => {
 router.put('/:pId/cancel', verifyToken, async (req, res) => {
   if (!req.userId) {
     return res.status(401).json({
-      error: 'Sorry, you don\'t have access to this route',
+      error: "Sorry, you don't have access to this route",
     });
   }
 
@@ -213,10 +213,9 @@ router.put('/:pId/cancel', verifyToken, async (req, res) => {
       cancelled,
     });
   }
-  return res.json({
+  return res.status(500).json({
     error: parcel.error,
   });
 });
-
 
 export default router;

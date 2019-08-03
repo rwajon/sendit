@@ -1,4 +1,4 @@
-import index from './index.test';
-import admins from './admins.test';
-import users from './users.test';
-import parcels from './parcels.test';
+import './index.test';
+import './admins.test';
+import './users.test';
+import './parcels.test';
