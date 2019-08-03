@@ -12,7 +12,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "rwajon-sendit.herokuapp.com",
+  "host": "sendit-backend.herokuapp.com",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -32,20 +32,13 @@
       "description": "Parcel delivery orders routes"
     }
   ],
-  "schemes": [
-    "https",
-    "http"
-  ],
+  "schemes": ["https", "http"],
   "paths": {
     "/auth/signup": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Create a user account",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -71,13 +64,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Authenticate a user",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -103,13 +92,9 @@
     },
     "/admins/signup": {
       "post": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "summary": "Create an admin account",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -135,13 +120,9 @@
     },
     "/admins/login": {
       "post": {
-        "tags": [
-          "admins"
-        ],
+        "tags": ["admins"],
         "summary": "Authenticate an admin",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -167,16 +148,10 @@
     },
     "/parcels": {
       "post": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Create a new parcel delivery order",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -207,13 +182,9 @@
         }
       },
       "get": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Get a list of all parcel delivery orders",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful"
@@ -232,13 +203,9 @@
     },
     "/parcels/pending": {
       "get": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Get a list of all pending parcel delivery orders",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful"
@@ -257,13 +224,9 @@
     },
     "/parcels/inTransit": {
       "get": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Get a list of all parcels in transit",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful"
@@ -282,13 +245,9 @@
     },
     "/parcels/delivered": {
       "get": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Get a list of all delivered parcels",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful"
@@ -307,13 +266,9 @@
     },
     "/parcels/{pId}": {
       "get": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Get details of a specific parcel delivery order",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "pId",
@@ -342,17 +297,11 @@
     },
     "/parcels/{pId}/destination": {
       "put": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Update the destination of a specific parcel delivery order",
         "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "pId",
@@ -392,17 +341,11 @@
     },
     "/parcels/{pId}/status": {
       "put": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Update the status of a specific parcel delivery order",
         "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "pId",
@@ -442,17 +385,11 @@
     },
     "/parcels/{pId}/presentLocation": {
       "put": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Update the present location of a specific parcel delivery order",
         "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "pId",
@@ -492,17 +429,11 @@
     },
     "/parcels/{pId}/cancel": {
       "put": {
-        "tags": [
-          "parcels"
-        ],
+        "tags": ["parcels"],
         "summary": "Cancel a specific parcel delivery order",
         "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "pId",
@@ -543,14 +474,10 @@
     },
     "/users/{userId}/parcels": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Get a list of all parcel delivery orders by a specific user",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "userId",
@@ -579,14 +506,10 @@
     },
     "/users/{userId}/parcels/pending": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Get a list of all pending parcel delivery orders by a specific user",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "userId",
@@ -615,14 +538,10 @@
     },
     "/users/{userId}/parcels/inTransit": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Get a list of all parcels in transit of a specific user",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "userId",
@@ -651,14 +570,10 @@
     },
     "/users/{userId}/parcels/delivered": {
       "get": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Get a list of all delivered parcels of a specific user",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "userId",
