@@ -3,7 +3,6 @@ import chaiHttp from 'chai-http';
 import db from '../models/index';
 import app from '../app';
 
-const { assert } = chai;
 const { expect } = chai;
 
 chai.use(chaiHttp);
@@ -183,9 +182,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).parcels.length).to.be.above(0);
+            .then((res2) => {
+              expect(res2.status).to.equal(200);
+              expect(JSON.parse(res2.text).parcels.length).to.be.above(0);
             })
             .then(() => {
               done();
@@ -212,9 +211,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/2/parcels')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, you can not view these orders',
               );
             })
@@ -243,9 +242,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 "Sorry, you don't have access to this route",
               );
             })
@@ -283,9 +282,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/pending')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).pending.length).to.be.above(0);
+            .then((res2) => {
+              expect(res2.status).to.equal(200);
+              expect(JSON.parse(res2.text).pending.length).to.be.above(0);
             })
             .then(() => {
               done();
@@ -312,9 +311,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/2/parcels/pending')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, you can not view these orders',
               );
             })
@@ -343,9 +342,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/pending')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 "Sorry, you don't have access to this route",
               );
             })
@@ -384,9 +383,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/inTransit')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).inTransit.length).to.be.above(0);
+            .then((res2) => {
+              expect(res2.status).to.equal(200);
+              expect(JSON.parse(res2.text).inTransit.length).to.be.above(0);
             })
             .then(() => {
               done();
@@ -413,9 +412,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/2/parcels/inTransit')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, you can not view these orders',
               );
             })
@@ -444,9 +443,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/inTransit')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 "Sorry, you don't have access to this route",
               );
             })
@@ -485,9 +484,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/delivered')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).delivered.length).to.be.above(0);
+            .then((res2) => {
+              expect(res2.status).to.equal(200);
+              expect(JSON.parse(res2.text).delivered.length).to.be.above(0);
             })
             .then(() => {
               done();
@@ -514,9 +513,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/2/parcels/delivered')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, you can not view these orders',
               );
             })
@@ -545,9 +544,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/delivered')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(401);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(401);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 "Sorry, you don't have access to this route",
               );
             })
@@ -588,9 +587,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(500);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, there are no parcel delivery orders',
               );
             })
@@ -628,9 +627,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/pending')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(500);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, there are no pending parcel delivery orders',
               );
             })
@@ -669,9 +668,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/inTransit')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(500);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, there are no parcels in transit',
               );
             })
@@ -710,9 +709,9 @@ describe('User', () => {
           return agent
             .get('/api/v1/users/1/parcels/delivered')
             .set('x-access-token', token)
-            .then((res) => {
-              expect(res.status).to.equal(200);
-              expect(JSON.parse(res.text).error).to.be.equal(
+            .then((res2) => {
+              expect(res2.status).to.equal(500);
+              expect(JSON.parse(res2.text).error).to.be.equal(
                 'Sorry, there are no delivered parcels',
               );
             })
