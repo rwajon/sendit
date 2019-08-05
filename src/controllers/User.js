@@ -10,12 +10,14 @@ class User {
   }
 
   async signup(form) {
-    if (form.firstName
+    if (
+      form.firstName
       && form.lastName
       && form.userName
       && Validate.email(form.email)
       && form.password
-      && form.phone) {
+      && form.phone
+    ) {
       const text = `INSERT INTO
             users("firstName", "lastName", "userName", password, phone, email, country, city, address)
             VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
@@ -37,7 +39,10 @@ class User {
         let checkUser = '';
 
         if (form.email) {
-          checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1 OR email=$2', [form.userName, form.email]);
+          checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1 OR email=$2', [
+            form.userName,
+            form.email,
+          ]);
         } else {
           checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1', [form.userName]);
         }
@@ -66,7 +71,9 @@ class User {
   async login(form) {
     if (form.userName !== '' && form.password !== '') {
       try {
-        const checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1', [form.userName]);
+        const checkUser = await db.query('SELECT * FROM users WHERE "userName"=$1', [
+          form.userName,
+        ]);
 
         if (checkUser.rows.length > 0) {
           for (let i = 0; i < checkUser.rows.length; i += 1) {
@@ -100,6 +107,5 @@ class User {
     return {};
   } // end of login method
 } // end of User class
-
 
 export default User;
