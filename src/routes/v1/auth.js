@@ -19,7 +19,7 @@ router.post('/signup', async (req, res) => {
 
     return res.status(201).json({
       status: 'Successful',
-      message: `Welcome ${newUser.fname} ${newUser.lname}`,
+      message: `Welcome ${newUser.firstName} ${newUser.lastName}`,
       newUser,
       token,
     });
