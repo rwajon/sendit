@@ -1,4 +1,4 @@
-const HOST = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+const HOST = 'https://sendit-backend.herokuapp.com' || `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
 function backTop() {
   if (window.location.href.indexOf('#') < 0) {
